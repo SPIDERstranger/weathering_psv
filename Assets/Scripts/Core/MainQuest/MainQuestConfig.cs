@@ -134,7 +134,8 @@ namespace Weathering
         };
         private readonly Dictionary<Type, int> indexDict = new Dictionary<Type, int>();
         public int GetIndex(Type quest) {
-            if (!indexDict.TryGetValue(quest, out int id)) {
+            int id;
+            if (!indexDict.TryGetValue(quest, out  id)) {
                 throw new Exception($"找不到任务{quest.Name}对应的id");
             }
             return id;

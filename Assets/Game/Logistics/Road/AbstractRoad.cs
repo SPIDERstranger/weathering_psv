@@ -17,7 +17,7 @@ namespace Weathering
     public abstract class AbstractRoad : StandardTile, ILinkConsumer, ILinkProvider, ILinkQuantityRestriction, ILinkEvent, ILinkTypeRestriction, IPassable, IWalkingTimeModifier
     {
         protected override bool PreserveLandscape => true;
-        public virtual float WalkingTimeModifier { get => 0.8f; }
+        public virtual float WalkingTimeModifier => 0.8f;
         public bool Passable => true;
 
         public override string SpriteLeft => GetSprite(Vector2Int.left, typeof(ILeft));
@@ -31,7 +31,8 @@ namespace Weathering
         private string GetSprite(Vector2Int pos, Type direction) {
             IRefs refs = Map.Get(Pos - pos).Refs;
             if (refs == null) return null;
-            if (refs.TryGet(direction, out IRef result)) return result.Value < 0 ? result.Type.Name : null;
+            IRef result;
+            if (refs.TryGet(direction, out  result)) return result.Value < 0 ? result.Type.Name : null;
             return null;
         }
 
@@ -81,7 +82,8 @@ namespace Weathering
             base.OnEnable();
             RoadRef = Refs.Get<AbstractRoad>();
 
-            if (this is ILinkTileTypeRestriction iLinkTileTypeRestriction) {
+            if (this is ILinkTileTypeRestriction ) {
+                var iLinkTileTypeRestriction = this as ILinkTileTypeRestriction;
                 linkTileTypeRestriction = iLinkTileTypeRestriction.LinkTileTypeRestriction;
             }
         }

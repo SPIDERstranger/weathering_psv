@@ -54,7 +54,8 @@ namespace Weathering
         }
 
         public IValue Get(Type type) {
-            if (Dict.TryGetValue(type, out IValue value)) {
+            IValue value;
+            if (Dict.TryGetValue(type, out  value)) {
                 return value;
             } else {
                 throw new Exception(type.Name);
@@ -65,7 +66,9 @@ namespace Weathering
         }
 
         public IValue Create(Type type) {
-            if (Dict.TryGetValue(type, out IValue value)) {
+            IValue value;
+            if (Dict.TryGetValue(type, out value))
+            {
                 throw new Exception();
             } else {
                 value = Value.Create(0, 0, 0, 0, 0, TimeUtility.GetTicks());
@@ -78,7 +81,9 @@ namespace Weathering
         }
 
         public IValue GetOrCreate(Type type) {
-            if (Dict.TryGetValue(type, out IValue value)) {
+            IValue value;
+            if (Dict.TryGetValue(type, out value))
+            {
                 return value;
             } else {
                 value = Value.Create(0, 0, 0, 0, 0, TimeUtility.GetTicks());
@@ -91,7 +96,9 @@ namespace Weathering
         }
 
         public bool Has(Type type) {
-            if (Dict.TryGetValue(type, out IValue value)) {
+            IValue value;
+            if (Dict.TryGetValue(type, out value))
+            {
                 return true;
             } else {
                 return false;

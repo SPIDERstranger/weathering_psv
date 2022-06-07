@@ -38,8 +38,8 @@
 //        public override string SpriteKey { get => typeof().Name; }
 //        #endregion
 
-//        protected virtual (Type, long) In_0_Inventory { get; } = (null, 0); // 静态配置需求的内容的基类
-//        protected virtual (Type, long) In_1_Inventory { get; } = (null, 0);
+//        protected virtual ValueTuple<Type, long> In_0_Inventory { get; } = (null, 0); // 静态配置需求的内容的基类
+//        protected virtual ValueTuple<Type, long> In_1_Inventory { get; } = (null, 0);
 
 //        private bool HasIn_0_Inventory => In_0_Inventory.Item1 != null;
 //        private bool HasIn_1_Inventory => In_1_Inventory.Item1 != null;
@@ -47,14 +47,14 @@
 //        private IRef In_0_Inventory_Ref; // 记录实际输入物品Type Value。能吃多少吃多少? 
 //        private IRef In_1_Inventory_Ref; 
 
-//        protected abstract (Type, long) Out0_Inventory { get; }
-//        protected abstract (Type, long) Out1_Inventory { get; }
+//        protected abstract ValueTuple<Type, long> Out0_Inventory { get; }
+//        protected abstract ValueTuple<Type, long> Out1_Inventory { get; }
 
 
-//        protected virtual (Type, long) In_0 { get; } = (null, 0);
-//        protected virtual (Type, long) In_1 { get; } = (null, 0);
-//        //protected virtual (Type, long) In_2 { get; } = (null, 0);
-//        //protected virtual (Type, long) In_3 { get; } = (null, 0);
+//        protected virtual ValueTuple<Type, long> In_0 { get; } = (null, 0);
+//        protected virtual ValueTuple<Type, long> In_1 { get; } = (null, 0);
+//        //protected virtual ValueTuple<Type, long> In_2 { get; } = (null, 0);
+//        //protected virtual ValueTuple<Type, long> In_3 { get; } = (null, 0);
 //        private bool HasIn_0 => In_0.Item1 != null;
 //        private bool HasIn_1 => In_1.Item1 != null;
 
@@ -64,10 +64,10 @@
 //        //private IRef in_3Ref; // 输入
 
 //        // CanRun的时候, 对应Out0应该非空了
-//        protected abstract (Type, long) Out0 { get; }
-//        protected abstract (Type, long) Out1 { get; }
-//        protected abstract (Type, long) Out2 { get; }
-//        protected abstract (Type, long) Out3 { get; }
+//        protected abstract ValueTuple<Type, long> Out0 { get; }
+//        protected abstract ValueTuple<Type, long> Out1 { get; }
+//        protected abstract ValueTuple<Type, long> Out2 { get; }
+//        protected abstract ValueTuple<Type, long> Out3 { get; }
 //        private bool HasOut0 => Out0.Item1 != null;
 
 //        private IRef out0Ref; // 输出
@@ -266,7 +266,7 @@
 
 //        //    UI.Ins.ShowItems($"{Localization.Ins.Get(GetType())}介绍页面", items);
 //        //}
-//        //private void AddDescriptionItem(List<IUIItem> items, (Type, long) pair, string text, bool dontCreateImage = false) {
+//        //private void AddDescriptionItem(List<IUIItem> items, ValueTuple<Type, long> pair, string text, bool dontCreateImage = false) {
 //        //    Type res = ConceptResource.Get(pair.Item1);
 //        //    items.Add(UIItem.CreateButton($"{text}: {Localization.Ins.Val(res, pair.Item2)}", () => OnTapItem(pair.Item1)));
 //        //    if (!dontCreateImage) items.Add(UIItem.CreateTileImage(res));

@@ -13,12 +13,12 @@ namespace Weathering
         protected override Type TechnologyPointType => typeof(Coal);
         protected override long TechnologyPointIncRequired => 5;
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(MineOfCoal), 0),
-            (typeof(MineOfAluminum), 1*BaseCost),
-            (typeof(SeaWaterPump), 1*BaseCost),
-            (typeof(OilDriller), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(MineOfCoal), 0),
+            new ValueTuple<Type, long>(typeof(MineOfAluminum), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(SeaWaterPump), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(OilDriller), 3*BaseCost),
         };
     }
 }

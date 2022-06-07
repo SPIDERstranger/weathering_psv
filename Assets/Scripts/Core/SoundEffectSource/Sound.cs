@@ -23,9 +23,9 @@ namespace Weathering
         float SoundVolume { get; set; }
 
 
-        float RainDensity { set; }
-        bool WeatherEnabled { get; set; }
-        float WeatherVolume { get; set; }
+        //float RainDensity { set; }
+        //bool WeatherEnabled { get; set; }
+        //float WeatherVolume { get; set; }
 
 
         int MusicCount { get; }
@@ -37,8 +37,8 @@ namespace Weathering
     public class MusicEnabled { }
     public class SoundVolume { }
     public class MusicVolume { }
-    public class WeatherEnabled { }
-    public class WeatherVolume { }
+    //public class WeatherEnabled { }
+    //public class WeatherVolume { }
 
     public class SoundMusicIndex { }
 
@@ -53,8 +53,8 @@ namespace Weathering
         private AudioSource sfxSource;
         [SerializeField]
         private AudioSource musicSource;
-        [SerializeField]
-        private AudioSource weatherSource;
+        //[SerializeField]
+        //private AudioSource weatherSource;
 
         [SerializeField]
         private AudioClip defaultSound;
@@ -117,46 +117,76 @@ namespace Weathering
             sfxSource.PlayOneShot(defaultSound);
         }
 
-        public float SoundVolume { get => sfxSource.volume; set => sfxSource.volume = value; }
+        public float SoundVolume
+        {
+            get
+            {
+                return sfxSource.volume;
+            }
 
-
-
-
-        public bool WeatherEnabled { get => weatherSource.isPlaying; set {
-                // if (value) weatherSource.Play(); else weatherSource.Stop(); 
-                if (value && !weatherSource.isPlaying) {
-                    weatherSource.Play();
-                } else if (!value && weatherSource.isPlaying) {
-                    weatherSource.Stop();
-                }
+            set
+            {
+                sfxSource.volume = value;
             }
         }
 
-        private float weatherVolume = 0;
-        public float WeatherVolume { get => weatherSource.volume; set {
-                weatherVolume = value;
-            } 
-        }
 
-        public float RainDensity { set {
-                weatherSource.volume = value * weatherVolume;
-            } 
-        }
+
+
+        //public bool WeatherEnabled { get => weatherSource.isPlaying; set {
+        //        // if (value) weatherSource.Play(); else weatherSource.Stop(); 
+        //        if (value && !weatherSource.isPlaying) {
+        //            weatherSource.Play();
+        //        } else if (!value && weatherSource.isPlaying) {
+        //            weatherSource.Stop();
+        //        }
+        //    }
+        //}
+
+        //private float weatherVolume = 0;
+        //public float WeatherVolume
+        //{
+        //    get
+        //    {
+        //        return weatherSource.volume;
+        //    }
+
+        //    set
+        //    {
+        //        weatherVolume = value;
+        //    }
+        //}
+
+        //public float RainDensity { set {
+        //        weatherSource.volume = value * weatherVolume;
+        //    } 
+        //}
 
 
         /// <summary>
         /// music
         /// </summary>
         public string PlayingMusicName => musicSource.clip.name;
-        public bool MusicEnabled {
-            get => musicSource.isPlaying; set {
-                if (value) {
-                    if (musicSource.clip != null && musicSource.isPlaying) {
+        public bool MusicEnabled
+        {
+            get
+            {
+                return musicSource.isPlaying;
+            }
+
+            set
+            {
+                if (value)
+                {
+                    if (musicSource.clip != null && musicSource.isPlaying)
+                    {
                         return;
                     }
                     musicSource.clip = defaultMusics[HashMusicIndex()];
                     musicSource.Play();
-                } else {
+                }
+                else
+                {
                     musicSource.Stop();
                 }
             }
@@ -165,7 +195,14 @@ namespace Weathering
             return (uint)(HashUtility.Hash((uint)(TimeUtility.GetSecondsInDouble() / 30)) % defaultMusics.Length);
         }
 
-        public float MusicVolume { get => musicSource.volume; set => musicSource.volume = value; }
+        public float MusicVolume
+        {
+            get { return musicSource.volume; }
+            set
+            {
+                musicSource.volume = value;
+            }
+        }
 
 
         /// <summary>

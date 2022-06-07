@@ -94,9 +94,9 @@ namespace Weathering
 
     public class Inventory : IInventoryDefinition
     {
-        public bool Maxed { get => Quantity == QuantityCapacity; }
-        public bool Empty { get => Quantity == 0; }
-        public int TypeCount { get => Dict.Count; }
+        public bool Maxed => Quantity == QuantityCapacity;
+        public bool Empty => Quantity == 0;
+        public int TypeCount => Dict.Count;
         public int TypeCapacity { get; set; }
 
         public long Quantity { get; private set; }
@@ -110,7 +110,8 @@ namespace Weathering
 
 
         public long CanRemove(Type type) {
-            if (Dict.TryGetValue(type, out InventoryItemData value)) {
+            InventoryItemData value;
+            if (Dict.TryGetValue(type, out  value)) {
                 return value.value;
             } else {
                 return 0;

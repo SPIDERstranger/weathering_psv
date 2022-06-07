@@ -15,9 +15,9 @@ namespace Weathering
     {
         public override string SpriteKey => typeof(OilDriller).Name;
 
-        protected override (Type, long) In_0_Inventory => (typeof(Worker), 1);
-        protected override (Type, long) In_1_Inventory => (typeof(Electricity), 10);
+        protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Worker), 1);
+        protected override ValueTuple<Type, long> In_1_Inventory => new ValueTuple<Type, long>(typeof(Electricity), 10);
 
-        protected override (Type, long) Out0 => (typeof(CrudeOil), 2);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(CrudeOil), 2);
     }
 }

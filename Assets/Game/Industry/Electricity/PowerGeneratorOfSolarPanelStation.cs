@@ -9,6 +9,6 @@ namespace Weathering
     {
         public override string SpriteKey => typeof(PowerPlant).Name;
 
-        protected override (Type, long) Out0_Inventory => (typeof(Electricity), 30);
+        protected override ValueTuple<Type, long> Out0_Inventory => new ValueTuple<Type, long>(typeof(Electricity), 30);
     }
 }

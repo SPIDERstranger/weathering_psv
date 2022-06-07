@@ -195,13 +195,13 @@ namespace Weathering
                 if (desctructOldCost.CostType != null) {
                     if (constructNewCost.CostType != null) throw new Exception(); // ???
 
-                    if (!Inventory.CanAdd((desctructOldCost.CostType, desctructOldCost.RealCostQuantity))) {
+                    if (!Inventory.CanAdd(new ValueTuple<Type,long>(desctructOldCost.CostType, desctructOldCost.RealCostQuantity))) {
                         UI.Ins.ShowItems("背包空间不足", UIItem.CreateMultilineText($"{Localization.Ins.Val(desctructOldCost.CostType, desctructOldCost.RealCostQuantity)} 被拆建筑资源无法返还"));
                         return null;
                     }
                 }
                 if (constructNewCost.CostType != null) {
-                    if (!Inventory.CanRemoveWithTag((constructNewCost.CostType, constructNewCost.RealCostQuantity))) {
+                    if (!Inventory.CanRemoveWithTag(new ValueTuple<Type, long>(constructNewCost.CostType, constructNewCost.RealCostQuantity))) {
                         string costString = Localization.Ins.Val(constructNewCost.CostType, constructNewCost.RealCostQuantity);
                         if (UI.Ins.Active) {
                             var items = UI.Ins.GetItems();
@@ -293,9 +293,9 @@ namespace Weathering
 
         // ------------------------------------------------------------
 
-        protected virtual AltitudeConfig GetAltitudeConfig { get => AltitudeConfig.Create(); }
-        protected virtual MoistureConfig GetMoistureConfig { get => MoistureConfig.Create(); }
-        protected virtual TemporatureConfig GetTemporatureConfig { get => TemporatureConfig.Create(); }
+        protected virtual AltitudeConfig GetAltitudeConfig => AltitudeConfig.Create();
+        protected virtual MoistureConfig GetMoistureConfig => MoistureConfig.Create();
+        protected virtual TemporatureConfig GetTemporatureConfig => TemporatureConfig.Create();
 
         public struct TemporatureConfig
         {
@@ -365,7 +365,7 @@ namespace Weathering
 
         protected virtual int RandomSeed { get; } = 0;
         private int autoInc = 0;
-        private int AutoInc { get => autoInc++; }
+        private int AutoInc => autoInc++;
         private void GenerateNoise() {
             GenerateAltitude();
             GenerateMoisture();

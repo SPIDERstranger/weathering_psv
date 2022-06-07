@@ -29,10 +29,10 @@ namespace Weathering
     {
         protected override bool PreserveLandscape => true;
         public override string SpriteKey => typeof(HuntingGround).Name;
-        protected override (Type, long) Out0 => (typeof(DeerMeat), 3);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(DeerMeat), 3);
 
         public bool Passable => false;
-        // protected override (Type, long) In_0_Inventory => (typeof(Worker), 1);
+        // protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Worker), 1);
 
         protected override void AddBuildingDescriptionPage(List<IUIItem> items) {
             items.Add(UIItem.CreateMultilineText($"{Localization.Ins.Get<HuntingGround>()}之间不能相邻"));

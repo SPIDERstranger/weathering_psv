@@ -193,7 +193,7 @@ namespace Weathering
         public IRefs Refs => RefsInternal;
 
         // 用于储存字符串
-        public Dictionary<string, string> PlayerPreferences { get => PlayerPreferencesInternal; }
+        public Dictionary<string, string> PlayerPreferences => PlayerPreferencesInternal;
 
         public IInventory InventoryInternal { get; set; }
         public IInventory Inventory => InventoryInternal;

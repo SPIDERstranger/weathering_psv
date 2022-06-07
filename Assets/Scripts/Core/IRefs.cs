@@ -58,7 +58,8 @@ namespace Weathering
             return Get(typeof(T));
         }
         public IRef Get(Type type) {
-            if (Dict.TryGetValue(type, out IRef value)) {
+            IRef value;
+            if (Dict.TryGetValue(type, out  value)) {
                 return value;
             } else {
                 throw new Exception(type.Name);
@@ -74,8 +75,9 @@ namespace Weathering
         public IRef Create<T>() {
             return Create(typeof(T));
         }
-        public IRef Create(Type type) {
-            if (Dict.TryGetValue(type, out IRef value)) {
+        public IRef Create(Type type)        {
+            IRef value;
+            if (Dict.TryGetValue(type, out value))            {
                 throw new Exception("已有：" + type.FullName);
             } else {
                 value = Ref.Create(null, null, 0, 0, null, null, 0, 0);
@@ -87,8 +89,9 @@ namespace Weathering
         public IRef GetOrCreate<T>() {
             return GetOrCreate(typeof(T));
         }
-        public IRef GetOrCreate(Type type) {
-            if (Dict.TryGetValue(type, out IRef value)) {
+        public IRef GetOrCreate(Type type)        {
+            IRef value;
+            if (Dict.TryGetValue(type, out value))            {
                 return value;
             } else {
                 value = Ref.Create(null, null, 0, 0, null, null, 0, 0);
@@ -98,8 +101,9 @@ namespace Weathering
         }
 
 
-        public bool Has(Type type) {
-            if (Dict.TryGetValue(type, out IRef value)) {
+        public bool Has(Type type)        {
+            IRef value;
+            if (Dict.TryGetValue(type, out value))            {
                 return true;
             } else {
                 return false;

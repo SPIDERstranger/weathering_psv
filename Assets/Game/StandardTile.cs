@@ -25,9 +25,18 @@ namespace Weathering
         public void SetRefs(IRefs refs) => Refs = refs;
         public IInventory Inventory { get; protected set; }
         public void SetInventory(IInventory inventory) => Inventory = inventory;
-        public IInventory InventoryOfSupply { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
-        public void SetInventoryOfSupply(IInventory inventory) => throw new NotImplementedException(); // InventoryOfSupply = inventory;
-
+        public IInventory InventoryOfSupply
+        {
+            get { throw new NotImplementedException(); }
+            protected set
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public void SetInventoryOfSupply(IInventory inventory)
+        {
+            throw new NotImplementedException(); // InventoryOfSupply = inventory;
+        }
 
         public IMap Map { get; set; }
         public Vector2Int Pos { get; set; }
@@ -47,15 +56,15 @@ namespace Weathering
         public virtual string SpriteKeyTree => PreserveLandscape ? Map.GetSpriteKeyTree(Pos) : null;
         public virtual string SpriteKeyHill => PreserveLandscape ? Map.GetSpriteKeyHill(Pos) : null;
 
-        public virtual string SpriteKeyRoad { get => null; }
-        public virtual string SpriteKey { get => null; } // 
-        public virtual string SpriteKeyHighLight { get => null; } // 
-        public virtual string SpriteKeyOverlay { get => null; } // 用于指示标记
+        public virtual string SpriteKeyRoad => null;
+        public virtual string SpriteKey => null;  // 
+        public virtual string SpriteKeyHighLight => null;  // 
+        public virtual string SpriteKeyOverlay => null;  // 用于指示标记
 
-        public virtual string SpriteLeft { get => null; }
-        public virtual string SpriteRight { get => null; }
-        public virtual string SpriteUp { get => null; }
-        public virtual string SpriteDown { get => null; }
+        public virtual string SpriteLeft => null;
+        public virtual string SpriteRight => null;
+        public virtual string SpriteUp => null;
+        public virtual string SpriteDown => null;
 
         public Tile TileSpriteKeyBedrockBuffer { get; set; }
         public Tile TileSpriteKeyWaterBuffer { get; set; }

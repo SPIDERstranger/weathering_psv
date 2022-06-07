@@ -9,9 +9,9 @@ namespace Weathering
     {
         public override string SpriteKey => typeof(FactoryOfHeavyOilCracking).Name;
 
-        protected override (Type, long) In_1_Inventory => (typeof(Electricity), 5);
+        protected override ValueTuple<Type, long> In_1_Inventory => new ValueTuple<Type, long>(typeof(Electricity), 5);
 
-        protected override (Type, long) Out0 => (typeof(LightOil), 1);
-        protected override (Type, long) In_0 => (typeof(HeavyOil), 1);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(LightOil), 1);
+        protected override ValueTuple<Type, long> In_0 => new ValueTuple<Type, long>(typeof(HeavyOil), 1);
     }
 }

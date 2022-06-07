@@ -13,22 +13,22 @@ namespace Weathering
         protected override long TechnologyPointMaxRevenue => BaseCost;
         protected override Type TechnologyPointType => typeof(CombustionMotor);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(RoadForSolid), 0),
-            (typeof(RoadAsBridge), 0),
-            (typeof(RoadAsTunnel), 0),
-            (typeof(RoadForFluid), 1*BaseCost),
-            (typeof(RoadOfConcrete), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(RoadForSolid), 0),
+            new ValueTuple<Type, long>(typeof(RoadAsBridge), 0),
+            new ValueTuple<Type, long>(typeof(RoadAsTunnel), 0),
+            new ValueTuple<Type, long>(typeof(RoadForFluid), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(RoadOfConcrete), 1*BaseCost),
 
-            (typeof(TransportStationPort), 3*BaseCost),
-            (typeof(TransportStationDestPort), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(TransportStationPort), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(TransportStationDestPort), 3*BaseCost),
 
-            (typeof(RoadAsRailRoad), 5*BaseCost),
-            (typeof(RoadLoaderOfRoadAsRailRoad), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(RoadAsRailRoad), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(RoadLoaderOfRoadAsRailRoad), 5*BaseCost),
 
-            (typeof(TransportStationAirport), 7*BaseCost),
-            (typeof(TransportStationDestAirport), 7*BaseCost),
+            new ValueTuple<Type, long>(typeof(TransportStationAirport), 7*BaseCost),
+            new ValueTuple<Type, long>(typeof(TransportStationDestAirport), 7*BaseCost),
         };
     }
 }

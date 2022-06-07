@@ -31,8 +31,8 @@ namespace Weathering
             }
         }
 
-        public override string SpriteKey { get => GetType().Name; }
-        public override string SpriteKeyHighLight { get => ValueOfResource.Inc != 0 ? GlobalLight.Decorated(SpriteKey) : null; }
+        public override string SpriteKey => GetType().Name;
+        //public override string SpriteKeyHighLight => ValueOfResource.Inc != 0 ? GlobalLight.Decorated(SpriteKey) : null;
 
         public override string SpriteLeft => GetSprite(Vector2Int.left, typeof(ILeft));
         public override string SpriteRight => GetSprite(Vector2Int.right, typeof(IRight));
@@ -41,7 +41,8 @@ namespace Weathering
         private string GetSprite(Vector2Int pos, Type direction) {
             IRefs refs = Map.Get(Pos - pos).Refs;
             if (refs == null) return null;
-            if (refs.TryGet(direction, out IRef result)) return result.Value < 0 ? result.Type.Name : null;
+            IRef result;
+            if (refs.TryGet(direction, out  result)) return result.Value < 0 ? result.Type.Name : null;
             return null;
         }
 
@@ -135,14 +136,14 @@ namespace Weathering
             if (LinkUtility.HasAnyLink(this)) {
                 return false;
             }
-            if (TypeOfResource.Type != null && !Map.Inventory.CanAdd((TypeOfResource.Type, ValueOfResource.Val))) {
+            if (TypeOfResource.Type != null && !Map.Inventory.CanAdd(new ValueTuple<Type, long>(TypeOfResource.Type, ValueOfResource.Val))) {
                 UIPreset.InventoryFull(null, Map.Inventory);
             }
             return true;
         }//; ValueOfResource.Val == 0 && !LinkUtility.HasAnyLink(this);
         public override void OnDestruct(ITile tile) {
             if (TypeOfResource.Type != null) {
-                if (!Map.Inventory.CanAdd((TypeOfResource.Type, ValueOfResource.Val))) {
+                if (!Map.Inventory.CanAdd(new ValueTuple<Type, long>(TypeOfResource.Type, ValueOfResource.Val))) {
                     throw new Exception();
                 }
                 Map.Inventory.Add(TypeOfResource.Type, ValueOfResource.Val);

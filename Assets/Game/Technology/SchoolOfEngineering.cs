@@ -13,35 +13,35 @@ namespace Weathering
         protected override long TechnologyPointMaxRevenue => BaseCost;
         protected override Type TechnologyPointType => typeof(SteelIngot);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(WorkshopOfSteelWorking), 0),
-            (typeof(WorkshopOfConcrete), 1*BaseCost),
-            (typeof(WorkshopOfBuildingPrefabrication),  2*BaseCost),
-            (typeof(FactoryOfSteelWorking), 2*BaseCost),
+            new ValueTuple<Type, long>(typeof(WorkshopOfSteelWorking), 0),
+            new ValueTuple<Type, long>(typeof(WorkshopOfConcrete), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(WorkshopOfBuildingPrefabrication),  2*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfSteelWorking), 2*BaseCost),
 
-            (typeof(FactoryOfAluminiumWorking),  3*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfAluminiumWorking),  3*BaseCost),
 
-            (typeof(FactoryOfLightMaterial), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfLightMaterial), 3*BaseCost),
 
             // 钢
 
-            (typeof(FactoryOfSteelPlate), 3*BaseCost),
-            (typeof(FactoryOfSteelPipe), 3*BaseCost),
-            (typeof(FactoryOfSteelRod), 3*BaseCost),
-            (typeof(FactoryOfSteelWire), 3*BaseCost),
-            (typeof(FactoryOfSteelGear), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfSteelPlate), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfSteelPipe), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfSteelRod), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfSteelWire), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfSteelGear), 3*BaseCost),
 
             // 内燃机
-            (typeof(FactoryOfCombustionMotor), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfCombustionMotor), 5*BaseCost),
 
             // 电动机
-            (typeof(FactoryOfElectroMotor), 5*BaseCost),
-            (typeof(FactoryOfWindTurbineComponent), 5*BaseCost),
-            (typeof(FactoryOfSolarPanelComponent), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfElectroMotor), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfWindTurbineComponent), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfSolarPanelComponent), 5*BaseCost),
 
             // 涡轮机
-            (typeof(FactoryOfTurbine), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfTurbine), 5*BaseCost),
         };
     }
 }

@@ -11,7 +11,7 @@ namespace Weathering
 
         public bool Passable => false;
 
-        protected override (Type, long) In_0 => (typeof(Food), 3);
-        protected override (Type, long) Out0_Inventory => (typeof(Worker), 1);
+        protected override ValueTuple<Type, long> In_0 => new ValueTuple<Type, long>(typeof(Food), 3);
+        protected override ValueTuple<Type, long> Out0_Inventory => new ValueTuple<Type, long>(typeof(Worker), 1);
     }
 }

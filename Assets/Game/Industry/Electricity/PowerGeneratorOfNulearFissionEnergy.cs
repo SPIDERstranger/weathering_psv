@@ -22,7 +22,7 @@ namespace Weathering
     {
         public override string SpriteKey => typeof(PowerPlant).Name;
 
-        protected override (Type, long) In_0 => (typeof(Uranrium235), 1);
-        protected override (Type, long) Out0_Inventory => (typeof(Electricity), 300);
+        protected override ValueTuple<Type, long> In_0 => new ValueTuple<Type, long>(typeof(Uranrium235), 1);
+        protected override ValueTuple<Type, long> Out0_Inventory => new ValueTuple<Type, long>(typeof(Electricity), 300);
     }
 }

@@ -14,7 +14,7 @@ namespace Weathering
         public override string SpriteKeyRoad {
             get {
                 int index = TileUtility.Calculate4x4RuleTileIndex(this, (tile, direction) => Refs.Has(direction)
-                || (tile is IPassable passable && passable.Passable)
+                || (tile is IPassable  && (tile as IPassable).Passable)
                 || ((RoadRef.Type == null) && (tile is AbstractRoad) && (tile as AbstractRoad).RoadRef.Type == null)
                 );
                 return $"Bridge_{index}";

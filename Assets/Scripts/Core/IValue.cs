@@ -89,49 +89,80 @@ namespace Weathering
             time += times * del;
         }
 
-        public long Time { get => time; set => time = value; }
+        public long Time
+        {
+            get { return time; }
+            set
+            {
+                time = value;
+            }
+        }
 
-        public long Max {
-            get => max;
-            set {
+        public long Max
+        {
+            get
+            {
+                return max;
+            }
+
+            set
+            {
                 Synchronize();
-                if (Maxed) {
+                if (Maxed)
+                {
                     time = TimeUtility.GetTicks();
                 }
                 max = value;
             }
         }
-        public long Del {
-            get => del;
-            set {
+        public long Del
+        {
+            get
+            {
+                return del;
+            }
+
+            set
+            {
                 Synchronize();
                 time = TimeUtility.GetTicks();
                 del = value;
             }
         }
 
-        public long Inc {
-            get => inc;
-            set {
+        public long Inc
+        {
+            get
+            {
+                return inc;
+            }
+
+            set
+            {
                 Synchronize();
                 inc = value;
-                if (inc == 0) {
+                if (inc == 0)
+                {
                     time = TimeUtility.GetTicks();
                 }
             }
         }
 
-        public long Dec {
-            get => dec;
-            set {
+        public long Dec
+        {
+            get
+            {
+                return dec;
+            }
+
+            set
+            {
                 Synchronize();
                 dec = value;
             }
         }
 
-        public long Sur {
-            get => inc - dec;
-        }
+        public long Sur => inc - dec;
 
         public long Val {
             get {

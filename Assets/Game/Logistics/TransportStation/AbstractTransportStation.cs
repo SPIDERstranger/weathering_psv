@@ -19,7 +19,7 @@ namespace Weathering
         public bool Passable => true;
 
         public override string SpriteKeyRoad => GetType().Name;
-        public override string SpriteKeyHighLight => GlobalLight.Decorated(SpriteKeyRoad);
+        //public override string SpriteKeyHighLight => GlobalLight.Decorated(SpriteKeyRoad);
 
         public override string SpriteKey => RefOfDelivery.Value > 0 ? RefOfDelivery.Type.Name : null;
 
@@ -30,7 +30,8 @@ namespace Weathering
         private string GetSprite(Vector2Int pos, Type direction) {
             IRefs refs = Map.Get(Pos - pos).Refs;
             if (refs == null) return null;
-            if (refs.TryGet(direction, out IRef result)) return result.Value < 0 ? result.Type.Name : null;
+            IRef result;
+            if (refs.TryGet(direction, out  result)) return result.Value < 0 ? result.Type.Name : null;
             return null;
         }
 
@@ -41,12 +42,21 @@ namespace Weathering
 
         protected abstract long Capacity { get; }
 
-        public bool Running { get => RefOfDelivery.X == 1; set {
-                if (ToUniverse) {
+        public bool Running
+        {
+            get
+            {
+                return RefOfDelivery.X == 1;
+            }
+
+            set
+            {
+                if (ToUniverse)
+                {
                     Map.Refs.GetOrCreate<ToUniverseCount>().Value += value ? 1 : -1;
                 }
                 RefOfDelivery.X = value ? 1 : 0;
-            } 
+            }
         }
         public override void OnConstruct(ITile tile) {
             base.OnConstruct(tile);
@@ -102,8 +112,8 @@ namespace Weathering
             if (Running) return false; // 已经开始运输了
             if (RefOfDelivery.Type == null) return false; // 没有输入
 
-            if (!CostInventory.CanRemove((CostType, CostQuantity))) return false;
-            if (!TargetInventory.CanAdd((RefOfDelivery.Type, Capacity))) { // 背包装不下
+            if (!CostInventory.CanRemove(new ValueTuple<Type, long>(CostType, CostQuantity))) return false;
+            if (!TargetInventory.CanAdd(new ValueTuple<Type, long>(RefOfDelivery.Type, Capacity))) { // 背包装不下
                 UIPreset.InventoryFull(null, Map.InventoryOfSupply);
                 return false;
             }
@@ -118,7 +128,7 @@ namespace Weathering
             Running = false;
             NeedUpdateSpriteKeys = true;
 
-            CostInventory.Add((CostType, CostQuantity));
+            CostInventory.Add(new ValueTuple<Type, long>(CostType, CostQuantity));
             TargetInventory.Remove(RefOfDelivery.Type, Capacity);
         }
         public bool CanStop() {
@@ -127,8 +137,8 @@ namespace Weathering
 
             IInventory targetInventory = ToUniverse ? GetUniverseInventory : Map.InventoryOfSupply;
 
-            if (!TargetInventory.CanRemove((RefOfDelivery.Type, Capacity))) return false; // 背包里没有送出去的物品
-            if (!CostInventory.CanAdd((CostType, CostQuantity))) { // 背包装不下
+            if (!TargetInventory.CanRemove(new ValueTuple<Type, long>(RefOfDelivery.Type, Capacity))) return false; // 背包里没有送出去的物品
+            if (!CostInventory.CanAdd(new ValueTuple<Type, long>(CostType, CostQuantity))) { // 背包装不下
                 UIPreset.InventoryFull(null, Map.InventoryOfSupply);
                 return false;
             }

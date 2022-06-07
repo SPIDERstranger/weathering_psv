@@ -31,7 +31,7 @@ namespace Weathering
         IValue Value { get; set; }
         Action OnTap { get; set; }
         Func<bool> CanTap { get; set; }
-
+        bool IsReturnBtn { get; set; }
         float InitialSliderValue { get; set; }
     }
 
@@ -61,7 +61,7 @@ namespace Weathering
         public Action OnTap { get; set; }
         public Func<bool> CanTap { get; set; }
         public float InitialSliderValue { get; set; }
-
+        public bool IsReturnBtn { get; set; }
 
         private static bool initialized = false;
         private static void InitializeLocalizationText() {
@@ -223,8 +223,8 @@ namespace Weathering
                 Type = IUIItemType.OnelineDynamicText,
                 DynamicContent = () => $"数量 {quantity}"
             });
-
-            if (ItemUsage.Usage.TryGetValue(type, out var action)) {
+            Action<IInventory, long, Action> action;
+            if (ItemUsage.Usage.TryGetValue(type, out  action)) {
                 items.Add(new UIItem {
                     Type = IUIItemType.Slider,
                     InitialSliderValue = 1,
@@ -506,10 +506,12 @@ namespace Weathering
         }
 
         public static UIItem CreateReturnButton(Action back) {
+            // TODO ui中返回的操作
             UIItem result = null;
             string title = string.Empty; // Localization.Ins.Get<ReturnMenu>();
             if (back == null) result = CreateButton(title, () => UI.Ins.Active = false);
             else result = CreateButton(title, back);
+            result.IsReturnBtn = true;
             result.BackgroundType = IUIBackgroundType.ButtonBack;
             return result;
         }
@@ -554,13 +556,22 @@ namespace Weathering
         public static IMap ShortcutMap { get; private set; }
 
         private static Type shortcutType = null;
-        public static Type ShortcutType {
-            get => shortcutType; set {
+        public static Type ShortcutType
+        {
+            get
+            {
+                return shortcutType;
+            }
+            set
+            {
                 // 这里有个强耦合, 能产矿石的建筑类型, 无视快捷方式
-                if (value != null && Tag.GetAttribute<BindMineralAttribute>(value) != null) {
+                if (value != null && Tag.GetAttribute<BindMineralAttribute>(value) != null)
+                {
                     shortcutType = null;
                     HasShortcut = false;
-                } else {
+                }
+                else
+                {
                     shortcutType = value;
                     HasShortcut = true;
                 }

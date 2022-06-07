@@ -55,21 +55,29 @@ namespace Weathering
 
 
         // 存档根目录
-        private string PersistentBase { get; set; }
+#if UNITY_STANDALONE || UNITY_EDITOR
+        private string PersistentBase;
+#else
+         private const string PersistentBase = "ux0:/data/Weathering";
+#endif
+
         private const string SavesBase = "Saves/";
         private string SaveFullPath { get; set; }
 
         private Newtonsoft.Json.JsonSerializerSettings setting = new Newtonsoft.Json.JsonSerializerSettings {
-            DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore,
+            DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore
         };
 
         public static IDataPersistence Ins { get; private set; }
         private void Awake() {
             if (Ins != null) throw new Exception();
             Ins = this;
+            //Debug.Log(SaveFullPath);
 
-            PersistentBase = Application.persistentDataPath + $"/v{GameConfig.VersionCode}/";
-            SaveFullPath = PersistentBase + SavesBase;
+#if UNITY_STANDALONE || UNITY_EDITOR
+            PersistentBase = Application.persistentDataPath;
+#endif
+            SaveFullPath = PersistentBase + $"/v{GameConfig.VersionCode}/" +  SavesBase;
             if (!Directory.Exists(SaveFullPath)) {
                 Directory.CreateDirectory(SaveFullPath);
             }
@@ -225,7 +233,8 @@ namespace Weathering
                     ITileDefinition tile = map.Get(i, j) as ITileDefinition;
                     if (tile == null) throw new Exception();
 
-                    if (tile is IDontSave saveOrNot) {
+                    if (tile is IDontSave ) {
+                        IDontSave saveOrNot = tile as IDontSave;
                         if (saveOrNot.DontSave) {
                             continue;
                         }
@@ -311,7 +320,8 @@ namespace Weathering
                 for (int j = 0; j < map.Height; j++) {
                     Vector2Int pos = new Vector2Int(i, j);
                     string key = SerializeVector2(pos);
-                    if (mapBodyData.TryGetValue(key, out TileData tileData)) {
+                    TileData tileData;
+                    if (mapBodyData.TryGetValue(key, out  tileData)) {
                         Type tileType = Type.GetType(tileData.type);
 
                         ITileDefinition tile = Activator.CreateInstance(tileType) as ITileDefinition;

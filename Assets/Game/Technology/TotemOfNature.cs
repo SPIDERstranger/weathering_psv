@@ -32,17 +32,17 @@ namespace Weathering
         protected override long TechnologyPointIncRequired => 0;
 
         protected override bool DontConsumeTechnologyPoint => true;
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
             // nature
-            (typeof(KnowledgeOfGatheringBerry), 0), // 采集
-            (typeof(KnowledgeOfGatheringBerryEfficiently), 5), // 高效采集
-            (typeof(BerryBush), 20), // 浆果丛
+            new ValueTuple<Type, long>(typeof(KnowledgeOfGatheringBerry), 0), // 采集
+            new ValueTuple<Type, long>(typeof(KnowledgeOfGatheringBerryEfficiently), 5), // 高效采集
+            new ValueTuple<Type, long>(typeof(BerryBush), 20), // 浆果丛
 
-            (typeof(KnowledgeOfHammer), 100), // 工具：锤子
-            (typeof(KnowledgeOfMagnet), 300), // 磁铁
+            new ValueTuple<Type, long>(typeof(KnowledgeOfHammer), 100), // 工具：锤子
+            new ValueTuple<Type, long>(typeof(KnowledgeOfMagnet), 300), // 磁铁
 
-            (typeof(TotemOfAncestors), 1000), // 祖先雕像
+            new ValueTuple<Type, long>(typeof(TotemOfAncestors), 1000), // 祖先雕像
 
         };
 

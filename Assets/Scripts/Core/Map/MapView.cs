@@ -125,18 +125,18 @@ namespace Weathering
             mainCameraTransform = mainCamera.transform;
             characterTransform = playerCharacter.transform;
 
-            renderer_tilemapBedrock = tilemapBedrock.GetComponent<TilemapRenderer>();
-            renderer_tilemapHill = tilemapHill.GetComponent<TilemapRenderer>();
-            renderer_tilemapGrass = tilemapGrass.GetComponent<TilemapRenderer>();
-            renderer_tilemapTree = tilemapTree.GetComponent<TilemapRenderer>();
-            renderer_tilemapRoad = tilemapRoad.GetComponent<TilemapRenderer>();
-            renderer_tilemapLeft = tilemapLeft.GetComponent<TilemapRenderer>();
-            renderer_tilemapRight = tilemapRight.GetComponent<TilemapRenderer>();
-            renderer_tilemapUp = tilemapUp.GetComponent<TilemapRenderer>();
-            renderer_tilemapDown = tilemapDown.GetComponent<TilemapRenderer>();
-            renderer_tilemap = tilemap.GetComponent<TilemapRenderer>();
-            renderer_tilemapHighLight = tilemapHighLight.GetComponent<TilemapRenderer>();
-            renderer_tilemapOverlay = tilemapOverlay.GetComponent<TilemapRenderer>();
+            //renderer_tilemapBedrock = tilemapBedrock.GetComponent<TilemapRenderer>();
+            //renderer_tilemapHill = tilemapHill.GetComponent<TilemapRenderer>();
+            //renderer_tilemapGrass = tilemapGrass.GetComponent<TilemapRenderer>();
+            //renderer_tilemapTree = tilemapTree.GetComponent<TilemapRenderer>();
+            //renderer_tilemapRoad = tilemapRoad.GetComponent<TilemapRenderer>();
+            //renderer_tilemapLeft = tilemapLeft.GetComponent<TilemapRenderer>();
+            //renderer_tilemapRight = tilemapRight.GetComponent<TilemapRenderer>();
+            //renderer_tilemapUp = tilemapUp.GetComponent<TilemapRenderer>();
+            //renderer_tilemapDown = tilemapDown.GetComponent<TilemapRenderer>();
+            //renderer_tilemap = tilemap.GetComponent<TilemapRenderer>();
+            //renderer_tilemapHighLight = tilemapHighLight.GetComponent<TilemapRenderer>();
+            //renderer_tilemapOverlay = tilemapOverlay.GetComponent<TilemapRenderer>();
 
             renderer_character = characterTransform.GetComponent<SpriteRenderer>();
         }
@@ -151,9 +151,15 @@ namespace Weathering
         /// <summary>
         /// 用于调整主相机大小, ScreenAdaption用到了
         /// </summary>
-        public float CameraSize {
-            get => mainCamera.orthographicSize;
-            set {
+        public float CameraSize
+        {
+            get
+            {
+                return mainCamera.orthographicSize;
+            }
+
+            set
+            {
                 mainCamera.orthographicSize = value;
                 realCamera.orthographicSize = value;
             }
@@ -165,13 +171,13 @@ namespace Weathering
             }
         }
 
-        [SerializeField]
-        private Transform OnlyThing;
-        public Vector2 OnlyThingScale {
-            set {
-                OnlyThing.localScale = new Vector3(value.x, value.y, 1);
-            }
-        }
+        //[SerializeField]
+        //private Transform OnlyThing;
+        //public Vector2 OnlyThingScale {
+        //    set {
+        //        OnlyThing.localScale = new Vector3(value.x, value.y, 1);
+        //    }
+        //}
 
         /// <summary>
         /// 用于进入地图时, 初始化相机位置。StandardMap用到了
@@ -192,8 +198,15 @@ namespace Weathering
         /// <summary>
         /// 玩家角色的真实坐标, 整数值。用于进入地图时, 初始化玩家位置。也用于获取
         /// </summary>
-        public Vector2Int CharacterPosition {
-            get => CharacterPositionInternal; set {
+        public Vector2Int CharacterPosition
+        {
+            get
+            {
+                return CharacterPositionInternal;
+            }
+
+            set
+            {
                 CharacterPositionInternal = value;
             }
         }
@@ -252,7 +265,7 @@ namespace Weathering
         private int height;
         private bool mapControlCharacterLastFrame = false;
         private void Update() {
-            // 按下ESC键打开关闭菜单, Standalone专享
+            // 按下ESC键打开关闭菜单, Standalone 和psv专享
             if (GameMenu.IsInStandalone) {
                 if (Input.GetKeyDown(KeyCode.Escape)) {
                     if (UI.Ins.Active) {
@@ -263,6 +276,7 @@ namespace Weathering
                 }
             }
 
+
             IMapDefinition map = TheOnlyActiveMap as IMapDefinition; if (map == null) throw new Exception();
 
             // 缓存一下宽高, MapView本帧常用
@@ -271,7 +285,8 @@ namespace Weathering
 
             // 输入获取、处理、检测, tap, move
             UpdateInput();
-
+            //原相机位置
+            Vector3 lastTimeCameraPos = mainCamera.transform.position;
             // 控制玩家时
             bool mapControlCharacter = map.ControlCharacter;
             if (mapControlCharacter) {
@@ -291,23 +306,47 @@ namespace Weathering
 
                 // 移动玩家(受移动速度影响), 移动主相机, 移动玩家灯光, 玩家动画
                 CameraFollowsCharacter(); // 动transform
-                CharacterLightFollowCharacter();
+                //CharacterLightFollowCharacter();
 
-            } else {
+            } else {//不控制玩家时
                 if (!UI.Ins.Active) {
                     if (tapping) {
                         UpdateCameraWithTapping();
                     }
-                    UpdateCameraWidthArrowKey();
+                    UpdateCameraWithArrowKey();
                 }
                 CorrectCameraPosition();
             }
             playerCharacter.SetActive(mapControlCharacter);
             mapControlCharacterLastFrame = mapControlCharacter;
 
+            if (GameMenu.IsInPSV||GameMenu.IsInEditor)
+            {
+                //现相机位置
+                Vector3 nowTimeCameraPos = mainCamera.transform.position;
+                //根据相机移动，修正Indicator位置
+                CorrectIndicatorAndCameraOffset(lastTimeCameraPos, nowTimeCameraPos);
+                //加载地块描述
+                ITile tile = TheOnlyActiveMap.Get(IndicatorPositionInternal.x, IndicatorPositionInternal.y);
+                if (tile != theTileToBeTapped)
+                {
+                    if (tile is ITileDescription)
+                    {
+                        ITileDescription tileDescription = tile as ITileDescription;
+                        GameMenu.Ins.SetTileDescriptionForStandalong(tileDescription.TileDescription);
+                    }
+                    else
+                    {
+                        GameMenu.Ins.SetTileDescriptionForStandalong(Localization.Ins.Get(tile.GetType()));
+                    }
+
+                    theTileToBeTapped = tile;//记录上次加载的地块
+                }
+            }
+
             // 渲染地图
             UpdateMap();
-            UpdateWeather();
+            //UpdateWeather();
             // 地图动画, 会用着色器代替..?没必要
             UpdateMapAnimation();
 
@@ -333,14 +372,16 @@ namespace Weathering
             // 同步位置
             Vector3 displayPositionOfCharacter = GetRealPositionOfCharacter();
             characterTransform.position = displayPositionOfCharacter;
+            IndicatorPositionInternal = CharacterPositionInternal;
+            Indicator.transform.position = GetRealPositionOfIndicator();
             mainCameraTransform.position = new Vector3(displayPositionOfCharacter.x, displayPositionOfCharacter.y, cameraZ);
             displayPositionOfCharacter.z = 1;
             // 同步灯光位置
-            GlobalLight.Ins.CharacterLightPosition = displayPositionOfCharacter;
+            //GlobalLight.Ins.CharacterLightPosition = displayPositionOfCharacter;
         }
 
         private const float cameraSpeedFactor = 5;
-        private void UpdateCameraWidthArrowKey() {
+        private void UpdateCameraWithArrowKey() {
             float ratio = cameraSpeedFactor * Time.deltaTime * TappingSensitivityFactor * ScreenAdaptation.Ins.DoubleSizeMultiplier;
             if (Input.GetKey(KeyCode.RightArrow)) {
                 target = mainCameraTransform.position + Vector3.right * ratio;
@@ -400,10 +441,10 @@ namespace Weathering
         }
         private void UpdateCharacterPositionWithArrowKey() {
             if (!tapping) {
-                if (Input.GetKey(KeyCode.LeftArrow)) characterMovement = Vector2Int.left;
-                if (Input.GetKey(KeyCode.RightArrow)) characterMovement = Vector2Int.right;
-                if (Input.GetKey(KeyCode.UpArrow)) characterMovement = Vector2Int.up;
-                if (Input.GetKey(KeyCode.DownArrow)) characterMovement = Vector2Int.down;
+                if (Input.GetButton(InputUtility.DPadLeft)||Input.GetKey(KeyCode.LeftArrow)) characterMovement = Vector2Int.left;
+                if (Input.GetButton(InputUtility.DPadRight) || Input.GetKey(KeyCode.RightArrow)) characterMovement = Vector2Int.right;
+                if (Input.GetButton(InputUtility.DPadUp) || Input.GetKey(KeyCode.UpArrow)) characterMovement = Vector2Int.up;
+                if (Input.GetButton(InputUtility.DPadDown) || Input.GetKey(KeyCode.DownArrow)) characterMovement = Vector2Int.down;
             }
         }
         private void TryTriggerOnStepEvent() {
@@ -423,7 +464,8 @@ namespace Weathering
                     if (Time.time > lastTimeUpdated + WalkingTimeForUnitTile) {
                         lastTimeUpdated = Time.time;
                         CharacterPositionInternal = newPosition;
-                        if (newTile is IStepOn step) {
+                        if (newTile is IStepOn ) {
+                            IStepOn step = newTile as IStepOn;
                             try {
                                 step.OnStepOn();
                             } catch (Exception e) {
@@ -462,10 +504,10 @@ namespace Weathering
             }
             CharacterPositionInternal = characterPosition;
             if (corrected) {
-                Vector3Int offset = (Vector3Int)correctingVector;
+                Vector3Int offset = new Vector3Int(correctingVector.x, correctingVector.y,0);
                 mainCameraTransform.position += offset;
                 characterTransform.position += offset;
-                GlobalLight.Ins.CharacterLightPosition = GlobalLight.Ins.CharacterLightPosition + offset;
+                //GlobalLight.Ins.CharacterLightPosition = GlobalLight.Ins.CharacterLightPosition + offset;
             }
         }
 
@@ -485,7 +527,8 @@ namespace Weathering
         private void CameraFollowsCharacter() {
             // 调整走路速度
             ITile tile = TheOnlyActiveMap.Get(CharacterPositionInternal.x, CharacterPositionInternal.y);
-            if (tile is IWalkingTimeModifier walkingTimeModifier) {
+            if (tile is IWalkingTimeModifier ) {
+                IWalkingTimeModifier walkingTimeModifier = tile as IWalkingTimeModifier;
                 float modifier = walkingTimeModifier.WalkingTimeModifier;
                 modifier = Mathf.Clamp(modifier, 0.2f, 3f);
 
@@ -498,7 +541,6 @@ namespace Weathering
             Vector3 target = GetRealPositionOfCharacter();
             Vector3 source = characterTransform.position;
             Vector3 offset = target - source;
-
             deltaPosition = offset.normalized / WalkingTimeForUnitTile * Time.deltaTime;
 
             Vector3 destination = source + deltaPosition;
@@ -522,14 +564,14 @@ namespace Weathering
 
         }
         public const float CharacterLightOffset = 1f;
-        private void CharacterLightFollowCharacter() {
-            // 移动手电光
-            Vector3 target = characterTransform.position + (Vector3)(Vector2)(characterMovement) * CharacterLightOffset;
-            Vector3 result = Vector3.SmoothDamp(GlobalLight.Ins.CharacterLightPosition, target, ref lightVelocity, 0.15f);
-            result.z = 1;
-            GlobalLight.Ins.CharacterLightPosition = result;
+        //private void CharacterLightFollowCharacter() {
+        //    // 移动手电光
+        //    Vector3 target = characterTransform.position + (Vector3)(Vector2)(characterMovement) * CharacterLightOffset;
+        //    Vector3 result = Vector3.SmoothDamp(GlobalLight.Ins.CharacterLightPosition, target, ref lightVelocity, 0.15f);
+        //    result.z = 1;
+        //    GlobalLight.Ins.CharacterLightPosition = result;
 
-        }
+        //}
 
 
         private Vector3 lightVelocity;
@@ -549,6 +591,7 @@ namespace Weathering
             }
             target.z = cameraZ;
             mainCameraTransform.position = target;
+
         }
 
         public long AnimationIndex { get; private set; } = 0;
@@ -643,11 +686,11 @@ namespace Weathering
                     Tile tile = null;
                     Tile tileHighLight = null;
                     Tile tileOverlay = null;
-
+                    
                     bool needUpdateFrameAnimationForThisTile = (animationScanerIndexOffsetY + startY == j) &&
-                        iTile is IHasFrameAnimationOnSpriteKey hasFrameAnimationOnSpriteKey &&
-                        hasFrameAnimationOnSpriteKey.HasFrameAnimation > 0 &&
-                        AnimationIndex % hasFrameAnimationOnSpriteKey.HasFrameAnimation == 0;
+                        iTile is IHasFrameAnimationOnSpriteKey  &&
+                        (iTile as IHasFrameAnimationOnSpriteKey).HasFrameAnimation > 0 &&
+                        AnimationIndex % (iTile as IHasFrameAnimationOnSpriteKey).HasFrameAnimation == 0;
                     bool needUpdateSpriteKey = iTile.NeedUpdateSpriteKeys || needUpdateFrameAnimationForThisTile;
 
                     if (needUpdateSpriteKey) {
@@ -830,31 +873,32 @@ namespace Weathering
 
 
 
-        [SerializeField]
-        private Material MaterialOfFog;
-        [SerializeField]
-        private Material MaterialOfRain;
-        [SerializeField]
-        private Material MaterialOfSnow;
+        //[SerializeField]
+        //private Material MaterialOfFog;
+        //[SerializeField]
+        //private Material MaterialOfRain;
+        //[SerializeField]
+        //private Material MaterialOfSnow;
 
-        [SerializeField]
-        private GameObject Fog;
-        [SerializeField]
-        private GameObject Rain;
-        [SerializeField]
-        private GameObject Snow;
+        //[SerializeField]
+        //private GameObject Fog;
+        //[SerializeField]
+        //private GameObject Rain;
+        //[SerializeField]
+        //private GameObject Snow;
 
-
-        [SerializeField]
-        private Material MaterialOfWater;
-        [SerializeField]
-        private Material MaterialUnlitWithoutBlur;
-        [SerializeField]
-        private Material MaterialLitWithoutShadow;
-        [SerializeField]
-        private Material MaterialWithShadow;
-        [SerializeField]
-        private Material MaterialCharacterWithShadow;
+        //[SerializeField]
+        //private Material MaterialOfDefault;
+        //[SerializeField]
+        //private Material MaterialOfWater;
+        //[SerializeField]
+        //private Material MaterialUnlitWithoutBlur;
+        //[SerializeField]
+        //private Material MaterialLitWithoutShadow;
+        //[SerializeField]
+        //private Material MaterialWithShadow;
+        //[SerializeField]
+        //private Material MaterialCharacterWithShadow;
 
 
         private const float integralReset = 10000f;
@@ -862,195 +906,195 @@ namespace Weathering
         private Vector2 cameraIntegral = Vector2.zero;
         private float waterIntegral = 0;
 
-        public Gradient StarLightColorOverTime;
-        private void UpdateWeather() {
+        //public Gradient StarLightColorOverTime;
+        //private void UpdateWeather() {
 
 
 
-            if (!GameMenu.LightEnabled) {
-                GlobalLight.Ins.UseCharacterLight = false;
-                GlobalLight.Ins.UseDayNightCycle = false;
-                return;
-            } else {
-                GlobalLight.Ins.SyncCharacterLightPosition(MaterialWithShadow);
-            }
+        //    //if (!GameMenu.LightEnabled) {
+        //    //    GlobalLight.Ins.UseCharacterLight = false;
+        //    //    GlobalLight.Ins.UseDayNightCycle = false;
+        //    //    return;
+        //    //} else {
+        //    //    GlobalLight.Ins.SyncCharacterLightPosition(MaterialWithShadow);
+        //    //}
 
-            GlobalLight.Ins.UseCharacterLight = TheOnlyActiveMap.ControlCharacter;
+        //    //GlobalLight.Ins.UseCharacterLight = TheOnlyActiveMap.ControlCharacter;
 
-            IWeatherDefinition weather = TheOnlyActiveMap as IWeatherDefinition;
-            GlobalLight.Ins.UseDayNightCycle = weather != null;
-
-
-
-            float windStrength = 0;
-            float windNoise = 0;
-            const float widthFactor = 16;
-            const float heightFactor = 9;
-            // 风力
-            if (weather != null) {
-                windStrength = weather.WindStrength;
-                windNoise = weather.WindNoise;
-
-                MaterialOfWater.SetFloat("_Amplitude", Mathf.Lerp(0, 0.5f, Mathf.Clamp01(Mathf.Abs(windNoise))));
-
-                waterIntegral += Mathf.Clamp(windStrength * 50, -3, 3) * Time.deltaTime;
-                if (waterIntegral > integralReset) waterIntegral = 0;
-
-                MaterialOfWater.SetFloat("_IntegralX", waterIntegral);
-            }
-
-            // 雾效
-            if (weather != null && GameMenu.WeatherEnabled) {
-
-
-                cameraIntegral += new Vector2(deltaPosition.x, deltaPosition.y);
-                if (cameraIntegral.sqrMagnitude > integralReset * integralReset) cameraIntegral = Vector2.zero;
-
-                if (weather.Foggy) {
-                    float density = Mathf.Clamp01(weather.FogDensity);
-                    if (density > 0) {
-                        Fog.SetActive(true);
-
-                        // 积分
-                        fogIntegral.x += windStrength * Time.deltaTime;
-                        if (fogIntegral.sqrMagnitude > integralReset * integralReset) fogIntegral = Vector2.zero;
-                        Vector2 sumIntegral = fogIntegral + cameraIntegral;
-
-                        MaterialOfFog.SetFloat("_UVChangeX", sumIntegral.x / widthFactor);
-                        MaterialOfFog.SetFloat("_UVChangeY", sumIntegral.y / heightFactor);
-
-                        MaterialOfFog.SetFloat("_Density", density);
-
-                    } else {
-                        Fog.SetActive(false);
-                    }
-                } else {
-                    Fog.SetActive(false);
-                }
-
-                if (weather.Rainy) {
-                    float density = Mathf.Clamp01(weather.RainDensity);
-                    if (density > 0) {
-                        Rain.SetActive(true);
-                        MaterialOfRain.SetFloat("_UVChangeX", cameraIntegral.x / widthFactor);
-                        MaterialOfRain.SetFloat("_UVChangeY", cameraIntegral.y / heightFactor);
-                        MaterialOfRain.SetFloat("_Multiplier", Mathf.Lerp(0, 10, density));
-                        MaterialOfRain.SetFloat("_Direction", -windNoise * 30);
-
-                        MaterialOfRain.SetColor("_Tint", Color.Lerp(new Color(1, 1, 1, 0.5f), Color.white, density));
-                    } else {
-                        Rain.SetActive(false);
-                    }
-
-                    Sound.Ins.RainDensity = density;
-                } else {
-                    Rain.SetActive(false);
-                    Sound.Ins.RainDensity = 0;
-                }
-
-                if (weather.Snowy) {
-                    float density = Mathf.Clamp01(weather.SnowDensity);
-                    if (density > 0) {
-                        Snow.SetActive(true);
-                        MaterialOfSnow.SetFloat("_UVChangeX", cameraIntegral.x / widthFactor);
-                        MaterialOfSnow.SetFloat("_UVChangeY", cameraIntegral.y / heightFactor);
-                        MaterialOfSnow.SetFloat("_Multiplier", Mathf.Lerp(0, 10, density));
-                        MaterialOfSnow.SetFloat("_Direction", -windNoise * 60);
-                        // MaterialOfRain.SetFloat("_Speed", Mathf.Lerp(1, 2, windABS));
-                        // MaterialOfSnow.SetFloat("_Density", density);
-                    } else {
-                        Snow.SetActive(false);
-                    }
-                } else {
-                    Snow.SetActive(false);
-                }
-            }
-            //else {
-            //    Fog.SetActive(false);
-            //    Rain.SetActive(false);
-            //    Snow.SetActive(false);
-            //    Sound.Ins.RainDensity = 0;
-            //}
-
-
-            // 白平衡
-            if (weather != null) {
-                GlobalVolume.Ins.WhiteBalance.temperature.value = Mathf.Clamp(weather.Temporature, -1, 1) * 60;
-                // GlobalVolume.Ins.WhiteBalance.tint.value = Mathf.Clamp01(weather.Tint) * 100;
-            } else {
-                GlobalVolume.Ins.WhiteBalance.temperature.value = 0;
-            }
-
-            // 光照
-            if (weather != null) {
-                IWeatherDefinition cycle = TheOnlyActiveMap as IWeatherDefinition;
-                float progress_of_day = (float)cycle.ProgressOfDay;
-                float t = progress_of_day * (2 * Mathf.PI);
-
-                float star_light_pos_x = Mathf.Cos(t);
-                float star_light_pos_y = Mathf.Sin(t);
-
-
-                const float threshold = 0.5f;
-                const float threshold2 = 0.8f;
-                float star_light_pos_x_int = star_light_pos_x > threshold
-                    ? (star_light_pos_x > threshold2 ? 2 : 1)
-                    : (star_light_pos_x < -threshold ? (star_light_pos_x < -threshold2 ? -2 : -1) : 0);
-                float star_light_pos_y_int = star_light_pos_y > threshold ? 1 : 0;
-
-                MaterialWithShadow.SetFloat("_StarLightPosX", star_light_pos_x_int);
-                MaterialWithShadow.SetFloat("_StarLightPosY", star_light_pos_y_int);
-                MaterialCharacterWithShadow.SetFloat("_StarLightPosX", star_light_pos_x_int);
-                MaterialCharacterWithShadow.SetFloat("_StarLightPosY", star_light_pos_y_int);
-
-                float t_day;
-                float t_night;
-
-
-                const float twilightTime = 0.125f; // 0.01f - 0.25f
-                if (progress_of_day < twilightTime) {
-                    t_day = progress_of_day / twilightTime;
-                } else if (progress_of_day < 0.5f - twilightTime) {
-                    t_day = 1;
-                } else if (progress_of_day < 0.5f + twilightTime) {
-                    t_day = 1 - (progress_of_day - (0.5f - twilightTime)) / (2 * twilightTime);
-                } else if (progress_of_day < 1 - twilightTime) {
-                    t_day = 0;
-                } else {
-                    t_day = -1 + (progress_of_day - twilightTime);
-                }
-                t_night = 1 - t_day;
+        //    IWeatherDefinition weather = TheOnlyActiveMap as IWeatherDefinition;
+        //    //GlobalLight.Ins.UseDayNightCycle = weather != null;
 
 
 
-                float day_shadow = t_day * t_day;
-                float night_shadow = t_night * t_night;
+        //    float windStrength = 0;
+        //    float windNoise = 0;
+        //    //const float widthFactor = 16;
+        //    //const float heightFactor = 9;
+        //    // 风力
+        //    //if (weather != null) {
+        //    //    windStrength = weather.WindStrength;
+        //    //    windNoise = weather.WindNoise;
 
-                float alpha = TheOnlyActiveMap.ControlCharacter ? t_night : 0;
-                MaterialCharacterWithShadow.SetFloat("_PlayerLightAlpha", alpha);
-                MaterialWithShadow.SetFloat("_PlayerLightAlpha", alpha);
+        //    //    MaterialOfWater.SetFloat("_Amplitude", Mathf.Lerp(0, 0.5f, Mathf.Clamp01(Mathf.Abs(windNoise))));
 
-                MaterialCharacterWithShadow.SetFloat("_StarLightAlpha", day_shadow);
-                MaterialWithShadow.SetFloat("_StarLightAlpha", day_shadow);
+        //    //    waterIntegral += Mathf.Clamp(windStrength * 50, -3, 3) * Time.deltaTime;
+        //    //    if (waterIntegral > integralReset) waterIntegral = 0;
 
-                const float playerLightContribution = 0.66f;
+        //    //    MaterialOfWater.SetFloat("_IntegralX", waterIntegral);
+        //    //}
+
+        //    // 雾效
+        //    //if (weather != null && GameMenu.WeatherEnabled) {
 
 
-                GlobalLight.Ins.CharacterLightIntensity = Mathf.Lerp(0, playerLightContribution * 3 / 4, night_shadow);
-                GlobalLight.Ins.StarLightIntensity = Mathf.Lerp(1 - playerLightContribution, 1f, t_day);
-                GlobalLight.Ins.StarLightColor = StarLightColorOverTime.Evaluate(progress_of_day);
+        //    //    cameraIntegral += new Vector2(deltaPosition.x, deltaPosition.y);
+        //    //    if (cameraIntegral.sqrMagnitude > integralReset * integralReset) cameraIntegral = Vector2.zero;
 
-                Vector3 starLightPosition = mainCameraTransform.position + 20 * new Vector3(star_light_pos_x, star_light_pos_y, 0);
-                starLightPosition.z = 5;
-                GlobalLight.Ins.StarLightPosition = starLightPosition;
+        //    //    if (weather.Foggy) {
+        //    //        float density = Mathf.Clamp01(weather.FogDensity);
+        //    //        if (density > 0) {
+        //    //            Fog.SetActive(true);
 
-                GlobalLight.Ins.UseDayNightCycle = true;
+        //    //            // 积分
+        //    //            fogIntegral.x += windStrength * Time.deltaTime;
+        //    //            if (fogIntegral.sqrMagnitude > integralReset * integralReset) fogIntegral = Vector2.zero;
+        //    //            Vector2 sumIntegral = fogIntegral + cameraIntegral;
 
-                MaterialUnlitWithoutBlur.SetFloat("_Transparency", t_night);
-            } else {
-                MaterialUnlitWithoutBlur.SetFloat("_Transparency", 1);
-            }
-        }
+        //    //            MaterialOfFog.SetFloat("_UVChangeX", sumIntegral.x / widthFactor);
+        //    //            MaterialOfFog.SetFloat("_UVChangeY", sumIntegral.y / heightFactor);
+
+        //    //            MaterialOfFog.SetFloat("_Density", density);
+
+        //    //        } else {
+        //    //            Fog.SetActive(false);
+        //    //        }
+        //    //    } else {
+        //    //        Fog.SetActive(false);
+        //    //    }
+
+        //    //    if (weather.Rainy) {
+        //    //        float density = Mathf.Clamp01(weather.RainDensity);
+        //    //        if (density > 0) {
+        //    //            Rain.SetActive(true);
+        //    //            MaterialOfRain.SetFloat("_UVChangeX", cameraIntegral.x / widthFactor);
+        //    //            MaterialOfRain.SetFloat("_UVChangeY", cameraIntegral.y / heightFactor);
+        //    //            MaterialOfRain.SetFloat("_Multiplier", Mathf.Lerp(0, 10, density));
+        //    //            MaterialOfRain.SetFloat("_Direction", -windNoise * 30);
+
+        //    //            MaterialOfRain.SetColor("_Tint", Color.Lerp(new Color(1, 1, 1, 0.5f), Color.white, density));
+        //    //        } else {
+        //    //            Rain.SetActive(false);
+        //    //        }
+
+        //    //        Sound.Ins.RainDensity = density;
+        //    //    } else {
+        //    //        Rain.SetActive(false);
+        //    //        Sound.Ins.RainDensity = 0;
+        //    //    }
+
+        //    //    if (weather.Snowy) {
+        //    //        float density = Mathf.Clamp01(weather.SnowDensity);
+        //    //        if (density > 0) {
+        //    //            Snow.SetActive(true);
+        //    //            MaterialOfSnow.SetFloat("_UVChangeX", cameraIntegral.x / widthFactor);
+        //    //            MaterialOfSnow.SetFloat("_UVChangeY", cameraIntegral.y / heightFactor);
+        //    //            MaterialOfSnow.SetFloat("_Multiplier", Mathf.Lerp(0, 10, density));
+        //    //            MaterialOfSnow.SetFloat("_Direction", -windNoise * 60);
+        //    //            // MaterialOfRain.SetFloat("_Speed", Mathf.Lerp(1, 2, windABS));
+        //    //            // MaterialOfSnow.SetFloat("_Density", density);
+        //    //        } else {
+        //    //            Snow.SetActive(false);
+        //    //        }
+        //    //    } else {
+        //    //        Snow.SetActive(false);
+        //    //    }
+        //    //}
+        //    //else {
+        //    //    Fog.SetActive(false);
+        //    //    Rain.SetActive(false);
+        //    //    Snow.SetActive(false);
+        //    //    Sound.Ins.RainDensity = 0;
+        //    //}
+
+
+        //    // 白平衡
+        //    //if (weather != null) {
+        //    //    GlobalVolume.Ins.WhiteBalance.temperature.value = Mathf.Clamp(weather.Temporature, -1, 1) * 60;
+        //    //    // GlobalVolume.Ins.WhiteBalance.tint.value = Mathf.Clamp01(weather.Tint) * 100;
+        //    //} else {
+        //    //    GlobalVolume.Ins.WhiteBalance.temperature.value = 0;
+        //    //}
+
+        //    // 光照
+        //    if (weather != null) {
+        //        IWeatherDefinition cycle = TheOnlyActiveMap as IWeatherDefinition;
+        //        float progress_of_day = (float)cycle.ProgressOfDay;
+        //        float t = progress_of_day * (2 * Mathf.PI);
+
+        //        float star_light_pos_x = Mathf.Cos(t);
+        //        float star_light_pos_y = Mathf.Sin(t);
+
+
+        //        const float threshold = 0.5f;
+        //        const float threshold2 = 0.8f;
+        //        float star_light_pos_x_int = star_light_pos_x > threshold
+        //            ? (star_light_pos_x > threshold2 ? 2 : 1)
+        //            : (star_light_pos_x < -threshold ? (star_light_pos_x < -threshold2 ? -2 : -1) : 0);
+        //        float star_light_pos_y_int = star_light_pos_y > threshold ? 1 : 0;
+
+        //        MaterialWithShadow.SetFloat("_StarLightPosX", star_light_pos_x_int);
+        //        MaterialWithShadow.SetFloat("_StarLightPosY", star_light_pos_y_int);
+        //        MaterialCharacterWithShadow.SetFloat("_StarLightPosX", star_light_pos_x_int);
+        //        MaterialCharacterWithShadow.SetFloat("_StarLightPosY", star_light_pos_y_int);
+
+        //        float t_day;
+        //        float t_night;
+
+
+        //        const float twilightTime = 0.125f; // 0.01f - 0.25f
+        //        if (progress_of_day < twilightTime) {
+        //            t_day = progress_of_day / twilightTime;
+        //        } else if (progress_of_day < 0.5f - twilightTime) {
+        //            t_day = 1;
+        //        } else if (progress_of_day < 0.5f + twilightTime) {
+        //            t_day = 1 - (progress_of_day - (0.5f - twilightTime)) / (2 * twilightTime);
+        //        } else if (progress_of_day < 1 - twilightTime) {
+        //            t_day = 0;
+        //        } else {
+        //            t_day = -1 + (progress_of_day - twilightTime);
+        //        }
+        //        t_night = 1 - t_day;
+
+
+
+        //        float day_shadow = t_day * t_day;
+        //        float night_shadow = t_night * t_night;
+
+        //        float alpha = TheOnlyActiveMap.ControlCharacter ? t_night : 0;
+        //        MaterialCharacterWithShadow.SetFloat("_PlayerLightAlpha", alpha);
+        //        MaterialWithShadow.SetFloat("_PlayerLightAlpha", alpha);
+
+        //        MaterialCharacterWithShadow.SetFloat("_StarLightAlpha", day_shadow);
+        //        MaterialWithShadow.SetFloat("_StarLightAlpha", day_shadow);
+
+        //        //const float playerLightContribution = 0.66f;
+
+
+        //        //GlobalLight.Ins.CharacterLightIntensity = Mathf.Lerp(0, playerLightContribution * 3 / 4, night_shadow);
+        //        //GlobalLight.Ins.StarLightIntensity = Mathf.Lerp(1 - playerLightContribution, 1f, t_day);
+        //        //GlobalLight.Ins.StarLightColor = StarLightColorOverTime.Evaluate(progress_of_day);
+
+        //        //Vector3 starLightPosition = mainCameraTransform.position + 20 * new Vector3(star_light_pos_x, star_light_pos_y, 0);
+        //        //starLightPosition.z = 5;
+        //        //GlobalLight.Ins.StarLightPosition = starLightPosition;
+
+        //        //GlobalLight.Ins.UseDayNightCycle = true;
+
+        //        MaterialUnlitWithoutBlur.SetFloat("_Transparency", t_night);
+        //    } else {
+        //        MaterialUnlitWithoutBlur.SetFloat("_Transparency", 1);
+        //    }
+        //}
 
 
 
@@ -1119,58 +1163,58 @@ namespace Weathering
         private Tilemap tilemapOverlay;
 
 
-        private TilemapRenderer renderer_tilemapBedrock;
-        private TilemapRenderer renderer_tilemapGrass;
-        private TilemapRenderer renderer_tilemapTree;
-        private TilemapRenderer renderer_tilemapHill;
-        private TilemapRenderer renderer_tilemapRoad;
+        //private TilemapRenderer renderer_tilemapBedrock;
+        //private TilemapRenderer renderer_tilemapGrass;
+        //private TilemapRenderer renderer_tilemapTree;
+        //private TilemapRenderer renderer_tilemapHill;
+        //private TilemapRenderer renderer_tilemapRoad;
 
-        private TilemapRenderer renderer_tilemapLeft;
-        private TilemapRenderer renderer_tilemapRight;
-        private TilemapRenderer renderer_tilemapUp;
-        private TilemapRenderer renderer_tilemapDown;
+        //private TilemapRenderer renderer_tilemapLeft;
+        //private TilemapRenderer renderer_tilemapRight;
+        //private TilemapRenderer renderer_tilemapUp;
+        //private TilemapRenderer renderer_tilemapDown;
 
-        private TilemapRenderer renderer_tilemap;
-        private TilemapRenderer renderer_tilemapHighLight;
-        private TilemapRenderer renderer_tilemapOverlay;
+        //private TilemapRenderer renderer_tilemap;
+        //private TilemapRenderer renderer_tilemapHighLight;
+        //private TilemapRenderer renderer_tilemapOverlay;
 
         private SpriteRenderer renderer_character;
 
-        public bool EnableLight {
-            get {
-                return renderer_character.sharedMaterial == MaterialLitWithoutShadow;
-            }
-            set {
-                if (value) {
-                    renderer_character.sharedMaterial = MaterialCharacterWithShadow;
+        //public bool EnableLight {
+        //    get {
+        //        return renderer_character.sharedMaterial == MaterialLitWithoutShadow;
+        //    }
+        //    set {
+        //        if (value) {
+        //            renderer_character.sharedMaterial = MaterialCharacterWithShadow;
 
-                    renderer_tilemap.sharedMaterial = MaterialWithShadow;
-                    renderer_tilemapTree.sharedMaterial = MaterialWithShadow;
+        //            renderer_tilemap.sharedMaterial = MaterialWithShadow;
+        //            renderer_tilemapTree.sharedMaterial = MaterialWithShadow;
 
-                    renderer_tilemapLeft.sharedMaterial = MaterialWithShadow;
-                    renderer_tilemapRight.sharedMaterial = MaterialWithShadow;
-                    renderer_tilemapUp.sharedMaterial = MaterialWithShadow;
-                    renderer_tilemapDown.sharedMaterial = MaterialWithShadow;
-                } else {
-                    renderer_character.sharedMaterial = MaterialLitWithoutShadow;
+        //            renderer_tilemapLeft.sharedMaterial = MaterialWithShadow;
+        //            renderer_tilemapRight.sharedMaterial = MaterialWithShadow;
+        //            renderer_tilemapUp.sharedMaterial = MaterialWithShadow;
+        //            renderer_tilemapDown.sharedMaterial = MaterialWithShadow;
+        //        } else {
+        //            renderer_character.sharedMaterial = MaterialLitWithoutShadow;
 
-                    renderer_tilemap.sharedMaterial = MaterialLitWithoutShadow;
-                    renderer_tilemapTree.sharedMaterial = MaterialLitWithoutShadow;
+        //            renderer_tilemap.sharedMaterial = MaterialLitWithoutShadow;
+        //            renderer_tilemapTree.sharedMaterial = MaterialLitWithoutShadow;
 
-                    renderer_tilemapLeft.sharedMaterial = MaterialLitWithoutShadow;
-                    renderer_tilemapRight.sharedMaterial = MaterialLitWithoutShadow;
-                    renderer_tilemapUp.sharedMaterial = MaterialLitWithoutShadow;
-                    renderer_tilemapDown.sharedMaterial = MaterialLitWithoutShadow;
-                }
-            }
-        }
-        public bool EnableWeather {
-            set {
-                Fog.GetComponent<SpriteRenderer>().enabled = value;
-                Rain.GetComponent<SpriteRenderer>().enabled = value;
-                Snow.GetComponent<SpriteRenderer>().enabled = value;
-            }
-        }
+        //            renderer_tilemapLeft.sharedMaterial = MaterialLitWithoutShadow;
+        //            renderer_tilemapRight.sharedMaterial = MaterialLitWithoutShadow;
+        //            renderer_tilemapUp.sharedMaterial = MaterialLitWithoutShadow;
+        //            renderer_tilemapDown.sharedMaterial = MaterialLitWithoutShadow;
+        //        }
+        //    }
+        //}
+        //public bool EnableWeather {
+        //    set {
+        //        Fog.GetComponent<SpriteRenderer>().enabled = value;
+        //        Rain.GetComponent<SpriteRenderer>().enabled = value;
+        //        Snow.GetComponent<SpriteRenderer>().enabled = value;
+        //    }
+        //}
 
         [Space]
         [Header("Other")]
@@ -1197,6 +1241,7 @@ namespace Weathering
         [SerializeField]
         private Transform Tail;
 
+        //拖拽屏幕移动，或使用摇杆移动
         private bool tapping = false;
         private const float tappingSensitivity = 0.05f;
 
@@ -1210,8 +1255,21 @@ namespace Weathering
 
         [SerializeField]
         private GameObject Indicator;
+        // 初始化到角色位置
+        private Vector2Int IndicatorPositionInternal;
+        private float lastTimeIndicatorUpdated;
+        private const float IndicatorTimeForUnitTile = 0.15f;
         private void UpdateIndicator(Vector2Int pos) {
             Indicator.transform.position = (Vector2)(pos) + new Vector2(0.5f, 0.5f);
+        }
+        private Vector3 GetRealPositionOfIndicator()
+        {
+            return new Vector3(IndicatorPositionInternal.x + 0.5f, IndicatorPositionInternal.y + 0.5f, 1);
+        }
+        private void CorrectIndicatorAndCameraOffset(Vector2 lastCameraPos,Vector2 nowCameraPos)
+        {
+            Vector2Int cameraMovement = MathVector2Floor(nowCameraPos) - MathVector2Floor(lastCameraPos);
+            IndicatorPositionInternal+= cameraMovement;
         }
 
         private Vector2 ScreenToWorldPoint(Vector2 mousePosition) {
@@ -1221,11 +1279,26 @@ namespace Weathering
             Vector2 result = mainCamera.ScreenToWorldPoint(mousePosition);
             return result;
         }
+        //TODO WorldToScreenPoint 测试
+        private Vector3 WorldToScreenPoint(Vector3 pos)
+        {
+            int scale = ScreenAdaptation.Ins.Scale;
+            Vector2 screenPoint = mainCamera.WorldToScreenPoint(pos);
+            screenPoint.x *= scale;
+            screenPoint.y *= scale;
+            return screenPoint;
+        }
 
         /// <summary>
-        /// 获取输入, 计算moving和tapping
+        /// 获取输入,操作地块, 计算deltaDistance和tapping,
         /// </summary>
         private void UpdateInput() {
+
+            if(GameMenu.IsInPSV||GameMenu.IsInEditor)
+            {
+                UpdatePSVAxisInput();
+                return;
+            }
 
             Vector2 mousePosition = Input.mousePosition;
             tapping = false;
@@ -1235,6 +1308,7 @@ namespace Weathering
                 originalDownMousePosition = ScreenToWorldPoint(mousePosition);
                 tailMousePosition = mousePosition;
                 hasBeenOutOfTheSameTile = false;
+                Debug.Log(mousePosition);
             }
 
             bool onSameTile = false; // 检验是否在同一个按下
@@ -1298,7 +1372,8 @@ namespace Weathering
 
                 ITile tile = TheOnlyActiveMap.Get(nowInt.x, nowInt.y);
                 if (tile != theTileToBeTapped) {
-                    if (tile is ITileDescription tileDescription) {
+                    if (tile is ITileDescription ) {
+                        ITileDescription tileDescription = tile as ITileDescription;
                         GameMenu.Ins.SetTileDescriptionForStandalong(tileDescription.TileDescription);
                     } else {
                         GameMenu.Ins.SetTileDescriptionForStandalong(Localization.Ins.Get(tile.GetType()));
@@ -1331,6 +1406,127 @@ namespace Weathering
                 Tail.gameObject.SetActive(false);
             }
         }
+
+        private void UpdatePSVAxisInput()
+        {
+            // 左摇杆
+            float x = Input.GetAxisRaw(InputUtility.LeftStickHorizontal);
+            float y = Input.GetAxisRaw(InputUtility.LeftStickVertical);
+            deltaDistance = new Vector2(x, y);
+            if (GameMenu.UseInversedMovement)
+            {
+                deltaDistance = -deltaDistance;
+            }
+            tapping = deltaDistance.sqrMagnitude > tappingSensitivity * tappingSensitivity;
+            if (deltaDistance.sqrMagnitude > 1f)
+            {
+                deltaDistance.Normalize();
+            }
+
+            //右摇杆
+            //1.如果不在冷却,则根据摇杆位置移动,并计算冷却,并且更新地块描述
+            //2.如果在冷却,则无变化
+            
+            //指示器显示
+            bool showIndicator = !UI.Ins.Active;
+            Indicator.SetActive(showIndicator);
+
+            //获取右摇杆
+            float rightX= Input.GetAxisRaw(InputUtility.RightStickHorizontal);
+            float rightY = Input.GetAxisRaw(InputUtility.RightStickVertical);
+            //映射对应方向
+            var IndicatorMoveDir = InputUtility.MapStickToDueDir(rightX, rightY, 0.5f);
+
+            if (showIndicator && IndicatorMoveDir != Vector2Int.zero && Time.time > lastTimeIndicatorUpdated+IndicatorTimeForUnitTile)
+            {
+                //摇杆移动
+                Vector2Int IndicatorNextPos = IndicatorPositionInternal;
+                IndicatorNextPos += IndicatorMoveDir;
+
+                //更新位置
+                IndicatorPositionInternal = IndicatorNextPos;
+
+                //重置移动时间
+                lastTimeIndicatorUpdated = Time.time;
+            }
+            else if (IndicatorMoveDir == Vector2Int.zero)
+                lastTimeIndicatorUpdated = 0;
+
+            // 屏幕坐标
+            int width = Screen.width;
+            int height = Screen.height;
+
+            //获取在屏幕内的最小和最大的地块坐标
+            Vector2Int MinPos = MathVector2Floor(ScreenToWorldPoint(Vector2.zero) + new Vector2(1, 1));
+            Vector2Int MaxPos = MathVector2Floor(ScreenToWorldPoint(new Vector2(width, height)) - new Vector2(1, 1));
+
+            // 限制位置
+            if (IndicatorPositionInternal.x < MinPos.x) IndicatorPositionInternal.x = MinPos.x;
+            if (IndicatorPositionInternal.y < MinPos.y) IndicatorPositionInternal.y = MinPos.y;
+            if (IndicatorPositionInternal.x > MaxPos.x) IndicatorPositionInternal.x = MaxPos.x;
+            if (IndicatorPositionInternal.y > MaxPos.y) IndicatorPositionInternal.y = MaxPos.y;
+            UpdateIndicator(IndicatorPositionInternal);
+
+            if (!UI.Ins.Active)
+            {
+                if (Input.GetButtonDown(InputUtility.LeftShoulder))
+                {
+                    if (Globals.Unlocked<KnowledgeOfMagnet>())
+                    {
+                        GameMenu.Ins.OnTapLinkUnlink();
+                        InterceptInteractionOnce = false;
+                    }
+                }
+                if (Input.GetButtonDown(InputUtility.RightShoulder))
+                {
+                    if (Globals.Unlocked<KnowledgeOfHammer>())
+                    {
+                        GameMenu.Ins.OnTapConstructDestruct();
+                        InterceptInteractionOnce = false;
+                    }
+                }
+
+                if (Input.GetButtonDown(InputUtility.Square))
+                {
+                    GameMenu.Ins.OnTapInventoryOfResource();
+                    InterceptInteractionOnce = false;
+                }
+                if (Input.GetButtonDown(InputUtility.Triangle))
+                {
+                    GameMenu.Ins.OnTapInventoryOfSupply();
+                    InterceptInteractionOnce = false;
+                }
+                if (Input.GetButtonDown(InputUtility.Select))
+                {
+                    GameMenu.Ins.OnTapPlayerInventory();
+                }
+                if (Input.GetButtonDown(InputUtility.Start))
+                {
+                    GameMenu.Ins.OnTapSettings();
+                    InterceptInteractionOnce = false;
+                }
+                //如果按下控制按键,则......
+                if (Input.GetButtonDown(InputUtility.Cross))
+                {
+                    if (GameMenu.IsInEditor)
+                        OnTap(IndicatorPositionInternal);
+                    else
+                    {
+                        try
+                        {
+                            OnTap(IndicatorPositionInternal);
+                        }
+                        catch (Exception e)
+                        {
+                            UI.Ins.ShowItems("地块出现错误! ! ! ", UIItem.CreateText(e.GetType().Name), UIItem.CreateMultilineText(e.Message), UIItem.CreateMultilineText(e.StackTrace));
+                            throw e;
+                        }
+                    }
+                }
+            }
+
+        }
+
         private ITile theTileToBeTapped;
 
         private Vector2Int MathVector2Floor(Vector2 vec) {
@@ -1388,8 +1584,9 @@ namespace Weathering
 
                 if (CurrentMode == GameMenu.ShortcutMode.LinkUnlink) {
                     if (Globals.IsCool) {
-                        if (tile is IMagnetAttraction magnetAttraction) {
-                            (Type, long) attracted = magnetAttraction.Attracted;
+                        if (tile is IMagnetAttraction ) {
+                            IMagnetAttraction magnetAttraction = tile as IMagnetAttraction;
+                            ValueTuple<Type, long> attracted = magnetAttraction.Attracted;
                             Type attractedType = attracted.Item1;
                             long attractedQuantity = attracted.Item2; ;
                             if (attractedType != null && attractedQuantity > 0) {

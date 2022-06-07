@@ -14,12 +14,12 @@ namespace Weathering
     {
         public override string SpriteKey => typeof(WorkshopOfMetalSmelting).Name;
 
-        protected override (Type, long) In_0_Inventory => (typeof(Worker), 1);
+        protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Worker), 1);
 
-        protected override (Type, long) Out0 => (typeof(CopperProduct), 1);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(CopperProduct), 1);
 
-        protected override (Type, long) In_0 => (typeof(CopperIngot), 3);
+        protected override ValueTuple<Type, long> In_0 => new ValueTuple<Type, long>(typeof(CopperIngot), 3);
 
-        protected override (Type, long) In_1 => (typeof(Fuel), 1);
+        protected override ValueTuple<Type, long> In_1 => new ValueTuple<Type, long>(typeof(Fuel), 1);
     }
 }

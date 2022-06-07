@@ -14,12 +14,12 @@ namespace Weathering
         protected override long TechnologyPointMaxRevenue => BaseCost;
         protected override Type TechnologyPointType => typeof(CircuitBoardSimple);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(FactoryOfConductorOfCopperWire), 0),
-            (typeof(FactoryOfCircuitBoardSimple), 0),
-            (typeof(FactoryOfCircuitBoardIntegrated), 1*BaseCost),
-            (typeof(FactoryOfCircuitBoardAdvanced), 2*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfConductorOfCopperWire), 0),
+            new ValueTuple<Type, long>(typeof(FactoryOfCircuitBoardSimple), 0),
+            new ValueTuple<Type, long>(typeof(FactoryOfCircuitBoardIntegrated), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfCircuitBoardAdvanced), 2*BaseCost),
         };
     }
 }

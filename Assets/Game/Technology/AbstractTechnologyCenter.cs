@@ -16,7 +16,7 @@ namespace Weathering
 
         protected bool Running => techRef.Value == TechnologyPointIncRequired;
         public override string SpriteKey => GetType().Name;
-        public override string SpriteKeyHighLight { get => Running ? $"{SpriteKey}_Working" : null; }
+        public override string SpriteKeyHighLight => Running ? $"{SpriteKey}_Working" : null;
 
 
 
@@ -26,8 +26,9 @@ namespace Weathering
         public override string SpriteDown => GetSprite(Vector2Int.down, typeof(IDown));
         private string GetSprite(Vector2Int dir, Type direction) {
             IRefs refs = Map.Get(Pos - dir).Refs;
+            IRef result;
             if (refs == null) return null;
-            if (refs.TryGet(direction, out IRef result)) return result.Value < 0 ? result.Type.Name : null;
+            if (refs.TryGet(direction, out  result)) return result.Value < 0 ? result.Type.Name : null;
             return null;
         }
 
@@ -136,7 +137,8 @@ namespace Weathering
                             Sound.Ins.Play(soundEffectOnUnlockTech);
 
                             // OnTap();
-                            if (TechnologyResearched_Event.Event.TryGetValue(techType, out var action)) {
+                            Action<List<IUIItem>> action;
+                            if (TechnologyResearched_Event.Event.TryGetValue(techType, out  action)) {
                                 var items_ = UI.Ins.GetItems();
                                 items_.Add(UIItem.CreateReturnButton(OnTap));
                                 action(items_);
@@ -150,7 +152,8 @@ namespace Weathering
                         ));
                     techShowed++;
                 } else {
-                    if (TechnologyResearched_Event.Event.TryGetValue(techType, out var action)) {
+                    Action<List<IUIItem>> action;
+                    if (TechnologyResearched_Event.Event.TryGetValue(techType, out  action)) {
                         itemsUnlockedBuffer.Add(UIItem.CreateButton($"已研究 {techName}", () => {
                             var items_ = UI.Ins.GetItems();
                             items_.Add(UIItem.CreateReturnButton(OnTap));
@@ -195,7 +198,7 @@ namespace Weathering
 
 
 
-        protected virtual long TechnologyPointIncRequired { get => 1; }
+        protected virtual long TechnologyPointIncRequired => 1;
 
         protected virtual long TechnologyPointMaxRevenue { get; } = 0;
         /// <summary>
@@ -209,7 +212,7 @@ namespace Weathering
         /// <summary>
         /// 消耗科技点
         /// </summary>
-        protected virtual bool DontConsumeTechnologyPoint { get => false; }
+        protected virtual bool DontConsumeTechnologyPoint => false;
 
         /// <summary>
         /// 可解锁的科技列表

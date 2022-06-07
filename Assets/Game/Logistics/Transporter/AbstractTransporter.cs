@@ -24,8 +24,8 @@ namespace Weathering
         /// </summary>
         public virtual bool UseSelfInventoryOrSpaceInventory { get; } = true;
 
-        public virtual long RecycleForAGoldOre { get => 0; }
-        public bool EnableRecycle { get => RecycleForAGoldOre > 0 && UseSelfInventoryOrSpaceInventory; }
+        public virtual long RecycleForAGoldOre => 0;
+        public bool EnableRecycle => RecycleForAGoldOre > 0 && UseSelfInventoryOrSpaceInventory;
 
         private bool useSelfInventoryOrSpaceInventory = true;
 

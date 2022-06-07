@@ -12,21 +12,21 @@ namespace Weathering
         protected override long TechnologyPointMaxRevenue => BaseCost;
         protected override Type TechnologyPointType => typeof(LiquefiedPetroleumGas);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(FactoryOfDesalination), 0*BaseCost),
-            (typeof(FactoryOfPetroleumRefining), 0),
-            (typeof(FactoryOfLightOilCracking), BaseCost),
-            (typeof(FactoryOfHeavyOilCracking), 2*BaseCost),
-            (typeof(FactoryOfPlastic), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfDesalination), 0*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfPetroleumRefining), 0),
+            new ValueTuple<Type, long>(typeof(FactoryOfLightOilCracking), BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfHeavyOilCracking), 2*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfPlastic), 3*BaseCost),
 
-            (typeof(FactoryOfJetFuel), 5*BaseCost),
-            (typeof(FactoryOfFuelPack_Oxygen_Hydrogen), 5*BaseCost),
-            (typeof(FactoryOfFuelPack_Oxygen_JetFuel), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfJetFuel), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfFuelPack_Oxygen_Hydrogen), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfFuelPack_Oxygen_JetFuel), 5*BaseCost),
 
-            (typeof(FactoryAsAirSeparator), 5*BaseCost),
-            (typeof(FactoryOfElectrolysisOfSaltedWater), 5*BaseCost),
-            (typeof(FactoryOfElectrolysisOfWater), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryAsAirSeparator), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfElectrolysisOfSaltedWater), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(FactoryOfElectrolysisOfWater), 5*BaseCost),
         };
     }
 }

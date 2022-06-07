@@ -19,7 +19,7 @@ namespace Weathering
     {
         protected override bool PreserveLandscape => true;
         public override string SpriteKey => typeof(SeaFishery).Name;
-        protected override (Type, long) Out0 => (typeof(FishFlesh), 3);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(FishFlesh), 3);
 
         protected override void AddBuildingDescriptionPage(List<IUIItem> items) {
             items.Add(UIItem.CreateMultilineText($"{Localization.Ins.Get<SeaFishery>()}之间不能相邻"));

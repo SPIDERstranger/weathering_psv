@@ -15,11 +15,11 @@ namespace Weathering
         protected override long TechnologyPointMaxRevenue => BaseCost;
         protected override Type TechnologyPointType => typeof(CircuitBoardAdvanced);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(KnowledgeOfPlanetLander), 1*BaseCost),
-            (typeof(LaunchSite), 2*BaseCost),
-            (typeof(SpaceElevator), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(KnowledgeOfPlanetLander), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(LaunchSite), 2*BaseCost),
+            new ValueTuple<Type, long>(typeof(SpaceElevator), 3*BaseCost),
         };
     }
 }

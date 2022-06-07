@@ -106,7 +106,8 @@ namespace Weathering
                 if (index == 5) { // center
                     index = 16 + (int)(tile.GetTileHashCode() % 16);
                 }
-                if (grassBuffer.TryGetValue(index, out string result)) {
+                string result;
+                if (grassBuffer.TryGetValue(index, out  result)) {
                     return result;
                 } else {
                     result = $"{PlanetType.Name}_Grass_{index}";
@@ -173,7 +174,8 @@ namespace Weathering
 
         public Type GetRealTerrainType(Vector2Int pos) {
             ITile tile = Get(pos);
-            if (tile is MapOfPlanetDefaultTile defaultTile) {
+            if (tile is MapOfPlanetDefaultTile ) {
+                var defaultTile = tile as MapOfPlanetDefaultTile;
                 // tile是地图基础类型
                 return defaultTile.TerraformedTerrainType;
             } else {
@@ -220,7 +222,7 @@ namespace Weathering
         public override int Width => width;
         public override int Height => height;
 
-        protected override int RandomSeed { get => 5; }
+        protected override int RandomSeed => 5;
 
 
         public override void OnConstruct() {
@@ -266,11 +268,11 @@ namespace Weathering
             MineralDensity = CalculateMineralDensity(GameEntry.SelfMapKeyHashCode(this));
 
 
-            (MapView.Ins as MapView).EnableLight = true;
+            //(MapView.Ins as MapView).EnableLight = true;
 
-            if (GlobalVolume.Ins.Profile.TryGet<UnityEngine.Rendering.Universal.LensDistortion>(out var comp)) {
-                comp.active = false;
-            }
+            //if (GlobalVolume.Ins.Profile.TryGet<UnityEngine.Rendering.Universal.LensDistortion>(out var comp)) {
+            //    comp.active = false;
+            //}
         }
 
         public override void AfterConstructMapBody() {
@@ -330,7 +332,9 @@ namespace Weathering
         }
 
         public override bool CanUpdateAt(Type type, int i, int j) {
-            if (Get(i, j) is MapOfPlanetDefaultTile mapOfPlanetDefaultTile) {
+            var tile = Get(i, j);
+            if (tile is MapOfPlanetDefaultTile ) {
+                var mapOfPlanetDefaultTile = tile as MapOfPlanetDefaultTile;
                 return mapOfPlanetDefaultTile.CanConstruct(type);
             }
             return false;
@@ -474,9 +478,7 @@ namespace Weathering
 
         protected virtual bool NeedLanding { get; } = true;
 
-        public bool Landed {
-            get => ControlCharacter;
-        }
+        public bool Landed => ControlCharacter;
 
         public void Land(Vector2Int pos) {
 
@@ -503,10 +505,10 @@ namespace Weathering
                 tile.OnTap();
             } else {
                 bool isDefaultTile = DefaultTileType.IsAssignableFrom(tile.GetType());
-                bool isDontSave = !(tile is IDontSave dontSave) || dontSave.DontSave;
+                bool isDontSave = !(tile is IDontSave ) || (tile as IDontSave).DontSave;
                 var items = UI.Ins.GetItems();
                 // 只能降落在这种地形上...
-                if (isDefaultTile && isDontSave && tile is IPassable passable && passable.Passable) {
+                if (isDefaultTile && isDontSave && tile is IPassable  && (tile as IPassable).Passable) {
                     items.Add(UIItem.CreateMultilineText("飞船是否在此着陆"));
                     items.Add(UIItem.CreateButton("就在这里着陆", () => {
                         Land(tile.GetPos());

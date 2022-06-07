@@ -15,6 +15,6 @@ namespace Weathering
 
         public override string SpriteKey => typeof(Pasture).Name;
 
-        protected override (Type, long) Out0 => (typeof(Milk), 2);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(Milk), 2);
     }
 }

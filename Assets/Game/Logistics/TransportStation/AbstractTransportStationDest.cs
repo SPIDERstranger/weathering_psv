@@ -18,7 +18,8 @@ namespace Weathering
         private string GetSprite(Vector2Int pos, Type direction) {
             IRefs refs = Map.Get(Pos - pos).Refs;
             if (refs == null) return null;
-            if (refs.TryGet(direction, out IRef result)) return result.Value < 0 ? result.Type.Name : null;
+            IRef result;
+            if (refs.TryGet(direction, out  result)) return result.Value < 0 ? result.Type.Name : null;
             return null;
         }
 
@@ -29,7 +30,14 @@ namespace Weathering
 
         protected abstract long Capacity { get; }
 
-        public bool Running { get => RefOfDelivery.X == 1; set => RefOfDelivery.X = value ? 1 : 0; }
+        public bool Running
+        {
+            get { return RefOfDelivery.X == 1; }
+            set
+            {
+                RefOfDelivery.X = value ? 1 : 0;
+            }
+        }
         public override void OnConstruct(ITile tile) {
             base.OnConstruct(tile);
 
@@ -77,7 +85,7 @@ namespace Weathering
         public bool CanRun() {
             if (Running) return false; // 已经开始运输了
             if (RefOfDelivery.Type == null) return false; // 没有选择输入
-            if (!SourceInventory.CanRemove((RefOfDelivery.Type, Capacity))) return false; // 背包没有选择的物资
+            if (!SourceInventory.CanRemove(new ValueTuple<Type, long>(RefOfDelivery.Type, Capacity))) return false; // 背包没有选择的物资
             return true;
         }
 
@@ -95,7 +103,7 @@ namespace Weathering
             if (RefOfDelivery.Type == null) throw new Exception();
             if (RefOfDelivery.BaseValue != Capacity) throw new Exception();
             if (RefOfDelivery.BaseValue != RefOfDelivery.Value) return false; // 物资使用中
-            if (!SourceInventory.CanAdd((RefOfDelivery.Type, Capacity))) return false; // 背包空间不足
+            if (!SourceInventory.CanAdd(new ValueTuple<Type, long>(RefOfDelivery.Type, Capacity))) return false; // 背包空间不足
             return true;
         }
 

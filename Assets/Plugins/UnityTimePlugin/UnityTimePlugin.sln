@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1684
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnityTime", "UnityTimePlugin.vcxproj", "{DAB27859-421B-41EB-938B-BD4C9A64346C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|PSVita = Debug|PSVita
+		Release|PSVita = Release|PSVita
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAB27859-421B-41EB-938B-BD4C9A64346C}.Debug|PSVita.ActiveCfg = Debug|PSVita
+		{DAB27859-421B-41EB-938B-BD4C9A64346C}.Debug|PSVita.Build.0 = Debug|PSVita
+		{DAB27859-421B-41EB-938B-BD4C9A64346C}.Release|PSVita.ActiveCfg = Release|PSVita
+		{DAB27859-421B-41EB-938B-BD4C9A64346C}.Release|PSVita.Build.0 = Release|PSVita
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB47F3C2-2EFA-448D-B8F0-ADD896DA20D1}
+	EndGlobalSection
+EndGlobal

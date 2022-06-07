@@ -13,14 +13,14 @@ namespace Weathering
         protected override Type TechnologyPointType => typeof(CopperOre);
         protected override long TechnologyPointIncRequired => 1;
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(RoadAsTunnel), 0*BaseCost),
-            (typeof(WorkshopOfCopperSmelting), 1*BaseCost),
-            (typeof(WorkshopOfCopperCasting), 2*BaseCost),
+           new ValueTuple<Type, long> (typeof(RoadAsTunnel), 0*BaseCost),
+           new ValueTuple<Type, long> (typeof(WorkshopOfCopperSmelting), 1*BaseCost),
+           new ValueTuple<Type, long> (typeof(WorkshopOfCopperCasting), 2*BaseCost),
 
-            (typeof(WorkshopOfIronSmelting), 2*BaseCost),
-            (typeof(WorkshopOfIronCasting), 3*BaseCost),
+           new ValueTuple<Type, long> (typeof(WorkshopOfIronSmelting), 2*BaseCost),
+           new ValueTuple<Type, long> (typeof(WorkshopOfIronCasting), 3*BaseCost),
         };
     }
 }

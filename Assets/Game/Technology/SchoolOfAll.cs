@@ -12,18 +12,18 @@ namespace Weathering
         protected override long TechnologyPointMaxRevenue => BaseCost;
         protected override Type TechnologyPointType => typeof(SchoolEquipment);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(LibraryOfAll), 0),
-            (typeof(SchoolOfAll), 0),
+            new ValueTuple<Type, long>(typeof(LibraryOfAll), 0),
+            new ValueTuple<Type, long>(typeof(SchoolOfAll), 0),
 
-            (typeof(SchoolOfGeology), 1*BaseCost),
-            (typeof(SchoolOfEngineering), 1*BaseCost),
-            (typeof(SchoolOfLogistics), 2*BaseCost),
-            (typeof(SchoolOfPhysics), 3*BaseCost),
-            (typeof(SchoolOfChemistry), 5*BaseCost),
-            (typeof(SchoolOfElectronics), 5*BaseCost),
-            (typeof(SchoolOfSpace), 6*BaseCost),
+            new ValueTuple<Type, long>(typeof(SchoolOfGeology), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(SchoolOfEngineering), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(SchoolOfLogistics), 2*BaseCost),
+            new ValueTuple<Type, long>(typeof(SchoolOfPhysics), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(SchoolOfChemistry), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(SchoolOfElectronics), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(SchoolOfSpace), 6*BaseCost),
         };
     }
 }

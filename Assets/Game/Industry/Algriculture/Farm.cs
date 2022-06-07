@@ -21,7 +21,8 @@ namespace Weathering
         public override string SpriteKeyRoad {
             get {
                 int index = TileUtility.Calculate4x4RuleTileIndex(this, (tile, direction) => { 
-                    if (tile is Farm && tile is IRunnable runnable) {
+                    if (tile is Farm && tile is IRunnable ) {
+                        IRunnable runnable = tile as IRunnable;
                         return Running == runnable.Running;
                     }
                     return false;
@@ -33,9 +34,9 @@ namespace Weathering
         public override string SpriteKey => null;
         public override string SpriteKeyHighLight => null;
 
-        protected override (Type, long) In_0_Inventory => (typeof(Worker), 1);
+        protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Worker), 1);
 
-        protected override (Type, long) Out0 => (typeof(Grain), 6);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(Grain), 6);
     }
 }
 

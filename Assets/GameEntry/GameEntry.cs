@@ -89,13 +89,14 @@ namespace Weathering
 
                 // 自动存档功能也在GameEntry里负责
                 autoSaveInterval = Globals.Ins.Values.Create<GameAutoSaveInterval>();
-                autoSaveInterval.Max = 60;
+                autoSaveInterval.Max = 180;
                 if (autoSaveInterval.Max < 10) throw new Exception(); // 太短了吧
             }
             autoSaveInterval = Globals.Ins.Values.Get<GameAutoSaveInterval>();
 
 
-            if (globals.PlayerPreferences.TryGetValue(gameEntryMapKey, out string mapKey)) {
+            string mapKey;
+            if (globals.PlayerPreferences.TryGetValue(gameEntryMapKey, out  mapKey)) {
                 // 如果Globals记录了了之前的地图, 则直接进入
                 EnterMap(mapKey);
             } else {
@@ -131,8 +132,10 @@ namespace Weathering
             string[] splitedStrings = subString.Split(MAGIC_CHAR3);
             if (splitedStrings.Length != 2) throw new Exception();
 
-            if (!int.TryParse(splitedStrings[0], out int x)) throw new Exception($"{subString} --- {mapKey}");
-            if (!int.TryParse(splitedStrings[1], out int y)) throw new Exception($"{subString} --- {mapKey}");
+            int x;
+            int y;
+            if (!int.TryParse(splitedStrings[0], out  x)) throw new Exception($"{subString} --- {mapKey}");
+            if (!int.TryParse(splitedStrings[1], out  y)) throw new Exception($"{subString} --- {mapKey}");
             return new Vector2Int(x, y);
         }
         /// <summary>
@@ -202,7 +205,7 @@ namespace Weathering
             }
         }
 
-        public UnityEngine.Rendering.Volume volume;
+        //public UnityEngine.Rendering.Volume volume;
 
         private void EnterMap(Type selfType, string selfIndex, string selfKeyVertify = null, bool enterChildMap = false) {
 
@@ -412,7 +415,9 @@ namespace Weathering
         public void DeleteGameSave() {
             data.DeleteSaves();
             // Debug.Log("<color=red>Save Deleted</color>");
+#if UNITY_EDITOR ||(!UNITY_PSP2)
             ExitGameUnsaved();
+#endif
             // UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         }
 

@@ -40,11 +40,11 @@ namespace Weathering
     public class FactoryOfFuelPack_Oxygen_Hydrogen : AbstractFactoryStatic
     {
         public override string SpriteKey => typeof(FactoryOfFuelPack).Name;
-        protected override (Type, long) In_0_Inventory => (typeof(Electricity), FuelPack_Oxygen_Hydrogen.ELECTRICITY_CONSUMPTION);
+        protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Electricity), FuelPack_Oxygen_Hydrogen.ELECTRICITY_CONSUMPTION);
 
-        protected override (Type, long) In_0 => (typeof(Hydrogen), 2);
-        protected override (Type, long) In_1 => (typeof(Oxygen), 2);
-        protected override (Type, long) Out0 => (typeof(FuelPack_Oxygen_Hydrogen), 1);
+        protected override ValueTuple<Type, long> In_0 => new ValueTuple<Type, long>(typeof(Hydrogen), 2);
+        protected override ValueTuple<Type, long> In_1 => new ValueTuple<Type, long>(typeof(Oxygen), 2);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(FuelPack_Oxygen_Hydrogen), 1);
     }
 
 
@@ -56,11 +56,11 @@ namespace Weathering
     public class FactoryOfFuelPack_Oxygen_JetFuel : AbstractFactoryStatic
     {
         public override string SpriteKey => typeof(FactoryOfFuelPack).Name;
-        protected override (Type, long) In_0_Inventory => (typeof(Electricity), FuelPack_Oxygen_Hydrogen.ELECTRICITY_CONSUMPTION);
+        protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Electricity), FuelPack_Oxygen_Hydrogen.ELECTRICITY_CONSUMPTION);
 
-        protected override (Type, long) In_0 => (typeof(JetFuel), 1);
-        protected override (Type, long) In_1 => (typeof(Oxygen), 2);
-        protected override (Type, long) Out0 => (typeof(FuelPack_Oxygen_JetFuel), 1);
+        protected override ValueTuple<Type, long> In_0 => new ValueTuple<Type, long>(typeof(JetFuel), 1);
+        protected override ValueTuple<Type, long> In_1 => new ValueTuple<Type, long>(typeof(Oxygen), 2);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(FuelPack_Oxygen_JetFuel), 1);
     }
 
 }

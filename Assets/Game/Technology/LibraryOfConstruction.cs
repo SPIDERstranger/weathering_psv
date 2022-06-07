@@ -13,22 +13,22 @@ namespace Weathering
         protected override Type TechnologyPointType => typeof(ToolPrimitive);
         protected override long TechnologyPointIncRequired => 1;
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(ResidenceOfGrass), 0),
-            (typeof(WareHouseOfGrass), 0),
+            new ValueTuple<Type, long> (typeof(ResidenceOfGrass), 0),
+            new ValueTuple<Type, long> (typeof(WareHouseOfGrass), 0),
 
-            (typeof(ResidenceOfWood), 1*BaseCost),
-            (typeof(WareHouseOfWood), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(ResidenceOfWood), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(WareHouseOfWood), 1*BaseCost),
 
-            (typeof(ResidenceCoastal), 1*BaseCost),
-            (typeof(ResidenceOverTree), 1*BaseCost),
+            new ValueTuple<Type, long> (typeof(ResidenceCoastal), 1*BaseCost),
+            new ValueTuple<Type, long> (typeof(ResidenceOverTree), 1*BaseCost),
 
-            (typeof(ResidenceOfStone), 2*BaseCost),
-            (typeof(WareHouseOfStone), 2*BaseCost),
+            new ValueTuple<Type, long> (typeof(ResidenceOfStone), 2*BaseCost),
+            new ValueTuple<Type, long> (typeof(WareHouseOfStone), 2*BaseCost),
 
-            (typeof(ResidenceOfBrick), 3*BaseCost),
-            (typeof(WareHouseOfBrick), 3*BaseCost),
+            new ValueTuple<Type, long>  (typeof(ResidenceOfBrick), 3*BaseCost),
+            new ValueTuple<Type, long>  (typeof(WareHouseOfBrick), 3*BaseCost),
 
             // (typeof(ResidenceOfConcrete), 5*BaseCost),
         };

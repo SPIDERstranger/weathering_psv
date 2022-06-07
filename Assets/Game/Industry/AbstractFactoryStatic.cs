@@ -41,13 +41,14 @@ namespace Weathering
         public override string SpriteDown => GetSprite(Vector2Int.down, typeof(IDown));
         private string GetSprite(Vector2Int dir, Type direction) {
             IRefs refs = Map.Get(Pos - dir).Refs;
+            IRef result;
             if (refs == null) return null;
-            if (refs.TryGet(direction, out IRef result)) return result.Value < 0 ? result.Type.Name : null;
+            if (refs.TryGet(direction, out result)) return result.Value < 0 ? result.Type.Name : null;
             return null;
         }
 
-        public override string SpriteKey { get => typeof(AbstractFactoryStatic).Name; }
-        public override string SpriteKeyHighLight { get => Running ? GlobalLight.Decorated(SpriteKey) : null; }
+        public override string SpriteKey => typeof(AbstractFactoryStatic).Name;
+        //public override string SpriteKeyHighLight => Running ? GlobalLight.Decorated(SpriteKey) : null;
 
 
         private IRef in_0Ref; // 输入
@@ -60,39 +61,45 @@ namespace Weathering
         private IRef out2Ref; // 输出
         private IRef out3Ref; // 输出
 
-
-        protected virtual (Type, long) In_0_Inventory { get; } = (null, 0);
-        protected virtual (Type, long) In_1_Inventory { get; } = (null, 0);
+        protected virtual ValueTuple<Type, long> In_0_Inventory { get; } = new ValueTuple<Type, long>(null, 0);
+        protected virtual ValueTuple<Type, long> In_1_Inventory { get; } = new ValueTuple<Type, long>(null, 0);
 
         private bool HasIn_0_Inventory => In_0_Inventory.Item1 != null;
         private bool HasIn_1_Inventory => In_1_Inventory.Item1 != null;
 
-        protected virtual (Type, long) Out0_Inventory { get; } = (null, 0);
-        protected virtual (Type, long) Out1_Inventory { get; } = (null, 0);
+        protected virtual ValueTuple<Type, long> Out0_Inventory { get; } = new ValueTuple<Type, long>(null, 0);
+        protected virtual ValueTuple<Type, long> Out1_Inventory { get; } = new ValueTuple<Type, long>(null, 0);
 
         private bool HasOut0_Inventory => Out0_Inventory.Item1 != null;
         private bool HasOut1_Inventory => Out1_Inventory.Item1 != null;
 
 
-        protected virtual (Type, long) In_0 { get; } = (null, 0);
-        protected virtual (Type, long) In_1 { get; } = (null, 0);
-        protected virtual (Type, long) In_2 { get; } = (null, 0);
-        protected virtual (Type, long) In_3 { get; } = (null, 0);
+        protected virtual ValueTuple<Type, long> In_0 { get; } = new ValueTuple<Type, long>(null, 0);
+        protected virtual ValueTuple<Type, long> In_1 { get; } = new ValueTuple<Type, long>(null, 0);
+        protected virtual ValueTuple<Type, long> In_2 { get; } = new ValueTuple<Type, long>(null, 0);
+        protected virtual ValueTuple<Type, long> In_3 { get; } = new ValueTuple<Type, long>(null, 0);
         private bool HasIn_0 => In_0.Item1 != null;
         private bool HasIn_1 => In_1.Item1 != null;
         private bool HasIn_2 => In_2.Item1 != null;
         private bool HasIn_3 => In_3.Item1 != null;
 
-        protected virtual (Type, long) Out0 { get; } = (null, 0);
-        protected virtual (Type, long) Out1 { get; } = (null, 0);
-        protected virtual (Type, long) Out2 { get; } = (null, 0);
-        protected virtual (Type, long) Out3 { get; } = (null, 0);
+        protected virtual ValueTuple<Type, long> Out0 { get; } = new ValueTuple<Type, long>(null, 0);
+        protected virtual ValueTuple<Type, long> Out1 { get; } = new ValueTuple<Type, long>(null, 0);
+        protected virtual ValueTuple<Type, long> Out2 { get; } = new ValueTuple<Type, long>(null, 0);
+        protected virtual ValueTuple<Type, long> Out3 { get; } = new ValueTuple<Type, long>(null, 0);
         private bool HasOut0 => Out0.Item1 != null;
         private bool HasOut1 => Out1.Item1 != null;
         private bool HasOut2 => Out2.Item1 != null;
         private bool HasOut3 => Out3.Item1 != null;
 
-        public bool Running { get => running.Value == 1; set => running.Value = value ? 1 : 0; }
+        public bool Running
+        {
+            get { return running.Value == 1; }
+            set
+            {
+                running.Value = value ? 1 : 0;
+            }
+        }
 
         private IRef running;
 
@@ -580,7 +587,7 @@ namespace Weathering
             UI.Ins.ShowItems($"{Localization.Ins.Get(GetType())}产量", items);
         }
 
-        private void AddDescriptionItem(List<IUIItem> items, (Type, long) pair, string text, bool dontCreateImage = false) {
+        private void AddDescriptionItem(List<IUIItem> items, ValueTuple<Type, long> pair, string text, bool dontCreateImage = false) {
             Type res = pair.Item1;
             items.Add(UIItem.CreateButton($"{text} {Localization.Ins.Val(res, pair.Item2)}", () => UIPreset.OnTapItem(BuildingRecipePage, res)));
             if (!dontCreateImage) items.Add(UIItem.CreateTileImage(res));

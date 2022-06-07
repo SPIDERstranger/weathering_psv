@@ -14,10 +14,10 @@ namespace Weathering
     {
         public override string SpriteKey => typeof(FactoryOfElectrolysis).Name;
 
-        protected override (Type, long) In_0_Inventory => (typeof(Electricity), 30);
+        protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Electricity), 30);
 
-        protected override (Type, long) In_0 => (typeof(Water), 2);
-        protected override (Type, long) Out0 => (typeof(Hydrogen), 2);
-        protected override (Type, long) Out1 => (typeof(Oxygen), 1);
+        protected override ValueTuple<Type, long> In_0 => new ValueTuple<Type, long>(typeof(Water), 2);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(Hydrogen), 2);
+        protected override ValueTuple<Type, long> Out1 => new ValueTuple<Type, long>(typeof(Oxygen), 1);
     }
 }

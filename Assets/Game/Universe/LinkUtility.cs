@@ -131,7 +131,8 @@ namespace Weathering
             }
             buttonsBuffer.Clear();
             // 运输能力
-            if (consumer is ILinkQuantityRestriction linkSpeedLimit) {
+            if (consumer is ILinkQuantityRestriction ) {
+                var linkSpeedLimit = consumer as ILinkQuantityRestriction;
                 long limit = linkSpeedLimit.LinkQuantityRestriction;
                 if (limit < long.MaxValue) items.Add(UIItem.CreateText($"运输能力【{linkSpeedLimit.LinkQuantityRestriction}】"));
             }
@@ -174,7 +175,8 @@ namespace Weathering
 
             // 类型限制
             Type linkTileTypeRestriction = null;
-            if (tile is ILinkTileTypeRestriction iLinkTileTypeRestriction) {
+            if (tile is ILinkTileTypeRestriction ) {
+                var iLinkTileTypeRestriction = tile as ILinkTileTypeRestriction;
                 linkTileTypeRestriction = iLinkTileTypeRestriction.LinkTileTypeRestriction;
             }
 
@@ -246,7 +248,8 @@ namespace Weathering
 
             // 类型限制
             Type linkTileTypeRestriction = null;
-            if (tile is ILinkTileTypeRestriction iLinkTileTypeRestriction) {
+            if (tile is ILinkTileTypeRestriction ) {
+                var iLinkTileTypeRestriction = tile as ILinkTileTypeRestriction;
                 linkTileTypeRestriction = iLinkTileTypeRestriction.LinkTileTypeRestriction;
             }
 
@@ -327,9 +330,7 @@ namespace Weathering
                             if (quantity == 0) continue;
                             if (quantity < 0) throw new Exception();
                             // if (providerLink.Value != -quantity) throw new Exception($"{providerLink.Value} {quantity}");
-
-                            void action() {
-
+                            Action action = () => {
                                 // 可以取消连接
                                 providerLink.Type = providerRef.Type;
                                 consumerLink.Type = consumerRef.Type;
@@ -338,8 +339,10 @@ namespace Weathering
                                 providerRef.Value += quantity;
                                 consumerRef.Value -= quantity;
 
-                                if (consumerLink.Value == 0) {
-                                    if (providerLink.Value != 0) {
+                                if (consumerLink.Value == 0)
+                                {
+                                    if (providerLink.Value != 0)
+                                    {
                                         throw new Exception();
                                     }
                                     provider.Refs.Remove(providerDir);
@@ -352,18 +355,28 @@ namespace Weathering
                                 (providerTile as ILinkEvent)?.OnLink(providerDir, quantity);
                                 (consumerTile as ILinkEvent)?.OnLink(consumerDir, -quantity);
 
-                                if (!dontCreateButtons) {
-                                    if (providerTile is ILinkEventManual manual) {
+                                if (!dontCreateButtons)
+                                {
+                                    if (providerTile is ILinkEventManual)
+                                    {
+                                        var manual = providerTile as ILinkEventManual;
                                         manual.OnLinkManually();
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         providerTile.OnTap();
                                     }
                                 }
-                            }
+                            };
+
                             if (dontCreateButtons) {
                                 action();
                             } else {
-                                items.Add(UIItem.CreateButton($"<color=#ffaaaaff>取消</color>{Localization.Ins.Get(providerDir)}输出{Localization.Ins.ValPlus(consumerRef.Type, quantity)}", action));
+                                items.Add(
+                                    UIItem.CreateButton(
+                                        $"<color=#ffaaaaff>取消</color>{Localization.Ins.Get(providerDir)}输出{Localization.Ins.ValPlus(consumerRef.Type, quantity)}"
+                                        , action)
+                                        );
                             }
                         }
                     }
@@ -408,10 +421,12 @@ namespace Weathering
 
                     long quantity = Math.Min(providerRef.Value, consumerRef.BaseValue - consumerRef.Value);
 
-                    if (consumer is ILinkQuantityRestriction linkQuantityLimit) {
+                    if (consumer is ILinkQuantityRestriction ) {
+                        var linkQuantityLimit = consumer as ILinkQuantityRestriction;
                         quantity = Math.Min(linkQuantityLimit.LinkQuantityRestriction, quantity);
                     }
-                    if (provider is ILinkQuantityRestriction linkQuantityLimit2) {
+                    if (provider is ILinkQuantityRestriction ) {
+                        var linkQuantityLimit2 = provider as ILinkQuantityRestriction;
                         quantity = Math.Min(linkQuantityLimit2.LinkQuantityRestriction, quantity);
                     }
 
@@ -420,8 +435,9 @@ namespace Weathering
 
                     if (consumerRef.Type == null || Tag.HasTag(providerRef.Type, consumerRef.Type)) {
 
-                        if (consumerRef.Type == null && consumerTile is ILinkTypeRestriction restriction) { // 约束consumerRef.Type == null时的类型, 一般用于不改变类型的 AbstractRoad
-                            if (!Tag.HasTag(providerRef.Type, restriction.LinkTypeRestriction)) {
+                        if (consumerRef.Type == null && consumerTile is ILinkTypeRestriction ) { // 约束consumerRef.Type == null时的类型, 一般用于不改变类型的 AbstractRoad
+
+                            if (!Tag.HasTag(providerRef.Type, (consumerTile as ILinkTypeRestriction).LinkTypeRestriction)) {
                                 break;
                             }
                         }
@@ -431,17 +447,20 @@ namespace Weathering
                         //    if (hasLink && consumerLink.Value + quantity > linkQuantityLimit.LinkQuantityRestriction) break;
                         //    if (!hasLink && quantity > linkQuantityLimit.LinkQuantityRestriction) break;
                         //}
-                        void action() {
+                        Action action = () =>
+                        {
 
                             // 可以建立连接
-                            if (!hasLink) {
+                            if (!hasLink)
+                            {
                                 consumerLink = consumer.Refs.Create(consumerDir);
                                 providerLink = provider.Refs.Create(providerDir);
                             }
                             // 至此, consumerLink和providerLink肯定非空
                             providerLink.Type = providerRef.Type;
                             consumerLink.Type = consumerRef.Type ?? providerRef.Type;
-                            if (consumerRef.Type == null) {
+                            if (consumerRef.Type == null)
+                            {
                                 consumerRef.Type = consumerLink.Type;
                             }
                             providerLink.Value -= quantity; // providerLink以负值表示输出
@@ -462,14 +481,19 @@ namespace Weathering
                             //    if (runable.CanRun()) runable.Run();
                             //}
 
-                            if (!dontCreateButtons) {
-                                if (providerTile is ILinkEventManual manual) {
+                            if (!dontCreateButtons)
+                            {
+                                if (providerTile is ILinkEventManual)
+                                {
+                                    var manual = providerTile as ILinkEventManual;
                                     manual.OnLinkManually();
-                                } else {
+                                }
+                                else
+                                {
                                     providerTile.OnTap();
                                 }
                             }
-                        }
+                        };
                         if (dontCreateButtons) {
                             action();
                         } else {
@@ -506,7 +530,8 @@ namespace Weathering
                             if (quantity == 0) continue;
                             if (quantity < 0) throw new Exception();
                             // if (providerLink.Value != -quantity) throw new Exception($"{providerLink.Value} {quantity}");
-                            void action() {
+                            Action action = () =>
+                            {
                                 // 可以取消连接
                                 providerLink.Type = providerRef.Type;
                                 consumerLink.Type = consumerRef.Type;
@@ -515,8 +540,10 @@ namespace Weathering
                                 providerRef.Value += quantity;
                                 consumerRef.Value -= quantity;
 
-                                if (consumerLink.Value == 0) {
-                                    if (providerLink.Value != 0) {
+                                if (consumerLink.Value == 0)
+                                {
+                                    if (providerLink.Value != 0)
+                                    {
                                         throw new Exception();
                                     }
                                     provider.Refs.Remove(providerDir);
@@ -534,14 +561,19 @@ namespace Weathering
                                 (providerTile as ILinkEvent)?.OnLink(providerDir, quantity);
                                 (consumerTile as ILinkEvent)?.OnLink(consumerDir, -quantity);
 
-                                if (!dontCreateButtons) {
-                                    if (consumerTile is ILinkEventManual manual) {
+                                if (!dontCreateButtons)
+                                {
+                                    if (consumerTile is ILinkEventManual)
+                                    {
+                                        var manual = consumerTile as ILinkEventManual;
                                         manual.OnLinkManually();
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         consumerTile.OnTap();
                                     }
                                 }
-                            }
+                            };
                             if (dontCreateButtons) {
                                 action();
                             } else {
@@ -599,10 +631,12 @@ namespace Weathering
                     // consumerItem.BaseValue - consumerItem.Value 是需求方能消耗的最大值
                     long quantity = Math.Min(providerRef.Value, consumerRef.BaseValue - consumerRef.Value);
 
-                    if (consumer is ILinkQuantityRestriction linkQuantityLimit) {
+                    if (consumer is ILinkQuantityRestriction ) {
+                        var linkQuantityLimit = consumer as ILinkQuantityRestriction;
                         quantity = Math.Min(linkQuantityLimit.LinkQuantityRestriction, quantity);
                     }
-                    if (provider is ILinkQuantityRestriction linkQuantityLimit2) {
+                    if (provider is ILinkQuantityRestriction ) {
+                        var linkQuantityLimit2 = provider as ILinkQuantityRestriction;
                         quantity = Math.Min(linkQuantityLimit2.LinkQuantityRestriction, quantity);
                     }
 
@@ -612,7 +646,8 @@ namespace Weathering
                     // 供给方类型为需求方类型子类, 才能成功供给。需求方类型为null视为需求任意资源
                     if (consumerRef.Type == null || Tag.HasTag(providerRef.Type, consumerRef.Type)) {
 
-                        if (consumerRef.Type == null && consumerTile is ILinkTypeRestriction restriction) { // 约束consumerRef.Type == null时的类型, 一般用于不改变类型的 AbstractRoad
+                        if (consumerRef.Type == null && consumerTile is ILinkTypeRestriction ) { // 约束consumerRef.Type == null时的类型, 一般用于不改变类型的 AbstractRoad
+                            var restriction = consumerTile as ILinkTypeRestriction;
                             if (!Tag.HasTag(providerRef.Type, restriction.LinkTypeRestriction)) {
                                 break;
                             }
@@ -623,17 +658,20 @@ namespace Weathering
                         //    if (hasLink && consumerLink.Value + quantity > linkQuantityLimit.LinkQuantityRestriction) break;
                         //    if (!hasLink && quantity > linkQuantityLimit.LinkQuantityRestriction) break;
                         //}
-                        void action() {
+                        Action action = () =>
+                        {
 
                             // 可以建立连接
-                            if (!hasLink) {
+                            if (!hasLink)
+                            {
                                 consumerLink = consumer.Refs.Create(consumerDir);
                                 providerLink = provider.Refs.Create(providerDir);
                             }
                             // 至此, consumerLink和providerLink肯定非空
                             providerLink.Type = providerRef.Type;
                             consumerLink.Type = consumerRef.Type ?? providerRef.Type;
-                            if (consumerRef.Type == null) {
+                            if (consumerRef.Type == null)
+                            {
                                 consumerRef.Type = consumerLink.Type;
                             }
                             providerLink.Value -= quantity; // providerLink以负值表示输出
@@ -652,15 +690,19 @@ namespace Weathering
                             //    if (runable.CanRun()) runable.Run();
                             //}
 
-                            if (!dontCreateButtons) {
-                                if (consumerTile is ILinkEventManual manual) {
+                            if (!dontCreateButtons)
+                            {
+                                if (consumerTile is ILinkEventManual)
+                                {
+                                    var manual = consumerTile as ILinkEventManual;
                                     manual.OnLinkManually();
                                 }
-                                else {
+                                else
+                                {
                                     consumerTile.OnTap();
                                 }
                             }
-                        }
+                        };
                         if (dontCreateButtons) {
                             action();
                         } else {

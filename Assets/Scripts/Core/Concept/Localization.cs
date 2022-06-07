@@ -63,7 +63,8 @@ namespace Weathering
             return Get(typeof(T));
         }
         public string Get(Type key) {
-            if (Dict.TryGetValue(key.FullName, out string result)) {
+            string result;
+            if (Dict.TryGetValue(key.FullName, out  result)) {
                 // throw new Exception($"localization key not found: {key}");
                 // return string.Format(result, "");
                 return result;
@@ -75,7 +76,8 @@ namespace Weathering
         }
 
         public string TryGet(Type key) {
-            if (Dict.TryGetValue(key.FullName, out string result)) {
+            string result;
+            if (Dict.TryGetValue(key.FullName, out  result)) {
                 // throw new Exception($"localization key not found: {key}");
                 // return string.Format(result, "");
                 return result;
@@ -89,7 +91,8 @@ namespace Weathering
 
         public const string DescriptionSuffix = "#Description";
         public string GetDescription(Type key) {
-            if (DictOfDescription.TryGetValue(key.FullName, out string result)) {
+            string result;
+            if (DictOfDescription.TryGetValue(key.FullName, out  result)) {
                 return result;
             }
             return null;
@@ -100,7 +103,8 @@ namespace Weathering
             return ValUnit(typeof(T));
         }
         public string ValUnit(Type key) {
-            if (Dict.TryGetValue(key.FullName, out string result)) {
+            string result;
+            if (Dict.TryGetValue(key.FullName, out  result)) {
                 return string.Format(result, "");
             }
             return key.FullName;
@@ -113,7 +117,8 @@ namespace Weathering
         }
         public string Val(Type key, long val) {
             if (key == null) throw new Exception();
-            if (Dict.TryGetValue(key.FullName, out string result)) {
+            string result;
+            if (Dict.TryGetValue(key.FullName, out  result)) {
                 // throw new Exception($"localization key not found: {key}");
                 if (val > 0) {
                     return string.Format(result, $" {val}");
@@ -129,7 +134,8 @@ namespace Weathering
             return ValPlus(typeof(T), val);
         }
         public string ValPlus(Type key, long val) {
-            if (Dict.TryGetValue(key.FullName, out string result)) {
+            string result;
+            if (Dict.TryGetValue(key.FullName, out  result)) {
                 // throw new Exception($"localization key not found: {key}");
                 if (val > 0) {
                     return string.Format(result, $"+{val}");
@@ -146,7 +152,8 @@ namespace Weathering
             return Inc(typeof(T), val);
         }
         public string Inc(Type key, long val) {
-            if (Dict.TryGetValue(key.FullName, out string result)) {
+            string result;
+            if (Dict.TryGetValue(key.FullName, out  result)) {
                 // throw new Exception($"localization key not found: {key}");
                 if (val > 0) {
                     return string.Format(result, $" Δ{val}");

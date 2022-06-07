@@ -12,16 +12,16 @@ namespace Weathering
         protected override long TechnologyPointMaxRevenue => BaseCost;
         protected override Type TechnologyPointType => typeof(SchoolEquipment);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(SeaWaterPump), 0),
-            (typeof(PowerGeneratorOfWood), 0),
-            (typeof(PowerGeneratorOfCoal), 1*BaseCost),
-            (typeof(PowerGeneratorOfLiquefiedPetroleumGas), 2*BaseCost),
-            (typeof(PowerGeneratorOfWindTurbineStation), 5*BaseCost),
-            (typeof(PowerGeneratorOfSolarPanelStation), 5*BaseCost),
-            (typeof(PowerGeneratorOfNulearFissionEnergy), 8*BaseCost),
-            (typeof(PowerGeneratorOfNulearFusionEnergy), 8*BaseCost),
+            new ValueTuple<Type, long>(typeof(SeaWaterPump), 0),
+            new ValueTuple<Type, long>(typeof(PowerGeneratorOfWood), 0),
+            new ValueTuple<Type, long>(typeof(PowerGeneratorOfCoal), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(PowerGeneratorOfLiquefiedPetroleumGas), 2*BaseCost),
+            new ValueTuple<Type, long>(typeof(PowerGeneratorOfWindTurbineStation), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(PowerGeneratorOfSolarPanelStation), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(PowerGeneratorOfNulearFissionEnergy), 8*BaseCost),
+            new ValueTuple<Type, long>(typeof(PowerGeneratorOfNulearFusionEnergy), 8*BaseCost),
         };
     }
 }

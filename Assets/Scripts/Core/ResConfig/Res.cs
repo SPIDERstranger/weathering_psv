@@ -30,10 +30,12 @@ namespace Weathering
         //    throw new Exception("No Tile called: " + name + ".  Total: " + staticTiles.Count);
         //}
         public bool TryGetTile(string name, out Tile result) {
-            if (staticTiles.TryGetValue(name, out Tile result2)) {
+            Tile result2;
+            Sprite result3;
+            if (staticTiles.TryGetValue(name, out  result2)) {
                 result = result2;
                 return true;
-            } else if (staticSprites.TryGetValue(name, out Sprite result3)) {
+            } else if (staticSprites.TryGetValue(name, out  result3)) {
                 Tile tile = Instantiate(EmptyTilePrefab);
                 tile.sprite = result3;
                 result = tile;
@@ -52,7 +54,8 @@ namespace Weathering
         //    throw new Exception("No Sprite called: " + name);
         //}
         public Sprite TryGetSprite(string name) {
-            if (staticSprites.TryGetValue(name, out Sprite result)) {
+            Sprite result;
+            if (staticSprites.TryGetValue(name, out  result)) {
                 return result;
             }
             return null;

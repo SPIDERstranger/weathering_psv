@@ -109,6 +109,9 @@ namespace Weathering
             dynamicButtons.Clear();
             dynamicButtonContents.Clear();
             dynamicSliderContents.Clear();
+            _currentDisplayBars.Clear();
+            _uiReturnAction = null;
+            //TODO 销毁当前页面的记录的ui
             Transform trans = Content.transform;
             int length = trans.childCount;
             for (int i = 0; i < length; i++) {
@@ -207,7 +210,6 @@ namespace Weathering
                 bool interactable=true, Func<bool> canTap = null, Func<string> dynamicContent = null) {
             GameObject progressBarGameObject = Instantiate(ProgressBar, Content.transform);
             ProgressBar result = progressBarGameObject.GetComponent<ProgressBar>();
-
             if (label != null) result.Text.text = label;
             if (onTap != null) {
                 result.OnTap = onTap;
@@ -347,10 +349,13 @@ namespace Weathering
         private bool activeLastLastTime;
         private bool activeLastTime;
         private bool active;
-        public bool Active {
-            get => active || activeLastTime || activeLastLastTime;
-            set {
-                if (!value) {
+        public bool Active
+        {
+            get { return active && activeLastTime && activeLastLastTime; }
+            set
+            {
+                if (!value)
+                {
                     if (!active) return;
                     DestroyChildren();
                     GameMenu.Entry.TrySaveGame();
@@ -380,16 +385,41 @@ namespace Weathering
         private readonly Dictionary<ProgressBar, Func<string>> dynamicButtonContents = new Dictionary<ProgressBar, Func<string>>();
         private readonly Dictionary<ProgressBar, Func<float, string>> dynamicSliderContents = new Dictionary<ProgressBar, Func<float, string>>();
 
+        private readonly List<ProgressBar> _currentDisplayBars = new List<ProgressBar>();
+        private Action _uiReturnAction;
+        private int _lastSelectBarIndex;
+        private Color _lastColor;
+        private int _selectBarIndex;
+        private Color _selectColor = Color.white;
+        private const float _indicatorTimeForUnitBar = 0.15f;
+        private float _lastTimeIndicatorUpdated;
+        private const float scrollSpeedByStick = 2f;
+        private const float sliderSpeed = 0.25f;
+
+        [SerializeField]
+        private ScrollRect _mainScrollRect;
+
         private float lastY = 0;
+        private bool scrollToTopAfterTime = false;
         private void Update() {
             // 因为执行顺序的问题, 等两帧
             activeLastLastTime = activeLastTime;
             activeLastTime = active;
             if (!Active) return;
 
+            if (scrollToTopAfterTime)
+            {
+                _mainScrollRect.verticalNormalizedPosition = 1;
+                scrollToTopAfterTime = false;
+            }
+            //TODO ui控制，以及指示器移动
+            UpdateInput();
+            UpdateIndicator();
+
             // 当位置接近整数时, 字体可能取样模糊
             const float e = 1 / 64f;
-            if (Content.transform is RectTransform rect) {
+            if (Content.transform is RectTransform ) {
+                RectTransform rect = Content.transform as RectTransform;
                 float y = rect.anchoredPosition.y;
                 float deltaY = y - lastY;
                 if (deltaY < e && deltaY > -e) { // 没什么速度变化时
@@ -403,29 +433,183 @@ namespace Weathering
                 lastY = y;
             }
 
-            foreach (var pair in valueProgressBar) {
+
+            foreach (var pair in valueProgressBar)
+            {
                 UpdateValueProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
             }
-            foreach (var pair in timeProgressBar) {
+            foreach (var pair in timeProgressBar)
+            {
                 UpdateTimeProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
             }
-            foreach (var pair in delProgressBar) {
+            foreach (var pair in delProgressBar)
+            {
                 UpdateDelProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
             }
-            foreach (var pair in dynamicImage) {
+            foreach (var pair in dynamicImage)
+            {
                 pair.Key.RealImage.sprite = Res.Ins.TryGetSprite(pair.Value.Invoke());
             }
-            foreach (var pair in dynamicButtons) {
+            foreach (var pair in dynamicButtons)
+            {
                 bool interactable = pair.Value();
                 pair.Key.Button.interactable = interactable;
                 pair.Key.Background.raycastTarget = interactable;
             }
-            foreach (var pair in dynamicButtonContents) {
+            foreach (var pair in dynamicButtonContents)
+            {
                 pair.Key.Text.text = pair.Value();
             }
-            foreach (var pair in dynamicSliderContents) {
+
+            foreach (var pair in dynamicSliderContents)
+            {
                 pair.Key.Text.text = pair.Value(pair.Key.Slider.value);
             }
+            //UpdateDynamicUI();
+        }
+
+        private void UpdateInput()
+        {
+            //返回
+            if (Input.GetButtonDown(InputUtility.Circle))
+            {
+                if (_uiReturnAction != null) _uiReturnAction.Invoke();
+                else OnTapTitle();
+            }
+
+            //屏幕滚动
+            float rightStick = Input.GetAxisRaw(InputUtility.RightStickVertical);
+            if (Mathf.Abs(rightStick) > 0.25f)
+                _mainScrollRect.verticalNormalizedPosition += scrollSpeedByStick * rightStick * Time.deltaTime;
+
+            if(_currentDisplayBars.Count > 0)
+            {
+                //指示器移动
+                var now = Time.time;
+                if (now > _lastTimeIndicatorUpdated + _indicatorTimeForUnitBar)
+                {
+                    if (Input.GetButton(InputUtility.DPadUp) || Input.GetAxisRaw(InputUtility.LeftStickVertical) > 0)
+                    {
+                        _selectBarIndex = (_selectBarIndex - 1 + _currentDisplayBars.Count) % _currentDisplayBars.Count;
+                        _lastTimeIndicatorUpdated = now;
+                    }
+                    if (Input.GetButton(InputUtility.DPadDown) || Input.GetAxisRaw(InputUtility.LeftStickVertical) < 0)
+                    {
+                        _selectBarIndex = (_selectBarIndex + 1) % _currentDisplayBars.Count;
+                        _lastTimeIndicatorUpdated = now;
+                    }
+                }
+                else if (Input.GetButtonUp(InputUtility.DPadUp) || Input.GetButtonUp(InputUtility.DPadDown))
+                {
+                    _lastTimeIndicatorUpdated = 0;
+                }
+
+                //slider的控制
+                if (_currentDisplayBars[_selectBarIndex].Slider.interactable)
+                {
+                    var sliderValue = _currentDisplayBars[_selectBarIndex].Slider.value;
+                    if (Input.GetButton(InputUtility.LeftShoulder) || Input.GetButton(InputUtility.DPadLeft))
+                    {
+                        sliderValue -= Time.deltaTime * sliderSpeed;
+                        _currentDisplayBars[_selectBarIndex].SetTo(sliderValue);
+                    }
+                    else if (Input.GetButton(InputUtility.RightShoulder) || Input.GetButton(InputUtility.DPadRight))
+                    {
+                        sliderValue += Time.deltaTime * sliderSpeed;
+                        _currentDisplayBars[_selectBarIndex].SetTo(sliderValue);
+                    }
+                }
+                //确定
+                if (Input.GetButtonDown(InputUtility.Cross))
+                {
+                    if (_currentDisplayBars[_selectBarIndex].Button.interactable)
+                        _currentDisplayBars[_selectBarIndex].Tap();
+                }
+            }
+        }
+        private void UpdateIndicator()
+        {
+            if(_currentDisplayBars .Count>0&& _lastSelectBarIndex !=_selectBarIndex)
+            {
+                if(_lastSelectBarIndex!=-1)
+                    _currentDisplayBars[_lastSelectBarIndex].Background.color = _lastColor;
+                // 改变颜色 还原颜色
+                _lastColor = _currentDisplayBars[_selectBarIndex].Background.color;
+                _currentDisplayBars[_selectBarIndex].Background.color = _selectColor;
+                _lastSelectBarIndex = _selectBarIndex;
+
+                //更新当前屏幕位置
+                float selectUp=  0f-(_currentDisplayBars[_selectBarIndex].transform as RectTransform).anchoredPosition.y;
+                float selectHeight = (_currentDisplayBars[_selectBarIndex].transform as RectTransform).sizeDelta.y;
+                float selectDown = selectUp + selectHeight;
+                float viewHeight = (_mainScrollRect.transform as RectTransform).sizeDelta.y;
+                float viewUp = _mainScrollRect.content.anchoredPosition.y;
+                float viewDown = viewUp + viewHeight;
+                float actY = _mainScrollRect.content.sizeDelta.y - viewHeight;
+                float bufferArea = selectHeight;
+                viewUp += bufferArea;
+                viewDown -= bufferArea;
+                if (selectUp<viewUp)
+                {
+                    _mainScrollRect.verticalNormalizedPosition = Mathf.Clamp01( 1.0f - (selectUp - bufferArea) / actY);
+                }
+                else if(selectDown>viewDown)
+                {
+                    _mainScrollRect.verticalNormalizedPosition = Mathf.Clamp01(1.0f - (selectDown + bufferArea - viewHeight) / actY);
+                }
+            }
+        }
+
+        private int dynamicStep = defaultDynamicStep;
+        private const int defaultDynamicStep = 4;
+        private void UpdateDynamicUI()
+        {
+            switch (dynamicStep)
+            {
+                case 0:
+                    foreach (var pair in valueProgressBar)
+                    {
+                        UpdateValueProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
+                    }
+                    foreach (var pair in timeProgressBar)
+                    {
+                        UpdateTimeProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
+                    }
+                    break;
+                case 1:
+                    foreach (var pair in delProgressBar)
+                    {
+                        UpdateDelProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
+                    }
+                    foreach (var pair in dynamicImage)
+                    {
+                        pair.Key.RealImage.sprite = Res.Ins.TryGetSprite(pair.Value.Invoke());
+                    }
+                    break;
+                case 2:
+                    foreach (var pair in dynamicButtons)
+                    {
+                        bool interactable = pair.Value();
+                        pair.Key.Button.interactable = interactable;
+                        pair.Key.Background.raycastTarget = interactable;
+                    }
+                    foreach (var pair in dynamicButtonContents)
+                    {
+                        pair.Key.Text.text = pair.Value();
+                    }
+                    break;
+                case 3:
+                    foreach (var pair in dynamicSliderContents)
+                    {
+                        pair.Key.Text.text = pair.Value(pair.Key.Slider.value);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            dynamicStep -= 1;
+            if (dynamicStep < 0)
+                dynamicStep = defaultDynamicStep;
         }
 
         private float CalcUpdateValueProgress(IValue value) {
@@ -524,7 +708,11 @@ namespace Weathering
         }
 
         public bool ShowInputFieldNextTime { set; private get; } = false;
-        public string InputFieldContent { get => InputFieldTextComponent.text; set => InputFieldTextComponent.text = value; }
+        public string InputFieldContent
+        {
+            get { return InputFieldTextComponent.text; }
+            set { InputFieldTextComponent.text = value; }
+        }
         public List<IUIItem> GetItems() => new List<IUIItem>();
 
         public void ShowItems(string title, List<IUIItem> IUIItems) {
@@ -539,10 +727,18 @@ namespace Weathering
 
             if (Active) Active = false;
             Active = true;
+            _selectBarIndex = 0;
+            _lastSelectBarIndex = -1;
             TitleText.text = title;
             foreach (IUIItem item in IUIItems) {
                 if (item == null) {
                     continue;
+                }
+                if(item.IsReturnBtn)
+                {
+                    _uiReturnAction = item.OnTap;
+                    if (GameMenu.IsInPSV)
+                        continue;
                 }
                 switch (item.Type) {
                     // None, Text, Button, ValueProgress, TimeProgress
@@ -565,7 +761,10 @@ namespace Weathering
                         CreateOneLineStaticText(item.Content);
                         break;
                     case IUIItemType.Button:
-                        CreateButton(item.BackgroundType, item.Content, item.Icon, item.OnTap, item.Interactable, item.CanTap, item.DynamicContent);
+                        var btn =  CreateButton(item.BackgroundType, item.Content, item.Icon, item.OnTap, item.Interactable, item.CanTap, item.DynamicContent);
+                        if (item.OnTap != null)
+                            _currentDisplayBars.Add(btn);
+                        //TODO 将button存起来，以方便指示器ui框选 待验证
                         break;
                     case IUIItemType.ValueProgress: // val-max
                         if (item.Value == null) throw new Exception();
@@ -581,13 +780,16 @@ namespace Weathering
                         break;
                     case IUIItemType.Slider:
                         if (item.DynamicSliderContent == null) throw new Exception();
-                        CreateSlider(item.DynamicSliderContent, item.InitialSliderValue);
+                        var slider = CreateSlider(item.DynamicSliderContent, item.InitialSliderValue);
+                        _currentDisplayBars.Add(slider);
+                        //TODO 将slider存起来，以方便指示器ui框选 待验证
                         break;
                     default:
                         throw new Exception(item.Type.ToString());
                 }
             }
             LayoutRebuilder.ForceRebuildLayoutImmediate(Content.transform as RectTransform);
+            scrollToTopAfterTime = true;
         }
 
         public void Error(Exception e) {

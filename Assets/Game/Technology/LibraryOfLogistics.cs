@@ -13,19 +13,18 @@ namespace Weathering
         protected override Type TechnologyPointType => typeof(WheelPrimitive);
         protected override long TechnologyPointIncRequired => 1;
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(RoadForSolid), 0),
-            (typeof(RoadOfStone), 0),
-            (typeof(RoadAsBridge), 1*BaseCost),
-            (typeof(RoadAsTunnel), 1*BaseCost),
+            new ValueTuple<Type,long>(typeof(RoadForSolid), 0),
+            new ValueTuple<Type,long>(typeof(RoadOfStone), 0),
+            new ValueTuple<Type,long>(typeof(RoadAsBridge), 1*BaseCost),
+            new ValueTuple<Type,long>(typeof(RoadAsTunnel), 1*BaseCost),
 
-            (typeof(TransportStationSimpliest), 1*BaseCost),
-            (typeof(TransportStationDestSimpliest), 1*BaseCost),
+            new ValueTuple<Type,long>(typeof(TransportStationSimpliest), 1*BaseCost),
+            new ValueTuple<Type,long>(typeof(TransportStationDestSimpliest), 1*BaseCost),
 
-
-            (typeof(RoadAsCanal), 3*BaseCost),
-            (typeof(RoadLoaderOfRoadAsCanal), 3*BaseCost),
+            new ValueTuple<Type,long>(typeof(RoadAsCanal), 3*BaseCost),
+            new ValueTuple<Type,long>(typeof(RoadLoaderOfRoadAsCanal), 3*BaseCost),
         };
     }
 }

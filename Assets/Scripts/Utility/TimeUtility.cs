@@ -29,8 +29,13 @@ namespace Weathering
         //    // will be replaced by in-game ticks
         //    return lastTicks;
         //}
-        public static long GetTicks() => GameEntry.FrameBuffer(ref lastTicks, ref lastFrame, () => DateTime.Now.Ticks);
-
+        public static long GetTicks() => GameEntry.FrameBuffer(ref lastTicks, ref lastFrame,
+#if (!UNITY_EDITOR)&& UNITY_PSP2
+            () => NativePluginUtility.getCurrentTick()*10
+#else
+            () => DateTime.Now.Ticks
+#endif
+            );
         public static long GetMiniSeconds() {
             return GetTicks() / Value.MiniSecond;
         }

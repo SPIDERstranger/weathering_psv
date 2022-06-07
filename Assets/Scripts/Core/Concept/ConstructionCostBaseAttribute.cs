@@ -31,9 +31,9 @@ namespace Weathering
         public static ValueTuple<Type, long> GetCostBase(Type type) {
             ConstructionCostBaseAttribute attr = Tag.GetAttribute<ConstructionCostBaseAttribute>(type);
             if (attr == null) {
-                return (null, 0);
+                return  new ValueTuple<Type, long>(null, 0);
             }
-            return (attr.CostType, attr.CostQuantity);
+            return new ValueTuple<Type, long>(attr.CostType, attr.CostQuantity);
         }
         public static CostInfo GetCost(Type type, IMap map, bool forConstruction) {
             CostInfo result = new CostInfo();

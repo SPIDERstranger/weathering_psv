@@ -25,8 +25,8 @@ namespace Weathering
         protected override bool PreserveLandscape => true;
         public override string SpriteKey => typeof(MountainMine).Name;
 
-        protected override (Type, long) In_0_Inventory => (typeof(Worker), 1);
-        protected override (Type, long) Out0 => (typeof(Coal), 5);
+        protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Worker), 1);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(Coal), 5);
 
         public bool Passable => false;
     }

@@ -48,14 +48,14 @@ namespace Weathering
     [Concept]
     public class InversedMovement { }
 
-    [Concept]
-    public class EnableLight { }
-    [Concept]
-    public class EnableWeather { }
+    //[Concept]
+    //public class EnableLight { }
+    //[Concept]
+    ////public class EnableWeather { }
 
 
-    [Concept]
-    public class ToneMapping { }
+    //[Concept]
+    //public class ToneMapping { }
 
 
 
@@ -76,7 +76,7 @@ namespace Weathering
         public static bool IsInEditor { get; private set; }
         public static bool IsInStandalone { get; private set; }
         public static bool IsInMobile { get; private set; }
-
+        public static bool IsInPSV { get; private set; }
         private void Awake() {
 
             if (Ins != null) throw new Exception();
@@ -91,9 +91,15 @@ namespace Weathering
 #if UNITY_STANDALONE || UNITY_EDITOR
             IsInStandalone = true;
             IsInMobile = false;
+            IsInPSV = false;
+#elif UNITY_PSP2
+            IsInStandalone = false;
+            IsInMobile = false;
+            IsInPSV = true;
 #else
             IsInStandalone = false;
             IsInMobile = true;
+            IsInPSV = false;
 #endif
             offset = IsInStandalone ? 36 : 0;
             InitializeNotification();
@@ -218,8 +224,8 @@ namespace Weathering
             IValue musicVolume = globals.Values.GetOrCreate<MusicVolume>();
             musicVolume.Max = 600;
             // 初始天气音量
-            IValue weatherVolume = globals.Values.GetOrCreate<WeatherVolume>();
-            weatherVolume.Max = 600;
+            //IValue weatherVolume = globals.Values.GetOrCreate<WeatherVolume>();
+            //weatherVolume.Max = 600;
 
             //// 提示设置
             //Globals.Ins.Bool<InventoryQueryInformationOfCostDisabled>(true);
@@ -227,9 +233,9 @@ namespace Weathering
 
             globals.Bool<SoundEnabled>(true);
             globals.Bool<MusicEnabled>(true);
-            globals.Bool<WeatherEnabled>(true);
+            //globals.Bool<WeatherEnabled>(true);
 
-            globals.Values.GetOrCreate<ToneMapping>().Max = 1; // neutural
+            //globals.Values.GetOrCreate<ToneMapping>().Max = 1; // neutural
 
 
             globals.Values.GetOrCreate<MapView.TappingSensitivity>().Max = 100;
@@ -242,14 +248,14 @@ namespace Weathering
             globals.Bool<LogisticsAnimationIsLinear>(false);
             globals.Bool<InversedMovement>(false);
 
-            globals.Bool<EnableLight>(true);
-            globals.Bool<EnableWeather>(true);
+            //globals.Bool<EnableLight>(true);
+            //globals.Bool<EnableWeather>(true);
         }
 
         public void SynchronizeSettings() {
-            SyncEnableLight();
-            SyncEnableWeather();
-            SyncToneMapping();
+            //SyncEnableLight();
+            //SyncEnableWeather();
+            //SyncToneMapping();
 
             SynchronizeFont();
             SyncSound();
@@ -265,38 +271,38 @@ namespace Weathering
             Sound.Ins.MusicEnabled = Globals.Ins.Bool<MusicEnabled>();
             Sound.Ins.MusicVolume = Globals.Ins.Values.GetOrCreate<MusicVolume>().Max / VolumeFactor;
             Sound.Ins.SoundVolume = Globals.Ins.Values.GetOrCreate<SoundVolume>().Max / VolumeFactor;
-            Sound.Ins.WeatherEnabled = Globals.Ins.Bool<WeatherEnabled>();
-            Sound.Ins.WeatherVolume = Globals.Ins.Values.GetOrCreate<WeatherVolume>().Max / VolumeFactor;
+            //Sound.Ins.WeatherEnabled = Globals.Ins.Bool<WeatherEnabled>();
+            //Sound.Ins.WeatherVolume = Globals.Ins.Values.GetOrCreate<WeatherVolume>().Max / VolumeFactor;
         }
 
 
-        public static bool LightEnabled { get; private set; }
-        public void SyncEnableLight() {
-            LightEnabled = Globals.Ins.Bool<EnableLight>();
-            (MapView.Ins as MapView).EnableLight = LightEnabled;
-        }
-        public static bool WeatherEnabled { get; private set; }
-        public void SyncEnableWeather() {
-            WeatherEnabled = Globals.Ins.Bool<EnableWeather>();
-            (MapView.Ins as MapView).EnableWeather = WeatherEnabled;
-        }
-        public void SyncToneMapping() {
-            long val = Globals.Ins.Values.GetOrCreate<ToneMapping>().Max;
-            switch (val) {
-                case 1:
-                    GlobalVolume.Ins.Tonemapping.mode.value = UnityEngine.Rendering.Universal.TonemappingMode.Neutral;
-                    // = new UnityEngine.Rendering.Universal.TonemappingModeParameter(UnityEngine.Rendering.Universal.TonemappingMode.Neutral, true);
-                    break;
-                case 2:
-                    GlobalVolume.Ins.Tonemapping.mode.value = UnityEngine.Rendering.Universal.TonemappingMode.ACES;
-                    // = new UnityEngine.Rendering.Universal.TonemappingModeParameter(UnityEngine.Rendering.Universal.TonemappingMode.ACES, true);
-                    break;
-                default:
-                    GlobalVolume.Ins.Tonemapping.mode.value = UnityEngine.Rendering.Universal.TonemappingMode.None;
-                    // = new UnityEngine.Rendering.Universal.TonemappingModeParameter(UnityEngine.Rendering.Universal.TonemappingMode.None, true);
-                    break;
-            }
-        }
+        //public static bool LightEnabled { get; private set; }
+        //public void SyncEnableLight() {
+        //    LightEnabled = Globals.Ins.Bool<EnableLight>();
+        //    (MapView.Ins as MapView).EnableLight = LightEnabled;
+        //}
+        //public static bool WeatherEnabled { get; private set; }
+        //public void SyncEnableWeather() {
+        //    WeatherEnabled = Globals.Ins.Bool<EnableWeather>();
+        //    (MapView.Ins as MapView).EnableWeather = WeatherEnabled;
+        //}
+        //public void SyncToneMapping() {
+        //    long val = Globals.Ins.Values.GetOrCreate<ToneMapping>().Max;
+        //    switch (val) {
+        //        case 1:
+        //            GlobalVolume.Ins.Tonemapping.mode.value = UnityEngine.Rendering.Universal.TonemappingMode.Neutral;
+        //            // = new UnityEngine.Rendering.Universal.TonemappingModeParameter(UnityEngine.Rendering.Universal.TonemappingMode.Neutral, true);
+        //            break;
+        //        case 2:
+        //            GlobalVolume.Ins.Tonemapping.mode.value = UnityEngine.Rendering.Universal.TonemappingMode.ACES;
+        //            // = new UnityEngine.Rendering.Universal.TonemappingModeParameter(UnityEngine.Rendering.Universal.TonemappingMode.ACES, true);
+        //            break;
+        //        default:
+        //            GlobalVolume.Ins.Tonemapping.mode.value = UnityEngine.Rendering.Universal.TonemappingMode.None;
+        //            // = new UnityEngine.Rendering.Universal.TonemappingModeParameter(UnityEngine.Rendering.Universal.TonemappingMode.None, true);
+        //            break;
+        //    }
+        //}
 
 
         private const float camerSensitivityFactor = 100f;
@@ -317,10 +323,12 @@ namespace Weathering
             UseInversedMovement = Globals.Ins.Bool<InversedMovement>();
         }
         private void SyncUtilityButtonPosition() {
-            if (LinkUnlinkButtonImage.transform is RectTransform rect) {
+            if (LinkUnlinkButtonImage.transform is RectTransform ) {
+                RectTransform rect = LinkUnlinkButtonImage.transform as RectTransform;
                 rect.anchoredPosition = new Vector2(Globals.Ins.Bool<UtilityButtonsOnTheLeft>() ? (72 - 640) : 0, rect.anchoredPosition.y);
             }
-            if (ConstructDestructButtonImage.transform is RectTransform rect2) {
+            if (ConstructDestructButtonImage.transform is RectTransform ) {
+                RectTransform rect2 = ConstructDestructButtonImage.transform as RectTransform;
                 rect2.anchoredPosition = new Vector2(Globals.Ins.Bool<UtilityButtonsOnTheLeft>() ? (72 - 640) : 0, rect2.anchoredPosition.y);
             }
         }
@@ -429,8 +437,9 @@ namespace Weathering
         public void OnTapPlayerInventory() {
             Vector2Int position = MapView.Ins.CharacterPosition;
             IMap map = MapView.Ins.TheOnlyActiveMap;
-            if (map.Get(position) is PlanetLander planetLander) {
+            if (map.Get(position) is PlanetLander ) {
                 // 防止玩家卡在一格位置
+                PlanetLander planetLander = map.Get(position) as PlanetLander;
                 planetLander.OnTap();
             } else {
                 List<IUIItem> items = new List<IUIItem>();
@@ -439,7 +448,9 @@ namespace Weathering
                 items.Add(UIItem.CreateValueProgress<Sanity>(Globals.Ins.Values));
                 items.Add(UIItem.CreateTimeProgress<Sanity>(Globals.Ins.Values));
                 items.Add(UIItem.CreateValueProgress<Satiety>(Globals.Ins.Values));
+
                 UI.Ins.ShowItems("【随身物品】", items);
+
             }
         }
 
@@ -489,9 +500,9 @@ namespace Weathering
                 UIItem.CreateButton(Localization.Ins.Get<GameSettings>(), OpenGameSettingMenu),
 
                 UIItem.CreateButton(Localization.Ins.Get<GameMenuSaveGame>(), OnTapSaveGameButton),
-
+                #if UNITY_EDITOR || (!UNITY_PSP2)
                 UIItem.CreateButton(Localization.Ins.Get<GameMenuExitGame>(), UIDecorator.ConfirmBefore(() => Entry.ExitGame(), OnTapSettings)),
-
+                #endif
                 UIItem.CreateButton(string.Format(Localization.Ins.Get<GameMenuLanguageLabel>(), Localization.Ins.Get<GameLanguage>()), () => {
                     Localization.Ins.SwitchNextLanguage();
                     OnTapSettings();
@@ -513,7 +524,9 @@ namespace Weathering
             UI.Ins.ShowItems("提示", new List<IUIItem> {
                 UIItem.CreateText("已经保存"),
                 UIItem.CreateReturnButton(OnTapSettings),
+#if UNITY_EDITOR || (!UNITY_PSP2)
                 UIItem.CreateButton(Localization.Ins.Get<GameMenuExitGame>(), Entry.ExitGame)
+#endif
             });
         }
 
@@ -583,7 +596,8 @@ namespace Weathering
                     }
                 } else if (input.StartsWith("help")) {
                     string[] results = input.Split(' ');
-                    if (results.Length >= 2 && int.TryParse(results[1], out int arg) && arg > 0) {
+                    int arg;
+                    if (results.Length >= 2 && int.TryParse(results[1], out  arg) && arg > 0) {
                         MapView.Ins.TheOnlyActiveMap.Inventory.Add<Worker>(arg);
                         UIPreset.Notify(OpenConsole, $"已经获得worker {arg}");
                     } else {
@@ -591,7 +605,8 @@ namespace Weathering
                     }
                 } else if (input.StartsWith("add")) {
                     string[] results = input.Split(' ');
-                    if (results.Length >= 3 && int.TryParse(results[2], out int arg) && arg > 0) {
+                    int arg;
+                    if (results.Length >= 3 && int.TryParse(results[2], out  arg) && arg > 0) {
                         Type type = Type.GetType("Weathering." + results[1]);
                         if (type != null && Tag.IsValidTag(type)) {
                             MapView.Ins.TheOnlyActiveMap.Inventory.Add(type, arg);
@@ -649,11 +664,11 @@ namespace Weathering
 
                 UIItem.CreateSeparator(),
 
-                new UIItem {
-                    Type = IUIItemType.Button,
-                    Content = CalcToneMappingName(Globals.Ins.Values.GetOrCreate<ToneMapping>().Max),
-                    OnTap = ToneMappingPage
-                },
+                //new UIItem {
+                //    Type = IUIItemType.Button,
+                //    Content = CalcToneMappingName(Globals.Ins.Values.GetOrCreate<ToneMapping>().Max),
+                //    OnTap = ToneMappingPage
+                //},
 
                 new UIItem {
                     Type = IUIItemType.Button,
@@ -665,25 +680,25 @@ namespace Weathering
                     }
                 },
 
-                new UIItem {
-                    Type = IUIItemType.Button,
-                    Content = Globals.Ins.Bool<EnableLight>() ? $"光影效果：启用" : $"光影效果：禁用",
-                    OnTap = () => {
-                        Globals.Ins.Bool<EnableLight>(!Globals.Ins.Bool<EnableLight>());
-                        SyncEnableLight();
-                        OpenGameSettingMenu();
-                    }
-                },
+                //new UIItem {
+                //    Type = IUIItemType.Button,
+                //    Content = Globals.Ins.Bool<EnableLight>() ? $"光影效果：启用" : $"光影效果：禁用",
+                //    OnTap = () => {
+                //        Globals.Ins.Bool<EnableLight>(!Globals.Ins.Bool<EnableLight>());
+                //        SyncEnableLight();
+                //        OpenGameSettingMenu();
+                //    }
+                //},
 
-                new UIItem {
-                    Type = IUIItemType.Button,
-                    Content = Globals.Ins.Bool<EnableWeather>() ? $"天气效果：启用" : $"天气效果：禁用",
-                    OnTap = () => {
-                        Globals.Ins.Bool<EnableWeather>(!Globals.Ins.Bool<EnableWeather>());
-                        SyncEnableWeather();
-                        OpenGameSettingMenu();
-                    }
-                },
+                //new UIItem {
+                //    Type = IUIItemType.Button,
+                //    Content = Globals.Ins.Bool<EnableWeather>() ? $"天气效果：启用" : $"天气效果：禁用",
+                //    OnTap = () => {
+                //        Globals.Ins.Bool<EnableWeather>(!Globals.Ins.Bool<EnableWeather>());
+                //        SyncEnableWeather();
+                //        OpenGameSettingMenu();
+                //    }
+                //},
 
                 new UIItem {
                     Type = IUIItemType.Button,
@@ -778,25 +793,25 @@ namespace Weathering
 
                 UIItem.CreateSeparator(),
 
-                new UIItem {
-                    Type = IUIItemType.Slider,
-                    InitialSliderValue = Globals.Ins.Values.Get<WeatherVolume>().Max / VolumeFactor,
-                    DynamicSliderContent = (float x) => {
-                        Globals.Ins.Values.Get<WeatherVolume>().Max = (long)(x * VolumeFactor);
-                        SyncSound();
-                        return $"天气音量 {Math.Floor(x*100)}";
-                    }
-                },
+                //new UIItem {
+                //    Type = IUIItemType.Slider,
+                //    InitialSliderValue = Globals.Ins.Values.Get<WeatherVolume>().Max / VolumeFactor,
+                //    DynamicSliderContent = (float x) => {
+                //        Globals.Ins.Values.Get<WeatherVolume>().Max = (long)(x * VolumeFactor);
+                //        SyncSound();
+                //        return $"天气音量 {Math.Floor(x*100)}";
+                //    }
+                //},
 
-                new UIItem {
-                    Type = IUIItemType.Button,
-                    Content = Globals.Ins.Bool<WeatherEnabled>() ? "雨声：已开启" : "雨声：已关闭",
-                    OnTap = () => {
-                        Globals.Ins.Bool<WeatherEnabled>(!Globals.Ins.Bool<WeatherEnabled>());
-                        SyncSound();
-                        OpenGameSettingMenu();
-                    }
-                },
+                //new UIItem {
+                //    Type = IUIItemType.Button,
+                //    Content = Globals.Ins.Bool<WeatherEnabled>() ? "雨声：已开启" : "雨声：已关闭",
+                //    OnTap = () => {
+                //        Globals.Ins.Bool<WeatherEnabled>(!Globals.Ins.Bool<WeatherEnabled>());
+                //        SyncSound();
+                //        OpenGameSettingMenu();
+                //    }
+                //},
 
 
 
@@ -845,45 +860,45 @@ namespace Weathering
             });
 
         }
-        private void ToneMappingPage() {
-            var items = UI.Ins.GetItems();
+        //private void ToneMappingPage() {
+        //    var items = UI.Ins.GetItems();
 
-            items.Add(UIItem.CreateReturnButton(OpenGameSettingMenu));
+        //    items.Add(UIItem.CreateReturnButton(OpenGameSettingMenu));
 
-            long current = Globals.Ins.Values.GetOrCreate<ToneMapping>().Max;
-            string name = CalcToneMappingName(current);
+        //    long current = Globals.Ins.Values.GetOrCreate<ToneMapping>().Max;
+        //    string name = CalcToneMappingName(current);
 
-            items.Add(UIItem.CreateText(name));
+        //    items.Add(UIItem.CreateText(name));
 
-            items.Add(CreateToneMappingButton(current, 0));
-            items.Add(CreateToneMappingButton(current, 1));
-            items.Add(CreateToneMappingButton(current, 2));
+        //    items.Add(CreateToneMappingButton(current, 0));
+        //    items.Add(CreateToneMappingButton(current, 1));
+        //    items.Add(CreateToneMappingButton(current, 2));
 
-            UI.Ins.ShowItems(name, items);
-        }
-        private UIItem CreateToneMappingButton(long current, long other) {
-            return UIItem.CreateStaticButton(CalcToneMappingName(other), () => {
-                Globals.Ins.Values.GetOrCreate<ToneMapping>().Max = other;
-                SyncToneMapping();
-                ToneMappingPage();
-            }, current != other);
-        }
+        //    UI.Ins.ShowItems(name, items);
+        //}
+        //private UIItem CreateToneMappingButton(long current, long other) {
+        //    return UIItem.CreateStaticButton(CalcToneMappingName(other), () => {
+        //        Globals.Ins.Values.GetOrCreate<ToneMapping>().Max = other;
+        //        SyncToneMapping();
+        //        ToneMappingPage();
+        //    }, current != other);
+        //}
 
-        private string CalcToneMappingName(long val) {
-            string toneMappingName;
-            switch (val) {
-                case 1:
-                    toneMappingName = "画面风格：自然";
-                    break;
-                case 2:
-                    toneMappingName = "画面风格：鲜艳";
-                    break;
-                default:
-                    toneMappingName = "画面风格：高效";
-                    break;
-            }
-            return toneMappingName;
-        }
+        //private string CalcToneMappingName(long val) {
+        //    string toneMappingName;
+        //    switch (val) {
+        //        case 1:
+        //            toneMappingName = "画面风格：自然";
+        //            break;
+        //        case 2:
+        //            toneMappingName = "画面风格：鲜艳";
+        //            break;
+        //        default:
+        //            toneMappingName = "画面风格：高效";
+        //            break;
+        //    }
+        //    return toneMappingName;
+        //}
     }
 }
 

@@ -23,7 +23,8 @@ namespace Weathering
         }
 
         private void RecalcSize() {
-            Vector2Int size = CalcRecommendedSize(out int scale);
+            int scale;
+            Vector2Int size = CalcRecommendedSize(out  scale);
             Scale = scale;
             Size = size;
 
@@ -45,7 +46,7 @@ namespace Weathering
             // mapView.OnlyThingScale = scale;
             mapView.CameraSize = camScale.y / 2;
 
-            MainMat.SetTexture("_MainTex", rt);
+            //MainMat.SetTexture("_MainTex", rt);
         }
 
         private Vector2Int CalcRecommendedSize(out int scale) {
@@ -99,7 +100,7 @@ namespace Weathering
         //public bool DoubleSize { get { return doubleSize; } set { doubleSize = value; SyncUICameraOrthographicSizeWithScreenSize(); } }
         //public int DoubleSizeMultiplier { get => DoubleSize ? 2 : 1; }
         //public const float RefOrthographcSize = 5.625f;
-        public int DoubleSizeMultiplier { get => 1; }
+        public int DoubleSizeMultiplier => 1;
 
         public int SizeScale { get; private set; } = 1;
         private void SyncUICameraOrthographicSizeWithScreenSize() {

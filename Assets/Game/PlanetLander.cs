@@ -31,7 +31,7 @@ namespace Weathering
         public bool Passable => true;
 
         public override string SpriteKey => typeof(PlanetLander).Name;
-        public override string SpriteKeyHighLight => GlobalLight.Decorated(SpriteKey);
+        //public override string SpriteKeyHighLight => GlobalLight.Decorated(SpriteKey);
         //public override bool HasDynamicSpriteAnimation => true;
         //public override string SpriteLeft => Refs.Has<IRight>() && Refs.Get<IRight>().Value > 0 ? ConceptResource.Get(TypeOfResource.Type).Name : null;
         //public override string SpriteRight => Refs.Has<ILeft>() && Refs.Get<ILeft>().Value > 0 ? ConceptResource.Get(TypeOfResource.Type).Name : null;
@@ -154,13 +154,13 @@ namespace Weathering
             UI.Ins.ShowItems("星球参数", items);
         }
 
-        private static List<(Type, Func<PlanetLander, long>)> RevenuesOfReset = new List<(Type, Func<PlanetLander, long>)> {
-            (typeof(ResetPointPop), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<Worker>().Value),
-            (typeof(ResetPointPop100), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<Worker>().Value/100),
-            (typeof(ResetPointTool), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<ToolPrimitive>().Value),
-            (typeof(ResetPointMachine), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<MachinePrimitive>().Value),
-            (typeof(ResetPointLightMaterial), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<LightMaterial>().Value),
-            (typeof(ResetPointCircuit), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<CircuitBoardAdvanced>().Value),
+        private static List<ValueTuple<Type, Func<PlanetLander, long>>> RevenuesOfReset = new List<ValueTuple<Type, Func<PlanetLander, long>>> {
+            new ValueTuple<Type, Func<PlanetLander, long>>(typeof(ResetPointPop), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<Worker>().Value),
+            new ValueTuple<Type, Func<PlanetLander, long>> (typeof(ResetPointPop100), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<Worker>().Value/100),
+            new ValueTuple<Type, Func<PlanetLander, long>> (typeof(ResetPointTool), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<ToolPrimitive>().Value),
+            new ValueTuple<Type, Func<PlanetLander, long>> (typeof(ResetPointMachine), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<MachinePrimitive>().Value),
+            new ValueTuple<Type, Func<PlanetLander, long>> (typeof(ResetPointLightMaterial), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<LightMaterial>().Value),
+            new ValueTuple<Type, Func<PlanetLander, long>> (typeof(ResetPointCircuit), (PlanetLander pl) => pl.Map.Refs.GetOrCreate<CircuitBoardAdvanced>().Value),
         };
 
         private void ResetPlanetPage() {

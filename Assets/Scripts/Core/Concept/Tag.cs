@@ -13,7 +13,8 @@ namespace Weathering
 
         public static bool HasTag(Type type, Type tag) {
             if (type == tag) return true;
-            if (AttributesPreprocessor.Ins.FinalResult.TryGetValue(type, out HashSet<Type> result)) {
+            HashSet<Type> result;
+            if (AttributesPreprocessor.Ins.FinalResult.TryGetValue(type, out  result)) {
                 return result.Contains(tag);
             }
             return false;

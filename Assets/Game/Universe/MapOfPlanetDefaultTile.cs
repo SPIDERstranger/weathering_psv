@@ -8,7 +8,7 @@ namespace Weathering
 
     public interface IMagnetAttraction
     {
-        (Type, long) Attracted { get; }
+        ValueTuple<Type, long> Attracted { get; }
     }
 
     public interface IMineralType { }
@@ -181,9 +181,9 @@ namespace Weathering
         }
         private UIItem CreateGatheringButton(string text, Type type, long cost, long revenue) {
             return UIItem.CreateDynamicButton($"{text} {Localization.Ins.ValPlus(type, revenue)} {Localization.Ins.ValPlus<Sanity>(-cost)}", () => {
-                if (Map.Inventory.CanAdd((type, revenue))) {
+                if (Map.Inventory.CanAdd(new ValueTuple<Type, long>(type, revenue))) {
                     if (!Globals.SanityCheck(cost)) return;
-                    Map.Inventory.Add((type, revenue));
+                    Map.Inventory.Add(new ValueTuple<Type, long>(type, revenue));
                     Globals.SetCooldown = cost / 2;
                 } else {
                     UIPreset.InventoryFull(() => UI.Ins.Active = false, Map.Inventory);
@@ -517,8 +517,8 @@ namespace Weathering
 
                 int index = TileUtility.Calculate6x8RuleTileIndex(this,
                     (ITile tile) =>
-                    tile is MapOfPlanetDefaultTile defaultTile &&
-                    defaultTile.TerraformedTerrainType == typeof(TerrainType_Mountain)
+                    tile is MapOfPlanetDefaultTile  &&
+                    (tile as MapOfPlanetDefaultTile).TerraformedTerrainType == typeof(TerrainType_Mountain)
                 );
                 return $"Planet_Fog_{index}";
             }
@@ -868,30 +868,49 @@ namespace Weathering
         public Type OriginalTerrainType { get; private set; }
 
 
-        public Type TerraformedTerrainType {
-            get => TerraformRef == null ? OriginalTerrainType : TerraformRef.Type;
-            set {
+        public Type TerraformedTerrainType
+        {
+            get
+            {
+                return TerraformRef == null ? OriginalTerrainType : TerraformRef.Type;
+            }
+
+            set
+            {
                 if (value == null) throw new ArgumentNullException();
                 // 为了DontSave, 逻辑比较麻烦
-                if (value == OriginalTerrainType) {
-                    if (TerraformRef != null) {
+                if (value == OriginalTerrainType)
+                {
+                    if (TerraformRef != null)
+                    {
                         TerraformRef = null;
-                        if (Refs != null) {
+                        if (Refs != null)
+                        {
                             Refs.Remove<Terraform>();
-                            if (Refs.Dict.Count == 0) {
+                            if (Refs.Dict.Count == 0)
+                            {
                                 Refs = null;
                             }
                         }
                     }
-                } else {
-                    if (TerraformRef == null) {
-                        if (Refs == null) {
+                }
+                else
+                {
+                    if (TerraformRef == null)
+                    {
+                        if (Refs == null)
+                        {
                             Refs = Weathering.Refs.GetOne();
                             TerraformRef = Refs.Create<Terraform>();
-                        } else {
-                            if (Refs.TryGet<Terraform>(out TerraformRef)) {
+                        }
+                        else
+                        {
+                            if (Refs.TryGet<Terraform>(out TerraformRef))
+                            {
 
-                            } else {
+                            }
+                            else
+                            {
                                 TerraformRef = Refs.Create<Terraform>();
                             }
                         }
@@ -909,21 +928,21 @@ namespace Weathering
         public int HasFrameAnimation => 0; // TerraformedTerrainType == typeof(TerrainType_Sea) ? 10 : 0;
 
 
-        public (Type, long) Attracted {
+        public ValueTuple<Type, long> Attracted {
             get {
                 float quantity = (float)(HashUtility.Hash((uint)TimeUtility.GetTicks()) % 100) / 100;
                 quantity = quantity * quantity;
                 long lerped = (long)Mathf.Lerp(1, 10, quantity);
                 if (TerraformedTerrainType == typeof(TerrainType_Plain)) {
-                    return (typeof(Grain), lerped);
+                    return new ValueTuple<Type, long>(typeof(Grain), lerped);
                 } else if (TerraformedTerrainType == typeof(TerrainType_Forest)) {
-                    return (typeof(Wood), lerped);
+                    return new ValueTuple<Type, long>(typeof(Wood), lerped);
                 } else if (TerraformedTerrainType == typeof(TerrainType_Sea)) {
-                    return (typeof(FishFlesh), lerped);
+                    return new ValueTuple<Type, long>(typeof(FishFlesh), lerped);
                 } else if (TerraformedTerrainType == typeof(TerrainType_Mountain)) {
-                    return (typeof(Stone), lerped);
+                    return new ValueTuple<Type, long>(typeof(Stone), lerped);
                 }
-                return (null, 0);
+                return new ValueTuple<Type, long>(null, 0);
             }
         }
 
@@ -1060,7 +1079,7 @@ namespace Weathering
         }
         private bool IsTileNearPlain(MapOfPlanet planet, Vector2Int pos) {
             ITile tile = planet.Get(Pos + pos);
-            if (!(tile is IPassable passable3 && passable3.Passable)) return false;
+            if (!(tile is IPassable  && (tile as IPassable).Passable)) return false;
             //Type type = tile.GetType();
             //var attr = Tag.GetAttribute <BindTerrainTypeAttribute>(type);
             //if (attr != null && attr.BindedType != typeof(TerrainType_Plain) 

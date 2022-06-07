@@ -57,7 +57,7 @@ namespace Weathering
         private float sliderValueForBuy = 0;
         private float sliderValueForSell = 0;
 
-        private const long maxGood = 10_000_000;
+        private const long maxGood = 10000000;
         private void OpenPageForRecipe(Type type, long forACoinIfBuy) {
             if (forACoinIfBuy <= 0) throw new Exception();
             long forACoinIfSell = forACoinIfBuy * MultiplierIfSell;

@@ -20,6 +20,6 @@ namespace Weathering
 
         public bool Passable => true;
 
-        protected override (Type, long) Out0 => (typeof(Berry), 1);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(Berry), 1);
     }
 }

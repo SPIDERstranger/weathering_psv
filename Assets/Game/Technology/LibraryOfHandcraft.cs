@@ -13,16 +13,16 @@ namespace Weathering
         protected override long TechnologyPointIncRequired => 1;
         protected override Type TechnologyPointType => typeof(WoodPlank);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(WorkshopOfWoodcutting), 0),
-            (typeof(WorkshopOfStonecutting), 1*BaseCost),
-            (typeof(WorkshopOfBrickMaking), 1*BaseCost),
-            (typeof(WorkshopOfToolPrimitive), 3*BaseCost),
-            (typeof(WorkshopOfWheelPrimitive), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(WorkshopOfWoodcutting), 0),
+            new ValueTuple<Type, long>(typeof(WorkshopOfStonecutting), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(WorkshopOfBrickMaking), 1*BaseCost),
+            new ValueTuple<Type, long>(typeof(WorkshopOfToolPrimitive), 3*BaseCost),
+            new ValueTuple<Type, long>(typeof(WorkshopOfWheelPrimitive), 3*BaseCost),
 
-            (typeof(WorkshopOfMachinePrimitive), 5*BaseCost),
-            (typeof(WorkshopOfSchoolEquipment), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(WorkshopOfMachinePrimitive), 5*BaseCost),
+            new ValueTuple<Type, long>(typeof(WorkshopOfSchoolEquipment), 5*BaseCost),
         };
     }
 }

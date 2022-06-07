@@ -13,12 +13,12 @@ namespace Weathering
     {
         public override string SpriteKey =>typeof(Factory).Name;
 
-        protected override (Type, long) In_0_Inventory => (typeof(Worker), 1);
-        protected override (Type, long) In_1_Inventory => (typeof(Electricity), 30);
+        protected override ValueTuple<Type, long> In_0_Inventory => new ValueTuple<Type, long>(typeof(Worker), 1);
+        protected override ValueTuple<Type, long> In_1_Inventory => new ValueTuple<Type, long>(typeof(Electricity), 30);
 
-        protected override (Type, long) Out0 => (typeof(CircuitBoardAdvanced), 1);
+        protected override ValueTuple<Type, long> Out0 => new ValueTuple<Type, long>(typeof(CircuitBoardAdvanced), 1);
 
-        protected override (Type, long) In_0 => (typeof(CircuitBoardIntegrated), 2);
-        protected override (Type, long) In_1 => (typeof(LightMaterial), 1);
+        protected override ValueTuple<Type, long> In_0 => new ValueTuple<Type, long>(typeof(CircuitBoardIntegrated), 2);
+        protected override ValueTuple<Type, long> In_1 => new ValueTuple<Type, long>(typeof(LightMaterial), 1);
     }
 }

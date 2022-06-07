@@ -21,19 +21,19 @@ namespace Weathering
         protected override long TechnologyPointIncRequired => 0;
         protected override Type TechnologyPointType => typeof(KnowledgeOfAncestors);
 
-        protected override List<(Type, long)> TechList => new List<(Type, long)> {
+        protected override List<ValueTuple<Type, long>> TechList => new List<ValueTuple<Type, long>> {
 
-            (typeof(TotemOfAncestors), 0), // 祖先雕像
-            (typeof(ResidenceOfGrass), 10), // 房屋
-            (typeof(Farm), 10), // 农场
+            new ValueTuple<Type, long>(typeof(TotemOfAncestors), 0), // 祖先雕像
+            new ValueTuple<Type, long>(typeof(ResidenceOfGrass), 10), // 房屋
+            new ValueTuple<Type, long>(typeof(Farm), 10), // 农场
 
-            (typeof(WareHouseOfGrass), 100), // 仓库
-            (typeof(RoadForSolid), 200), // 道路
+            new ValueTuple<Type, long>(typeof(WareHouseOfGrass), 100), // 仓库
+            new ValueTuple<Type, long>(typeof(RoadForSolid), 200), // 道路
 
-            (typeof(ForestLoggingCamp), 1000), // 伐木场
-            (typeof(WorkshopOfPaperMaking), 2000), // 造纸坊
-            (typeof(WorkshopOfBook), 5000), // 
-            (typeof(LibraryOfAll), 10000), // 图书馆
+            new ValueTuple<Type, long>(typeof(ForestLoggingCamp), 1000), // 伐木场
+            new ValueTuple<Type, long>(typeof(WorkshopOfPaperMaking), 2000), // 造纸坊
+            new ValueTuple<Type, long>(typeof(WorkshopOfBook), 5000), // 
+            new ValueTuple<Type, long>(typeof(LibraryOfAll), 10000), // 图书馆
         };
 
         private readonly Type OfferingType = typeof(Grain);
