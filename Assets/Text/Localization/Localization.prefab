@@ -53,8 +53,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SupporttedLanguages:
   - zh_cn
+  - en_us
   Jsons:
   - {fileID: 4900000, guid: 8ac9be9fcf0150945be25afa2cfbad10, type: 3}
   - {fileID: 4900000, guid: 7a5a7f7c48025484e96e02c5bc314d5a, type: 3}
   - {fileID: 4900000, guid: d901963e2e00b0047a3fdcaa52708ec9, type: 3}
   - {fileID: 4900000, guid: 95f2cbf6343cbb14f80e0429a670bcfd, type: 3}
+  - {fileID: 4900000, guid: ec68e0b0e3399054fafeb0b04224f150, type: 3}
+  - {fileID: 4900000, guid: d3b7d1e96b69ad8489c22d9186d8e8a5, type: 3}
+  - {fileID: 4900000, guid: 1800065629caf6b4db0876b412b5da67, type: 3}
+  - {fileID: 4900000, guid: ee3c4139734224d4194091f400e4e472, type: 3}

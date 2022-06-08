@@ -453,7 +453,7 @@ namespace Weathering
 
             }
         }
-
+        //TODO 用户界面数据配置化
         // 地图资源按钮
         public void OnTapInventoryOfResource() {
             MapView.InterceptInteractionOnce = true;
@@ -691,15 +691,15 @@ namespace Weathering
                 //    }
                 //},
 
-                new UIItem {
-                    Type = IUIItemType.Button,
-                    Content = Globals.Ins.Bool<UsePixelFont>() ? "当前字体：像素字体" : "当前字体：圆滑字体",
-                    OnTap = () => {
-                        ChangeFont();
-                        SynchronizeFont();
-                        OpenGameSettingMenu();
-                    }
-                },
+                //new UIItem {
+                //    Type = IUIItemType.Button,
+                //    Content = Globals.Ins.Bool<UsePixelFont>() ? "当前字体：像素字体" : "当前字体：圆滑字体",
+                //    OnTap = () => {
+                //        ChangeFont();
+                //        SynchronizeFont();
+                //        OpenGameSettingMenu();
+                //    }
+                //},
 
                 new UIItem {
                     Type = IUIItemType.Button,
@@ -749,7 +749,7 @@ namespace Weathering
                 /// 游戏音效
                 new UIItem {
                     Type = IUIItemType.Button,
-                    DynamicContent = () => Globals.Ins.Bool<SoundEnabled>() ? "音效：已关闭" : "音效：已开启",
+                    DynamicContent = () => Globals.Ins.Bool<SoundEnabled>() ? "音效：已开启" : "音效：已关闭",
                     OnTap = () => {
                         Globals.Ins.Bool<SoundEnabled>(!Globals.Ins.Bool<SoundEnabled>());
                         SyncSound();
@@ -839,9 +839,9 @@ namespace Weathering
                         OpenGameSettingMenu();
                     }, OpenGameSettingMenu)
                 },
-
+#if !UNITY_PSP2
                 UIItem.CreateButton("打开控制台", OpenConsole),
-
+#endif
                 /// 重置存档
                 new UIItem {
                     Content = Localization.Ins.Get<GameMenuResetGame>(),

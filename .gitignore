@@ -55,3 +55,5 @@ Builds/Android/20210104/*
 Logs
 
 Build/
+Assets/Plugins/UnityTimePlugin/PSVita_Debug/
+Assets/Plugins/UnityTimePlugin/PSVita_Debug.meta

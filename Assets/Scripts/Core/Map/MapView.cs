@@ -265,7 +265,7 @@ namespace Weathering
         private int height;
         private bool mapControlCharacterLastFrame = false;
         private void Update() {
-            // 按下ESC键打开关闭菜单, Standalone 和psv专享
+            // 按下ESC键打开关闭菜单, Standalone 专享
             if (GameMenu.IsInStandalone) {
                 if (Input.GetKeyDown(KeyCode.Escape)) {
                     if (UI.Ins.Active) {
@@ -275,7 +275,6 @@ namespace Weathering
                     }
                 }
             }
-
 
             IMapDefinition map = TheOnlyActiveMap as IMapDefinition; if (map == null) throw new Exception();
 
@@ -343,6 +342,11 @@ namespace Weathering
                     theTileToBeTapped = tile;//记录上次加载的地块
                 }
             }
+
+
+            mainCamera.enabled = !UI.Ins.Active;
+            if (UI.Ins.Active)
+                return;
 
             // 渲染地图
             UpdateMap();
@@ -644,6 +648,7 @@ namespace Weathering
                 }
             }
         }
+        // 优化，ui显示时，暂停动画，减少性能消耗，可暂停rtcamera渲染
         private void UpdateMap() {
             if (TheOnlyActiveMap as StandardMap == null) throw new Exception(); // 现在地图只能继承StandardMap, 已经强耦合了。实现一个其他的IMapDefinition挺难的
             Vector3 pos = mainCameraTransform.position;
@@ -1508,6 +1513,7 @@ namespace Weathering
                 //如果按下控制按键,则......
                 if (Input.GetButtonDown(InputUtility.Cross))
                 {
+                    InterceptInteractionOnce = false;
                     if (GameMenu.IsInEditor)
                         OnTap(IndicatorPositionInternal);
                     else

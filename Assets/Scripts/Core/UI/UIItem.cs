@@ -506,7 +506,7 @@ namespace Weathering
         }
 
         public static UIItem CreateReturnButton(Action back) {
-            // TODO ui中返回的操作
+            //  ui中返回的操作
             UIItem result = null;
             string title = string.Empty; // Localization.Ins.Get<ReturnMenu>();
             if (back == null) result = CreateButton(title, () => UI.Ins.Active = false);

@@ -412,7 +412,7 @@ namespace Weathering
                 _mainScrollRect.verticalNormalizedPosition = 1;
                 scrollToTopAfterTime = false;
             }
-            //TODO ui控制，以及指示器移动
+            // ui控制，以及指示器移动
             UpdateInput();
             UpdateIndicator();
 
@@ -433,39 +433,8 @@ namespace Weathering
                 lastY = y;
             }
 
-
-            foreach (var pair in valueProgressBar)
-            {
-                UpdateValueProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
-            }
-            foreach (var pair in timeProgressBar)
-            {
-                UpdateTimeProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
-            }
-            foreach (var pair in delProgressBar)
-            {
-                UpdateDelProgress(pair.Key, pair.Value.Item1, pair.Value.Item2);
-            }
-            foreach (var pair in dynamicImage)
-            {
-                pair.Key.RealImage.sprite = Res.Ins.TryGetSprite(pair.Value.Invoke());
-            }
-            foreach (var pair in dynamicButtons)
-            {
-                bool interactable = pair.Value();
-                pair.Key.Button.interactable = interactable;
-                pair.Key.Background.raycastTarget = interactable;
-            }
-            foreach (var pair in dynamicButtonContents)
-            {
-                pair.Key.Text.text = pair.Value();
-            }
-
-            foreach (var pair in dynamicSliderContents)
-            {
-                pair.Key.Text.text = pair.Value(pair.Key.Slider.value);
-            }
-            //UpdateDynamicUI();
+            // 分帧操作，减少消耗
+            UpdateDynamicUI();
         }
 
         private void UpdateInput()
@@ -610,6 +579,13 @@ namespace Weathering
             dynamicStep -= 1;
             if (dynamicStep < 0)
                 dynamicStep = defaultDynamicStep;
+        }
+        private void UpdateAllDynamicUI()
+        {
+            for (int i = 0; i < defaultDynamicStep; i++)
+            {
+                UpdateDynamicUI();
+            }
         }
 
         private float CalcUpdateValueProgress(IValue value) {
@@ -764,7 +740,7 @@ namespace Weathering
                         var btn =  CreateButton(item.BackgroundType, item.Content, item.Icon, item.OnTap, item.Interactable, item.CanTap, item.DynamicContent);
                         if (item.OnTap != null)
                             _currentDisplayBars.Add(btn);
-                        //TODO 将button存起来，以方便指示器ui框选 待验证
+                        // 将button存起来，以方便指示器ui框选 待验证
                         break;
                     case IUIItemType.ValueProgress: // val-max
                         if (item.Value == null) throw new Exception();
@@ -782,7 +758,7 @@ namespace Weathering
                         if (item.DynamicSliderContent == null) throw new Exception();
                         var slider = CreateSlider(item.DynamicSliderContent, item.InitialSliderValue);
                         _currentDisplayBars.Add(slider);
-                        //TODO 将slider存起来，以方便指示器ui框选 待验证
+                        // 将slider存起来，以方便指示器ui框选 待验证
                         break;
                     default:
                         throw new Exception(item.Type.ToString());
@@ -790,6 +766,7 @@ namespace Weathering
             }
             LayoutRebuilder.ForceRebuildLayoutImmediate(Content.transform as RectTransform);
             scrollToTopAfterTime = true;
+            UpdateAllDynamicUI();
         }
 
         public void Error(Exception e) {
