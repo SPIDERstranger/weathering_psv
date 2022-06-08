@@ -1,0 +1,40 @@
+{
+	
+	"Weathering.Quest_CongratulationsQuestAllCompleted": "【Quest All Completed】",
+	"Weathering.Quest_LandRocket": "【Landing planet】",
+	"Weathering.Quest_CollectFood_Initial": "【Collect Food】",
+	"Weathering.Quest_ConstructBerryBushAndWareHouse_Initial": "【Growing berries】",
+	"Weathering.Quest_CollectFood_Hunting": "【Collection, fishing and hunting】",
+	"Weathering.Quest_HavePopulation_Settlement": "【Settlement】",
+	"Weathering.Quest_CollectFood_Agriculture": "【Agriculture】",
+	"Weathering.Quest_HavePopulation_PopulationGrowth": "【Population Growth】",
+
+	"Weathering.Quest_CollectWood_Woodcutting": "【Collect Wood】",
+	"Weathering.Quest_ProduceWoodProduct_WoodProcessing": "【Wood Product】",
+	"Weathering.Quest_CollectStone_Stonecutting": "【Collect Stone】",
+	"Weathering.Quest_ProduceStoneProduct_StoneProcessing": "【Stone Product】",
+	"Weathering.Quest_ConstructBridge": "【Bridge】",
+	
+	"Weathering.Quest_ProduceToolPrimitive": "【Primitive Tool】",
+	"Weathering.Quest_HavePopulation_ResidenceConstruction": "【Housing conditions improved】",
+	"Weathering.Quest_ProduceWheelPrimitive": "【Wheel】",
+	"Weathering.Quest_GainGoldCoinThroughMarket": "【Market】",
+
+	"Weathering.Quest_CollectMetalOre_Mining": "【Collect Metal Ore】",
+	"Weathering.Quest_ProduceMetal_Smelting": "【Smelting】",
+	"Weathering.Quest_ProduceMetalProduct_Casting": "【Casting】",
+	"Weathering.Quest_ProduceMachinePrimitive": "【Machine】",
+
+	"Weathering.Quest_CollectCoal": "【Collect Coal】",
+	"Weathering.Quest_ProduceSteel": "【Steel】",
+	"Weathering.Quest_ProduceConcrete": "【Concrete】",
+	"Weathering.Quest_ProduceBuildingPrefabrication": "【Building Prefabrication】",
+
+	"Weathering.Quest_ProduceElectricity": "【Age of Electricity】",
+	"Weathering.Quest_ProduceAluminum": "【Aluminum】",
+	"Weathering.Quest_ProduceLPG": "【LPG】",
+	"Weathering.Quest_ProducePlastic": "【Plastic】",
+	"Weathering.Quest_ProduceLightMaterial": "【Light Material】"
+
+  }
+

@@ -221,13 +221,13 @@ namespace Weathering
             }
             if (!found) throw new Exception();
             index++;
-            if (index == Jsons.Length) {
+            if (index == SupporttedLanguages.Length) {
                 index = 0;
             }
 
             // Dict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(Jsons[index].text);
 
-            Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE] = Jsons[index].name;
+            Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE] = SupporttedLanguages[index];
             SyncActiveLanguage();
         }
 

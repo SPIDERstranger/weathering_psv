@@ -1,0 +1,270 @@
+{
+	"Weathering.Discardable": "【Discardable】",
+	"Weathering.NonDiscardable": "【NonDiscardable】",
+	"Weathering.DiscardableSolid": "【Solid】",
+	"Weathering.DiscardableFluid": "【Fluid】",
+
+
+
+	"Weathering.Satiety": "<color=#DDCCFFFF>【Satiety{0}】</color>",
+	"Weathering.Sanity": "<color=#DDCCFFFF>【Sanity{0}】</color>",
+	"Weathering.CoolDown": "<color=#DDCCFFFF>【CoolDown{0}】</color>",
+
+	"Weathering.ResetPointPop": "<color=#ccccffFF>【生存天赋{0}】</color>",
+	"Weathering.ResetPointPop100": "<color=#ccccffFF>【农业天赋{0}】</color>",
+	"Weathering.ResetPointTool": "<color=#ccccffFF>【工艺天赋{0}】</color>",
+	"Weathering.ResetPointMachine": "<color=#ccccffFF>【机械天赋{0}】</color>",
+	"Weathering.ResetPointLightMaterial": "<color=#ccccffFF>【材料天赋{0}】</color>",
+	"Weathering.ResetPointCircuit": "<color=#ccccffFF>【信息天赋{0}】</color>",
+
+	"Weathering.Worker": "<color=#EACDA5FF>【Residents{0}】</color>",
+	"Weathering.Worker#Description": "Residents",
+
+	"Weathering.Food": "<color=#efe2ad>【Food{0}】</color>",
+	"Weathering.Food#Description": "How do I get <color=#efe2ad>【Food】</color>? Berries, fish, meat, grains, it's all food.\nFood is a substance that can meet the normal physiological and biochemical energy requirements of the body and extend the normal life span. For the human body, the substances that can meet the needs of normal life activities and help prolong life are called food. Food is usually composed of carbohydrates, fats, proteins, and water, substances that can be eaten or drunk to provide nourishment or pleasure to humans or living things. Food sources can be plants, animals, or other organisms such as fungi, or fermented products such as alcohol. People get food by gathering, farming, pastoralism, hunting, fishing and hunting.",
+		"Weathering.Fruit": "<color=#C8E78DFF>【Fruit{0}】</color>",
+			"Weathering.Berry": "<color=#FF759CFF>【Berries{0}】</color>",
+			"Weathering.Berry#Description": "Berries,The ovary or associated floral apparatus develops into a soft succulent fleshy fruit. There are many kinds of berry fruit trees, such as grape, kiwi, raspberry, gooseberry, cranberry, fruit mulberry, FIG, pomegranate, carambola, heart fruit, papaya, guava, papaya, blueberry, passionflower and so on.",
+		"Weathering.AnimalFlesh": "<color=#FF7F76FF>【Meat{0}】</color>",
+		"Weathering.AnimalFlesh#Description": "Meat food, people eat the most, is livestock meat and poultry meat these two. The livestock that provide meat are mainly pigs, cattle, and sheep; The main sources of poultry meat are chickens, ducks and geese.",
+		"Weathering.Poultry": "<color=#FF7F76FF>【Poultry meat{0}】</color>",
+		"Weathering.Poultry#Description": "Common poultry meat has chicken, duck, goose.",
+			"Weathering.Meat": "<color=#FF7F76FF>【Livestock meat{0}】</color>",
+			"Weathering.Meat#Description": "The main domestic animals that provide meat are pigs, cattle and. In general, humans eat much more meat from livestock than from poultry, presumably because animals are much larger than birds and therefore produce more meat. Meat is almost the most universally loved food.",
+				"Weathering.RabbitMeat": "<color=#FF7F76FF>【Rabbit meat{0}】</color>",
+				"Weathering.RabbitMeat#Description": "Rabbit meat",
+				"Weathering.DeerMeat": "<color=#FF7F76FF>【Deer meat{0}】</color>",
+				"Weathering.DeerMeat#Description": "Deer meat",
+			"Weathering.AquaticProduct": "<color=#B1CFFFFF>【Aquatic product{0}】</color>",
+			"Weathering.AquaticProduct#Description": "Aquatic products are the general term of aquatic animal and plant products produced by Marine and freshwater fisheries. Including fishing and aquaculture production of fish, shrimp, crab, shellfish, algae, sea animals and so on. Aquatic food is rich in nutrition and different in flavor. Fish meal and concentrated fish juice made from low-value fish and processed waste are important protein feeds. The protein and aquatic products made from aquatic animals and plants, such as oil, glue, vitamins, hormones and other products, are chemical and medical supplies with a variety of uses.",
+				"Weathering.FishFlesh": "<color=#B1CFFFFF>【Fish{0}】</color>",
+				"Weathering.FishFlesh#Description": "Fish",
+		"Weathering.Grain": "<color=#ECFD3DFF>【Grain{0}】</color>",
+		"Weathering.Vegetable": "<color=#C8E78DFF>【Vegetable{0}】</color>",
+		"Weathering.Milk": "<color=#ffffffFF>【Milk{0}】</color>",
+		"Weathering.Milk#Description": "Milk, one of the oldest natural drinks, is known as white blood. Milk is rich in protein, fat, vitamins and minerals and other nutrients, milk protein contains essential amino acids; Milk fat is mostly short chain and medium chain fatty acids, which can be easily absorbed by human body. Reasonable ratio of potassium, phosphorus, calcium and other minerals, easy to be absorbed by the human body.",
+		"Weathering.Egg": "<color=#ffffffFF>【Egg{0}】</color>",
+		"Weathering.Egg#Description": "Egg protein amino acid ratio is very suitable for human physiological needs, easy to be absorbed by the body, utilization rate up to 98%, high nutritional value, is one of the human food.",
+	"Weathering.Flower": "<color=#C8E78DFF>【Flower{0}】</color>",
+
+
+
+	"Weathering.Paper": "<color=#ffffffFF>【Paper{0}】</color>",
+
+	"Weathering.Wood": "<color=#D2A064FF>【Wood{0}】</color>",
+	"Weathering.Wood#Description": "Materials used for building and making implements after initial processing of felled trees. Trees and shrubs can form lignified tissues.",
+	"Weathering.WoodPlank": "<color=#D2A064FF>【Wood Plank{0}】</color>",
+	"Weathering.WoodPlank#Description": "A plank is a board made from intact wood. These boards are strong and natural in texture.",
+
+	"Weathering.Stone": "<color=#ccccccFF>【Stone{0}】</color>",
+	"Weathering.Stone#Description": "Stone has been perhaps the most essential component of human architecture since ancient times. Stone is found in the earth's crust and mantle and is divided into three main categories: sedimentary, igneous and metamorphic rocks, each of which has a different origin.",
+	"Weathering.StoneBrick": "<color=#ccccccFF>【Stone brick{0}】</color>",
+	"Weathering.StoneBrick#Description": "Stone brick (TODO)",
+
+	"Weathering.ToolPrimitive": "<color=#ccccccFF>【Primitive tools{0}】</color>",
+	"Weathering.ToolPrimitive#Description": "Productivity consists of two things: people and tools. Tools are made by people.",
+	"Weathering.WheelPrimitive": "<color=#ccccccFF>【Primitive wheel{0}】</color>",
+	"Weathering.WheelPrimitive#Description": "It was impossible for man to possess wheeled vehicles until he mastered sharp and strong tools. It is difficult to shape wood into proper cylinders with stone tools, let alone a wheel with spokes. So the wheel could only have happened after the Bronze Age.",
+
+	"Weathering.Sand": "<color=#dad49cFF>【Sand{0}】</color>",
+	"Weathering.Sand#Description": "Sand refers to particles formed by weathering of rocks washed away by rain or rolled from rocks. There are many kinds of sand, river sand, sea sand, metal sand, sand after natural sandstone powder and so on. Common river sand is mainly composed of silica.",
+	"Weathering.Clay": "<color=#e0b8a2FF>【Clay{0}】</color>",
+	"Weathering.Clay#Description": "Clay is a viscous soil with few sand grains, and it is not easy for water to pass through it that it has good plasticity. General clay is formed by silicate minerals weathering on the earth's surface, generally in situ weathering, larger particles and composition close to the original stone, known as primary clay or primary clay. This clay is mainly composed of silica and alumina, white and refractory, and is the main raw material for the preparation of China clay.",
+	"Weathering.Brick": "<color=#c77b71FF>【Brick{0}】</color>",
+	"Weathering.Brick#Description": "Brick is clay, shale, coal gangue as raw materials, after crushing, mixing and pinching to artificial or mechanical pressing molding, after drying at about 900 degrees Celsius in the temperature of the oxide flame fired from the sintering type of building bricks.",
+	"Weathering.Glass": "<color=#ffffffFF>【Glass{0}】</color>",
+	"Weathering.Glass#Description": "Glass",
+
+	"Weathering.LightMaterial": "<color=#ccccccFF>【Ligh tMaterial{0}】</color>",
+	"Weathering.LightMaterial#Description": "Light Material(TODO)",
+
+	"Weathering.ConcretePowder": "<color=#ccccccFF>【Concrete Powder{0}】</color>",
+	"Weathering.ConcretePowder#Description": "Concrete Powder (TODO)",
+	"Weathering.BuildingPrefabrication": "<color=#ccccccFF>【Building Prefabrication{0}】</color>",
+	"Weathering.BuildingPrefabrication#Description": "Building Prefabrication(TODO)",
+
+	"Weathering.MachinePrimitive": "<color=#9fa89dFF>【Primitive Machine{0}】</color>",
+	"Weathering.MachinePrimitive#Description": "A machine is a device assembled from various metal and non-metal parts, which consumes energy and can operate and do work. It is used to replace human labor, carry on energy transformation, information processing, and produce useful work.",
+
+
+	"Weathering.MetalOre": "<color=#ccccccFF>【Metal Ore{0}】</color>",
+	"Weathering.MetalOre#Description": "The earliest ores included copper, iron, diamonds, gold, silver, salt, and coal. Since minerals cannot feed their bellies, a society must grow enough extra food to feed the miners and their families.",
+		"Weathering.CopperOre": "<color=#c97648FF>【Copper Ore{0}】</color>",
+		"Weathering.CopperOre#Description": "There are more than 200 kinds of copper ores in nature. Common copper ores can be divided into three types: natural copper, sulfide ore and oxide ore.",
+		"Weathering.IronOre": "<color=#9fa89dFF>【Iron Ore{0}】</color>",
+		"Weathering.IronOre#Description": "Any ore that contains an economically usable element of iron is called iron ore. There are many kinds of iron ore, mainly used for iron making magnetite (Fe3O4), hematite (Fe2O3) and siderite (FeCO3).",
+		"Weathering.AluminumOre": "<color=#9fa89dFF>【Aluminum Ore{0}】</color>",
+		"Weathering.AluminumOre#Description": "Aluminum Ore (Bauxite) is actually refers to the industrial can be used, with Bauxite, Bauxite as the main mineral composition of the ore collectively. Bauxite is the best raw material for aluminum production and the most important application field, accounting for more than 90% of the world's total bauxite production.",
+		"Weathering.GoldOre": "<color=#ffff00FF>【Gold Ore{0}】</color>",
+		"Weathering.GoldOre#Description": "Gold ore: grains of gold extracted artificially or mechanically from a river or mine.",
+
+		"Weathering.GoldCoin": "<color=#ffff00FF>【Gold Coin{0}】</color>",
+		"Weathering.GoldCoin#Description": "Gold coins shine",
+	"Weathering.MetalIngot": "<color=#ccccccFF>【Metal ingot{0}】</color>",
+	"Weathering.MetalIngot#Description": "Metal ingot",
+		"Weathering.CopperIngot": "<color=#c97648FF>【Copper Ingot{0}】</color>",
+		"Weathering.CopperIngot#Description": "An ingot of copper that can be worked into copper ware",
+		"Weathering.IronIngot": "<color=#9fa89dFF>【Iron Ingot{0}】</color>",
+		"Weathering.IronIngot#Description": "An iron ingot that can be worked into iron。",
+		"Weathering.SteelIngot": "<color=#ccccccFF>【Steel Ingot{0}】</color>",
+		"Weathering.SteelIngot#Description": "Steel is a general term for iron and carbon alloys with carbon content between 0.02% and 2.11% by mass. The chemical composition of steel can vary greatly, and steels containing only carbon are called carbon steels or ordinary steels. In actual production, steel often contains different alloying elements, such as manganese, nickel, vanadium, etc., depending on the use.",
+		"Weathering.GoldIngot": "<color=#ffff00FF>【Gold Ingot{0}】</color>",
+		"Weathering.GoldIngot#Description": "Gold, a precious metal, has been used for centuries as money, a store of value and jewelry. In nature, gold occurs as a single gold nugget or grain in rock, in underground veins, and in alluvium. Gold is also one of the monetary metals. Solid at room temperature, gold is dense, soft, bright and resistant to corrosion, making it one of the most malleable metals after platinum in ductility.",
+		"Weathering.AluminiumIngot": "<color=#9fa89dFF>【Aluminium Ingot{0}】</color>",
+		"Weathering.AluminiumIngot#Description": "Aluminum is one of the most abundant elements on earth. As a very useful metal, aluminum is flexible, resistant to fatigue and has high corrosion resistance. Although abundant, aluminum in its natural state is almost always combined with other substances. Aluminum is widely used in the manufacturing of military, aerospace, and consumer products.",
+
+	"Weathering.MetalProduct": "<color=#ccccccFF>【Metal Product{0}】</color>",
+	"Weathering.MetalProduct#Description": "Metal Product",
+		"Weathering.CopperProduct": "<color=#ccccccFF>【Copper Product{0}】</color>",
+		"Weathering.CopperProduct#Description": "Bronze ware refers to vessels and utensils made of bronze as the basic raw material. Bronze, known as gold or jijin in ancient times, is an alloy of red copper and other chemical elements (tin, nickel, lead, phosphorus, etc.). Its copper rust is turquoise, hence its name.",
+		"Weathering.IronProduct": "<color=#ccccccFF>【Iron Product{0}】</color>",
+		"Weathering.IronProduct#Description": "The types of iron ware include agricultural tools, hand tools, weapons and miscellaneous tools, and agricultural tools and hand tools are the bulk. The handiwork related to the inscription has: adze, chisel, cone, hammer, scraper, cut, hook, needle, saw, axe.",
+
+	"Weathering.Fuel": "<color=#D2A064FF>【Fuel{0}】</color>",
+	"Weathering.Fuel#Description": "Fuels include wood, coal, oil shale, coke, petroleum, gasoline, diesel, gas, natural gas, nuclear fuel and so on. Fuel plays an important and indispensable role in industrial and agricultural production, transportation and people's life.",
+		"Weathering.Coal": "<color=#8f8f8fFF>【Coal{0}】</color>",
+		"Weathering.Coal#Description": "Coal is naturally generated in the veins between stone squares, and is a solid combustible mineral formed by biochemical and geological processes of plant remains. Coal is a very important energy source, as well as an important raw material for metallurgical and chemical industries.",
+		"Weathering.CrudeOil": "<color=#8f8f8fFF>【Crude Oil{0}】</color>",
+		"Weathering.CrudeOil#Description": "Crude oil, a dark - brown, viscous, oily liquid with a distinctive odor and green fluorescence. It is a mixture of liquid hydrocarbons such as alkanes, cycloalkanes, aromatic hydrocarbons and alkenes.",
+	"Weathering.Electricity": "<color=#ECFD3DFF>【Electricity{0}】</color>",
+	"Weathering.Electricity#Description": "Power generation, transmission, transformation, distribution, electricity use.",
+
+	"Weathering.CombustionMotor": "<color=#ffffffff>【Combustion Motor{0}】</color>",
+	"Weathering.ElectroMotor": "<color=#ffffffff>【Electro Motor{0}】</color>",
+	"Weathering.Turbine": "<color=#ffffffff>【Turbine{0}】</color>",
+
+
+	"Weathering.WindTurbineComponent": "<color=#ffffffff>【Wind Turbine Component{0}】</color>",
+	"Weathering.SolarPanelComponent": "<color=#ffffffff>【Solar Panel Component{0}】</color>",
+
+	"Weathering.CopperWire": "<color=#c97648FF>【Copper Wire{0}】</color>",
+	"Weathering.CircuitBoardSimple": "<color=#D2A064FF>【Simple Circuit Board{0}】</color>",
+	"Weathering.CircuitBoardIntegrated": "<color=#c97648FF>【Integrated Circuit Board{0}】</color>",
+	"Weathering.CircuitBoardAdvanced": "<color=#78ab71ff>【Advanced Circuit Board{0}】</color>",
+
+	"Weathering.Water": "<color=#3284dbff>【Water{0}】</color>",
+	"Weathering.Water#Description": "Water",
+
+	"Weathering.SeaWater": "<color=#3284dbff>【Sea Water{0}】</color>",
+	"Weathering.SeaWater#Description": "Sea Water",
+
+	"Weathering.LightOil": "<color=#cf8100ff>【Light Oil{0}】</color>",
+	"Weathering.LightOil#Description": "Light Oil",
+	"Weathering.HeavyOil": "<color=#6c2d00ff>【Heavy Oil{0}】</color>",
+	"Weathering.HeavyOil#Description": "Heavy Oil",
+	"Weathering.LiquefiedPetroleumGas": "<color=#8f8f8fFF>【Liquefied Petroleum Gas{0}】</color>",
+	"Weathering.LiquefiedPetroleumGas#Description": "Liquefied Petroleum gas, generally a mixture of carbon-one to carbon-four hydrocarbons derived from the petroleum system. It can contain hydrogen and hydrocarbons above carbon 5, and can also contain impurities such as sulfide.",
+	"Weathering.JetFuel": "<color=#8f8f8fFF>【Jet Fuel{0}】</color>",
+
+	"Weathering.FuelPack_DinitrogenTetroxide_Ethanol": "<color=#8f8f8fFF>【FuelPack-N2O4-Ethanol{0}】</color>",
+	"Weathering.FuelPack_DinitrogenTetroxide_Hydrogen": "<color=#8f8f8fFF>【FuelPack-N2O4-Hydrogen{0}】</color>",
+	"Weathering.FuelPack_DinitrogenTetroxide_JetFuel": "<color=#8f8f8fFF>【FuelPack-N2O4-JetFuel{0}】</color>",
+	"Weathering.FuelPack_HydrogenPeroxide_Ethanol": "<color=#8f8f8fFF>【FuelPack-H2O2-Ethanol{0}】</color>",
+	"Weathering.FuelPack_HydrogenPeroxide_Hydrogen": "<color=#8f8f8fFF>【FuelPack-H2O2-Hydrogen{0}】</color>",
+	"Weathering.FuelPack_HydrogenPeroxide_JetFuel": "<color=#8f8f8fFF>【FuelPack-H2O2-JetFuel{0}】</color>",
+	"Weathering.FuelPack_Oxygen_Ethanol": "<color=#8f8f8fFF>【FuelPack-Oxygen-Ethanol{0}】</color>",
+	"Weathering.FuelPack_Oxygen_Hydrogen": "<color=#8f8f8fFF>【FuelPack-Oxygen-Ethanol{0}】</color>",
+	"Weathering.FuelPack_Oxygen_JetFuel": "<color=#8f8f8fFF>【FuelPack-Oxygen-Ethanol{0}】</color>",
+
+
+	"Weathering.Plastic": "<color=#8f8f8fFF>【Plastic{0}】</color>",
+	"Weathering.Plastic#Description": "Plastic is a synthetic or natural polymer, can be arbitrarily molded into a variety of shapes can remain the shape of the material or plastic products.",
+
+	"Weathering.SpaceProgramCurrency": "<color=#648dffff>【Space Program Currency{0}】</color>",
+	"Weathering.SpaceProgram#Description": "<color=#648dffff>【Space Program】</color>如何发展？当然是使用<color=#648dffff>【太空项目科技点{0}】</color>",
+
+
+
+
+
+
+	"Weathering.Salt": "<color=#8f8f8fFF>【Salt{0}】</color>",
+
+	"Weathering.Chlorine": "<color=#8f8f8fFF>【Chlorine{0}】</color>",
+
+	"Weathering.Hydrogen": "<color=#8f8f8fFF>【Hydrogen{0}】</color>",
+
+	"Weathering.Nitrogen": "<color=#8f8f8fFF>【Nitrogen{0}】</color>",
+
+	"Weathering.Oxygen": "<color=#8f8f8fFF>【Oxygen{0}】</color>",
+
+	"Weathering.Uranrium235": "<color=#8f8f8fFF>【Uranrium235{0}】</color>",
+
+	"Weathering.Uranrium238": "<color=#8f8f8fFF>【Uranrium238{0}】</color>",
+
+	"Weathering.Deuterium": "<color=#8f8f8fFF>【Deuterium{0}】</color>",
+
+	"Weathering.Tritium": "<color=#8f8f8fFF>【Tritium{0}】</color>",
+
+
+
+
+
+
+
+	"Weathering.Truth": "【Truth{0}】",
+	"Weathering.Knowledge": "【Knowledge{0}】",
+	"Weathering.Culture": "【Culture{0}】",
+
+
+	"Weathering.Technology": "【Technology{0}】",
+		"Weathering.KnowledgeOfNature": "【<color=#ffff66FF>Knowledge Of Nature{0}】</color>",
+			"Weathering.KnowledgeOfGatheringBerry": "<color=#FF759CFF>【Gathering Berry】</color>",
+			"Weathering.KnowledgeOfGatheringBerryEfficiently": "<color=#FF759CFF>【Gathering Berry Efficiently】</color>",
+			"Weathering.KnowledgeOfHammer": "<color=#ffff66FF>【Hammer】</color>",
+			"Weathering.KnowledgeOfMagnet": "<color=#ffff66FF>【Magnet】</color>",
+			
+			"Weathering.KnowledgeOfGatheringWood": "<color=#D2A064FF>【Gathering Wood】</color>",
+			"Weathering.KnowledgeOfGatheringWoodEfficiently": "<color=#D2A064FF>【Gathering Wood Efficiently】</color>",
+		"Weathering.KnowledgeOfAncestors": "<color=#ffff66FF>【Knowledge Of Ancestors{0}】</color>",
+		"Weathering.KnowledgeOfPlanetLander": "<color=#ffff66FF>【Planet Lander】</color>",
+	"Weathering.Science": "【Science{0}】",
+
+
+	"Weathering.Book": "【Book{0}】",
+	"Weathering.SchoolEquipment": "【School Equipment{0}】",
+
+
+	"Weathering.TutorialMapTheBook": "<color=#EFE4B0FF>Rhode Island Employee Handbook</color>",
+	"Weathering.TutorialMapTheBook#Description": "Boss Kay: Welcome to the outer galaxy development! Send the supplies from the planet back to the home planet Chuantuo! Do not spell father, do not spell mother, do not spell work, do not spell money, I only desperately. If I work hard enough, my boss will soon have the life he wants! Time to fight!",
+	"Weathering.TutorialMapTheDiary": "<color=#EFE4B0FF>The Diary</color>",
+	"Weathering.TutorialMapTheDiary#Description": "In terms of working, it is impossible to work, it is impossible to work in this life. It feels like coming home. It feels so much better! Aliens are all talents, talk and good to hear, I super like in the alien!",
+	"Weathering.TutorialMapTheCurse": "<color=#EFE4B0FF>The Curse Book</color>",
+	"Weathering.TutorialMapTheCurse#Description": "Law 1: construction costs will increase exponentially with the number of existing similar buildings",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	"Weathering.WorkshopProduct": "<color=#D2A064FF>【Workshop Product{0}】</color>",
+
+
+	"Weathering.Weapon": "<color=#ddddddFF>【Weapon{0}】</color>",
+	"Weathering.Knife": "<color=#ddddddFF>【Knife{0}】</color>",
+
+	"Weathering.Creature": "<color=#f4ffb7ff>【Creature{0}】</color>",
+
+	"Weathering.Kitten": "<color=#f4ffb7ff>【Kitten{0}】</color>",
+
+	"Weathering.Slime": "<color=#ddddddFF>【Slime{0}】</color>",
+	"Weathering.SlimeLiquid": "<color=#ddddddFF>【Slime Liquid{0}】</color>",
+
+	"Weathering.Snake": "<color=#ddddddFF>【Snake{0}】</color>",
+
+	"Weathering.Goblin": "<color=#ddddddFF>【Goblin{0}】</color>",
+
+
+	"Author": "spider"
+  }
+

@@ -508,15 +508,6 @@ namespace Weathering
                     OnTapSettings();
                 }),
 
-                new UIItem {
-                    Type = IUIItemType.Image,
-                    Content = "global",
-                    LeftPadding = 0,
-                    OnTap = () => {
-                        Localization.Ins.SwitchNextLanguage();
-                        OnTapSettings();
-                    }
-                }
             });
         }
         private void OnTapSaveGameButton() {

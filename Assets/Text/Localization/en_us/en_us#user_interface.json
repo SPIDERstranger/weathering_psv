@@ -1,0 +1,77 @@
+{
+  "Weathering.GameLanguage": "English",
+
+
+  "Weathering.InventoryItemResource": "【Resource】",
+
+  "Weathering.UIItemDecIncMaxText": "{0} / {1} / {2}",
+
+  "Weathering.PlayerInventory": "【Player Inventory】",
+
+  "Weathering.AbstractTransporter_TakeAll": "Take All",
+  "Weathering.AbstractTransporter_TransferAll": "When clicking on an item, transfer all items",
+  "Weathering.AbstractTransporter_TransferHalf": "When you click on an item, transfer half of the item",
+
+
+  "Weathering.InsufficientResource": "Need {0}",
+  "Weathering.InsufficientResourceTitle": "Insufficient resources",
+
+  "Weathering.UIItemInventoryQuantityCapacity": "Quantity  {0} / {1}",
+  "Weathering.UIItemInventoryTypeCapacity": "Type {0} / {1}",
+  "Weathering.UIPresetResourceInsufficient": "Species {0} / {1}",
+  "Weathering.UIPresetInventoryFull": "Unable to fit {0}. The Inventory is full, we need to clean up the Inventory first",
+  "Weathering.UIPresetInventoryFullTitle": "Inventory Full",
+
+  "Weathering.ReturnMenu": "<color=#FFFFFFFF>Return</color>",
+
+  "Weathering.ILeft": "Left",
+  "Weathering.IRight": "Right",
+  "Weathering.IUp": "Up",
+  "Weathering.IDown": "Down",
+
+
+  "Weathering.StateOfBuilding": "{0} is building",
+  "Weathering.StateOfIdle": "{0} idle",
+  "Weathering.StateOfProducing": "{0} is producing",
+  "Weathering.StateOfAutomated": "{0} has automated",
+
+  "Weathering.PlayerAction": "<color=#B1D0FFFF>【Action】</color>",
+
+  "Weathering.OperationUnavailable": "<Unavailable Operation>",
+
+  "Weathering.Destruct": "<color=#FF9999FF>Destruct</color>",
+  "Weathering.Construct": "<color=#FFFFFFFF>Construct</color>",
+
+
+  "Weathering.Management": "<color=#FFFFFFFF>Management</color>",
+  "Weathering.Gather": "<color=#FFFFFFFF>Gather</color>",
+  "Weathering.Terraform": "<color=#FFFFFFFF>Terraform</color>",
+  "Weathering.Harvest": "<color=#FFFFFFFF>Harvest</color>",
+  "Weathering.Sow": "<color=#FFFFFFFF>Sow</color>",
+  "Weathering.Deforestation": "<color=#FF9999FF>Deforestation</color>",
+  "Weathering.Gathered": "Gathered",
+
+
+  "Weathering.FactoryInputOnInventory": "【Input  Inventory】",
+  "Weathering.FactoryInputOnRoad": "【Input Road】",
+  "Weathering.FactoryOutputOnInventory": "【Output Inventory】",
+  "Weathering.FactoryOutputOnRoad": "【Output Road】",
+
+
+  "Weathering.GameMenuLabel": "<color=#FF9999FF>【Game Menu】</color>",
+  "Weathering.GameMenuExitGame": "<color=#FF9999FF>【ExitGame】</color>",
+  "Weathering.GameMenuSaveGame": "<color=#FF9999FF>【SaveGame】</color>",
+  "Weathering.GameMenuResetGame": "<color=#FF9999FF>【ResetGame】</color>",
+  "Weathering.GameSettings": "<color=#FF9999FF>【Settings】</color>",
+  "Weathering.GameMenuLanguageLabel": "<color=#FF9999FF>【Switch language 切换语言】</color>The current language is {0}",
+  "Weathering.GameMenuInspectInventory": "Inspect Inventory",
+  "Weathering.GameMenuGotoMainMap": "Go to Other World",
+  "Weathering.GameMenuResetGameConfirmation": "Warning: Are you sure you want to reset the entire game? All saves will be lost",
+
+  "Weathering.ProductionProgress": "【Progress】",
+  "Weathering.Level": "【Level】"
+
+
+
+}
+
