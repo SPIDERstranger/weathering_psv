@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Weathering
 {
+    #region Concept
 
     [Concept]
     public class GameMenuExitGame { }
@@ -34,6 +35,14 @@ namespace Weathering
     [Concept]
     public class GameMenuLabel { }
 
+    [Concept]
+    public class GameMenuPlayerInventoryLabel { }
+
+    [Concept]
+    public class GameMenuInventoryOfResourceLabel { }
+    
+    [Concept]
+    public class GameMenuInventoryOfSupplyLabel { }
 
     [Concept]
     public class UserInterfaceBackgroundTransparency { }
@@ -57,6 +66,23 @@ namespace Weathering
     //[Concept]
     //public class ToneMapping { }
 
+    [Concept] public class GameMenuMusicLabel { }
+    [Concept] public class GameMenuCameraSenitityLabel { }
+    [Concept] public class GameMenuUITransparencyLabel { }
+    [Concept] public class GameMenuInversedMovementLabel { }
+    [Concept] public class GameMenuUtilityButtonsLabel { }
+    [Concept] public class GameMenuLogisticsAnimationIsLabel { }
+    [Concept] public class GameMenuAutoSaveSliderLabel { }
+    [Concept] public class GameMenuSoundVolumeSliderLabel { }
+    [Concept] public class GameMenuSoundVolumeLabel { }
+    [Concept] public class GameMenuMusicVolumeSliderLabel { }
+    [Concept] public class GameMenuMusicVolumeLabel { }
+    [Concept] public class GameMenuResetGameLabel { }
+    [Concept] public class GameMenuResetGameConfirm { }
+
+    [Concept] public class GameMenuBoolOn { }
+    [Concept] public class GameMenuBoolOff { }
+    #endregion
 
 
     public interface ITileDescription
@@ -207,6 +233,7 @@ namespace Weathering
 
             SyncHammer();
             SyncMagnet();
+            SyncLogisticsAnimation();
         }
         public static void OnConstruct() {
             RestoreDefaultSettings();
@@ -449,7 +476,7 @@ namespace Weathering
                 items.Add(UIItem.CreateTimeProgress<Sanity>(Globals.Ins.Values));
                 items.Add(UIItem.CreateValueProgress<Satiety>(Globals.Ins.Values));
 
-                UI.Ins.ShowItems("【随身物品】", items);
+                UI.Ins.ShowItems(Localization.Ins.Get< GameMenuPlayerInventoryLabel>(), items);
 
             }
         }
@@ -460,7 +487,7 @@ namespace Weathering
             List<IUIItem> items = new List<IUIItem>();
             UIItem.AddEntireInventory(MapView.Ins.TheOnlyActiveMap.Inventory, items, OnTapInventoryOfResource, true);
             items.Add(UIItem.CreateSeparator());
-            UI.Ins.ShowItems("【星球资源仓库】", items);
+            UI.Ins.ShowItems(Localization.Ins.Get<GameMenuInventoryOfResourceLabel>(), items);
         }
 
         // 地图盈余按钮
@@ -469,7 +496,7 @@ namespace Weathering
             List<IUIItem> items = new List<IUIItem>();
             UIItem.AddEntireInventory(MapView.Ins.TheOnlyActiveMap.InventoryOfSupply, items, OnTapInventoryOfSupply, false);
             items.Add(UIItem.CreateSeparator());
-            UI.Ins.ShowItems("【星球盈余产出】", items);
+            UI.Ins.ShowItems(Localization.Ins.Get<GameMenuInventoryOfSupplyLabel>(), items);
         }
 
 
@@ -491,7 +518,7 @@ namespace Weathering
             }),
 #endif
 
-            Sound.Ins.IsPlaying ? UIItem.CreateDynamicText(() => $"背景音乐《{Sound.Ins.PlayingMusicName}》播放中") : null,
+            Sound.Ins.IsPlaying ? UIItem.CreateDynamicText(() => string.Format(Localization.Ins.Get<GameMenuMusicLabel >(),Sound.Ins.PlayingMusicName)) : null,
 
 
 
@@ -637,7 +664,7 @@ namespace Weathering
                         int sensitivity = (int)(camerSensitivityFactor*(1.5f*x+0.5f));
                         Globals.Ins.Values.GetOrCreate<MapView.TappingSensitivity>().Max = sensitivity;
                         SyncCameraSensitivity();
-                        return $"镜头灵敏度 {sensitivity}";
+                        return  Localization.Ins.Get<GameMenuCameraSenitityLabel >()+sensitivity;
                     }
                 },
 
@@ -649,7 +676,7 @@ namespace Weathering
                         float alpha = x*userInterfaceBackgroundTransparencyFactor;
                         Globals.Ins.Values.GetOrCreate<UserInterfaceBackgroundTransparency>().Max = (long)alpha;
                         SyncUserInterfaceBackgroundTransparency();
-                        return $"背景透明度 {alpha}";
+                        return Localization.Ins.Get<GameMenuUITransparencyLabel >()+alpha;
                     }
                 },
 
@@ -663,7 +690,8 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = Globals.Ins.Bool<InversedMovement>() ? $"控制反转：启用" : $"控制反转：禁用",
+                    Content = Localization.Ins.Get<GameMenuInversedMovementLabel>() 
+                                    + (Globals.Ins.Bool<InversedMovement>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
                     OnTap = () => {
                         Globals.Ins.Bool<InversedMovement>(!Globals.Ins.Bool<InversedMovement>());
                         SyncInversedMovement();
@@ -703,7 +731,8 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = Globals.Ins.Bool<UtilityButtonsOnTheLeft>() ? $"按钮位置：左边" : $"按钮位置：右边",
+                    Content = Localization.Ins.Get<GameMenuUtilityButtonsLabel>()
+                            +(Globals.Ins.Bool<UtilityButtonsOnTheLeft>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
                     OnTap = () => {
                         Globals.Ins.Bool<UtilityButtonsOnTheLeft>(!Globals.Ins.Bool<UtilityButtonsOnTheLeft>());
                         SyncUtilityButtonPosition();
@@ -713,7 +742,8 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = Globals.Ins.Bool<LogisticsAnimationIsLinear>() ? $"物流动画：匀速" : $"物流动画：变速",
+                    Content = Localization.Ins.Get<GameMenuLogisticsAnimationIsLabel>()
+                    +(Globals.Ins.Bool<LogisticsAnimationIsLinear>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
                     OnTap = () => {
                         Globals.Ins.Bool<LogisticsAnimationIsLinear>(!Globals.Ins.Bool<LogisticsAnimationIsLinear>());
                         SyncLogisticsAnimation();
@@ -730,7 +760,7 @@ namespace Weathering
                     DynamicSliderContent = (float x) => {
                         long interval = (long)(x*(maxAutoSave-minAutoSave)+minAutoSave);
                         Globals.Ins.Values.Get<GameAutoSaveInterval>().Max = interval;
-                        return $"自动存档间隔 {interval} 秒";
+                        return string.Format(Localization.Ins.Get<GameMenuAutoSaveSliderLabel>(),interval);
                     }
                 },
 
@@ -742,14 +772,15 @@ namespace Weathering
                     DynamicSliderContent = (float x) => {
                         Globals.Ins.Values.Get<SoundVolume>().Max = (long)(x * VolumeFactor);
                         SyncSound();
-                        return $"音效音量 {Math.Floor(x*100)}";
+                        return Localization.Ins.Get<GameMenuSoundVolumeSliderLabel>()+ Math.Floor(x*100);
                     }
                 },
 
                 /// 游戏音效
                 new UIItem {
                     Type = IUIItemType.Button,
-                    DynamicContent = () => Globals.Ins.Bool<SoundEnabled>() ? "音效：已开启" : "音效：已关闭",
+                    DynamicContent = () => Localization.Ins.Get<GameMenuSoundVolumeLabel>()
+                    +( Globals.Ins.Bool<SoundEnabled>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
                     OnTap = () => {
                         Globals.Ins.Bool<SoundEnabled>(!Globals.Ins.Bool<SoundEnabled>());
                         SyncSound();
@@ -765,13 +796,13 @@ namespace Weathering
                     DynamicSliderContent = (float x) => {
                         Globals.Ins.Values.Get<MusicVolume>().Max = (long)(x * VolumeFactor);
                         SyncSound();
-                        return $"音乐音量 {Math.Floor(x*100)}";
+                        return  Localization.Ins.Get<GameMenuMusicVolumeSliderLabel>()+ Math.Floor(x*100);
                     }
                 },
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = Globals.Ins.Bool<MusicEnabled>() ? "音乐：已开启" : "音乐：已关闭",
+                    Content = Localization.Ins.Get<GameMenuMusicVolumeLabel>()+(Globals.Ins.Bool<MusicEnabled>() ?Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
                     OnTap = () => {
                         Globals.Ins.Bool<MusicEnabled>(!Globals.Ins.Bool<MusicEnabled>());
                         SyncSound();
@@ -779,7 +810,7 @@ namespace Weathering
                     }
                 },
 
-                Sound.Ins.IsPlaying ? UIItem.CreateDynamicText(() => $"《{Sound.Ins.PlayingMusicName}》播放中") : null,
+                Sound.Ins.IsPlaying ? UIItem.CreateDynamicText(() => string.Format(Localization.Ins.Get<GameMenuMusicLabel >(),Sound.Ins.PlayingMusicName)) : null,
 
 
                 UIItem.CreateSeparator(),

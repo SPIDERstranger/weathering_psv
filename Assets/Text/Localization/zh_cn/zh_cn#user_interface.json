@@ -69,8 +69,26 @@
   "Weathering.GameMenuResetGameConfirmation": "警告：确定要重置整个游戏吗？将丢失所有存档",
 
   "Weathering.ProductionProgress": "【进度】",
-  "Weathering.Level": "【等级】"
+  "Weathering.Level": "【等级】",
 
+  "Weathering.GameMenuPlayerInventoryLabel": "【随身物品】",
+  "Weathering.GameMenuInventoryOfResourceLabel": "【星球资源仓库】",
+  "Weathering.GameMenuInventoryOfSupplyLabel": "【星球资源仓库】",
+  "Weathering.GameMenuMusicLabel": "背景音乐《{0}》播放中",
+  "Weathering.GameMenuCameraSenitityLabel": "镜头灵敏度：",
+  "Weathering.GameMenuUITransparencyLabel": "背景透明度：",
+  "Weathering.GameMenuInversedMovementLabel": "控制反转：",
+  "Weathering.GameMenuUtilityButtonsLabel": "左手按钮位置：",
+  "Weathering.GameMenuLogisticsAnimationIsLabel": "物流动画：",
+  "Weathering.GameMenuAutoSaveSliderLabel": "自动存档间隔 {0} 秒",
+  "Weathering.GameMenuSoundVolumeSliderLabel": "音效音量：",
+  "Weathering.GameMenuSoundVolumeLabel": "音效：",
+  "Weathering.GameMenuMusicVolumeSliderLabel": "音乐音量：",
+  "Weathering.GameMenuMusicVolumeLabel": "音乐：",
+  "Weathering.GameMenuResetGameLabel": "还原默认设置",
+  "Weathering.GameMenuResetGameConfirm": "确认重置存档吗? 需要重启游戏",
+  "Weathering.GameMenuBoolOn": "已开启",
+  "Weathering.GameMenuBoolOff": "已关闭"
 
 
 }
