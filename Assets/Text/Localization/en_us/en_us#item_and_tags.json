@@ -208,7 +208,7 @@
 
 
 	"Weathering.Technology": "【Technology{0}】",
-		"Weathering.KnowledgeOfNature": "【<color=#ffff66FF>Knowledge Of Nature{0}】</color>",
+		"Weathering.KnowledgeOfNature": "<color=#ffff66FF>【Knowledge Of Nature{0}】</color>",
 			"Weathering.KnowledgeOfGatheringBerry": "<color=#FF759CFF>【Gathering Berry】</color>",
 			"Weathering.KnowledgeOfGatheringBerryEfficiently": "<color=#FF759CFF>【Gathering Berry Efficiently】</color>",
 			"Weathering.KnowledgeOfHammer": "<color=#ffff66FF>【Hammer】</color>",

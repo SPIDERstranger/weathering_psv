@@ -42,20 +42,29 @@
   "Weathering.Destruct": "<color=#FF9999FF>拆除</color>",
   "Weathering.Construct": "<color=#FFFFFFFF>建造</color>",
 
-
+  "Weathering.Research": "研究",
+  "Weathering.Researched": "已研究",
   "Weathering.Management": "<color=#FFFFFFFF>管理</color>",
-  "Weathering.Gather": "<color=#FFFFFFFF>获取</color>",
+  "Weathering.Gather": "<color=#FFFFFFFF>收集</color>",
   "Weathering.Terraform": "<color=#FFFFFFFF>地貌改造</color>",
-  "Weathering.Harvest": "<color=#FFFFFFFF>收获</color>",
+  "Weathering.Harvest": "<color=#FFFFFFFF>采集</color>",
   "Weathering.Sow": "<color=#FFFFFFFF>播种</color>",
   "Weathering.Deforestation": "<color=#FF9999FF>砍伐森林</color>",
   "Weathering.Gathered": "获得了",
+  "Weathering.FromWhereGatheredSth": "从{0}获得{1}",
 
+  "Weathering.FactoryInputOnInventory": "自动输入",
+  "Weathering.FactoryInputOnRoad": "物流输入",
+  "Weathering.FactoryOutputOnInventory": "自动输出",
+  "Weathering.FactoryOutputOnRoad": "物流输出",
 
-  "Weathering.FactoryInputOnInventory": "【自动输入】",
-  "Weathering.FactoryInputOnRoad": "【物流输入】",
-  "Weathering.FactoryOutputOnInventory": "【自动输出】",
-  "Weathering.FactoryOutputOnRoad": "【物流输出】",
+  "Weathering.FactoryRecipe": "建筑功能",
+  "Weathering.FactoryCost": "建筑费用",
+  "Weathering.FactoryControl": "建筑控制",
+  "Weathering.FactoryProductionStatistics": "综合产量统计",
+  "Weathering.FactoryRun": "开始运转",
+  "Weathering.FactoryStop": "停止运转",
+  "Weathering.ResearchedPageTitle": "成功研究",
 
 
   "Weathering.GameMenuLabel": "<color=#FF9999FF>【游戏设置菜单】</color>",

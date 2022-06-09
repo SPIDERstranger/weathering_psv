@@ -690,8 +690,7 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = Localization.Ins.Get<GameMenuInversedMovementLabel>() 
-                                    + (Globals.Ins.Bool<InversedMovement>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
+                    Content = $"{Localization.Ins.Get<GameMenuInversedMovementLabel>()}{(Globals.Ins.Bool<InversedMovement>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()) }",
                     OnTap = () => {
                         Globals.Ins.Bool<InversedMovement>(!Globals.Ins.Bool<InversedMovement>());
                         SyncInversedMovement();
@@ -731,8 +730,7 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = Localization.Ins.Get<GameMenuUtilityButtonsLabel>()
-                            +(Globals.Ins.Bool<UtilityButtonsOnTheLeft>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
+                    Content = $"{Localization.Ins.Get<GameMenuUtilityButtonsLabel>()}{ (Globals.Ins.Bool<UtilityButtonsOnTheLeft>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()) }",
                     OnTap = () => {
                         Globals.Ins.Bool<UtilityButtonsOnTheLeft>(!Globals.Ins.Bool<UtilityButtonsOnTheLeft>());
                         SyncUtilityButtonPosition();
@@ -742,8 +740,7 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = Localization.Ins.Get<GameMenuLogisticsAnimationIsLabel>()
-                    +(Globals.Ins.Bool<LogisticsAnimationIsLinear>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
+                    Content = $"{Localization.Ins.Get<GameMenuLogisticsAnimationIsLabel>()}{(Globals.Ins.Bool<LogisticsAnimationIsLinear>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()) }",
                     OnTap = () => {
                         Globals.Ins.Bool<LogisticsAnimationIsLinear>(!Globals.Ins.Bool<LogisticsAnimationIsLinear>());
                         SyncLogisticsAnimation();
@@ -779,8 +776,7 @@ namespace Weathering
                 /// 游戏音效
                 new UIItem {
                     Type = IUIItemType.Button,
-                    DynamicContent = () => Localization.Ins.Get<GameMenuSoundVolumeLabel>()
-                    +( Globals.Ins.Bool<SoundEnabled>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
+                    DynamicContent = () => $"{Localization.Ins.Get<GameMenuSoundVolumeLabel>()}{( Globals.Ins.Bool<SoundEnabled>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>())}",
                     OnTap = () => {
                         Globals.Ins.Bool<SoundEnabled>(!Globals.Ins.Bool<SoundEnabled>());
                         SyncSound();
@@ -802,7 +798,7 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = Localization.Ins.Get<GameMenuMusicVolumeLabel>()+(Globals.Ins.Bool<MusicEnabled>() ?Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()),
+                    Content = $"{Localization.Ins.Get<GameMenuMusicVolumeLabel>()} {(Globals.Ins.Bool<MusicEnabled>() ?Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>())}",
                     OnTap = () => {
                         Globals.Ins.Bool<MusicEnabled>(!Globals.Ins.Bool<MusicEnabled>());
                         SyncSound();
@@ -863,7 +859,7 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = $"还原默认设置",
+                    Content = Localization.Ins.Get<GameMenuResetGameLabel>(),
                     OnTap = UIDecorator.ConfirmBefore(() => {
                         RestoreDefaultSettings();
                         SynchronizeSettings();
@@ -877,7 +873,7 @@ namespace Weathering
                 new UIItem {
                     Content = Localization.Ins.Get<GameMenuResetGame>(),
                     Type = IUIItemType.Button,
-                    OnTap = UIDecorator.ConfirmBefore(Entry.DeleteGameSave, OpenGameSettingMenu, "确认重置存档吗? 需要重启游戏"),
+                    OnTap = UIDecorator.ConfirmBefore(Entry.DeleteGameSave, OpenGameSettingMenu, Localization.Ins.Get<GameMenuResetGameConfirm>()),
                 }
             });
 

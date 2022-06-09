@@ -24,10 +24,10 @@
 
   "Weathering.ReturnMenu": "<color=#FFFFFFFF>Return</color>",
 
-  "Weathering.ILeft": "Left",
-  "Weathering.IRight": "Right",
-  "Weathering.IUp": "Up",
-  "Weathering.IDown": "Down",
+  "Weathering.ILeft": "West",
+  "Weathering.IRight": "East",
+  "Weathering.IUp": "North",
+  "Weathering.IDown": "South",
 
 
   "Weathering.StateOfBuilding": "{0} is building",
@@ -43,6 +43,8 @@
   "Weathering.Construct": "<color=#FFFFFFFF>Construct</color>",
 
 
+  "Weathering.Research": "Research",
+  "Weathering.Researched": "Completed",
   "Weathering.Management": "<color=#FFFFFFFF>Management</color>",
   "Weathering.Gather": "<color=#FFFFFFFF>Gather</color>",
   "Weathering.Terraform": "<color=#FFFFFFFF>Terraform</color>",
@@ -50,13 +52,20 @@
   "Weathering.Sow": "<color=#FFFFFFFF>Sow</color>",
   "Weathering.Deforestation": "<color=#FF9999FF>Deforestation</color>",
   "Weathering.Gathered": "Gathered",
+  "Weathering.FromWhereGatheredSth": "Gathered {1} From {0}",
 
+  "Weathering.FactoryInputOnInventory": "Auto Input : ",
+  "Weathering.FactoryInputOnRoad": "Logistics Input : ",
+  "Weathering.FactoryOutputOnInventory": "Auto Output : ",
+  "Weathering.FactoryOutputOnRoad": "Logistics Output : ",
 
-  "Weathering.FactoryInputOnInventory": "【Input  Inventory】",
-  "Weathering.FactoryInputOnRoad": "【Input Road】",
-  "Weathering.FactoryOutputOnInventory": "【Output Inventory】",
-  "Weathering.FactoryOutputOnRoad": "【Output Road】",
-
+  "Weathering.FactoryRecipe": "Factory Recipe",
+  "Weathering.FactoryCost": "Factory Cost",
+  "Weathering.FactoryControl": "Factory Control",
+  "Weathering.FactoryProductionStatistics": "Production Statistics",
+  "Weathering.FactoryRun": "Factory Run",
+  "Weathering.FactoryStop": "Factory Stop",
+  "Weathering.ResearchedPageTitle": "Completed",
 
   "Weathering.GameMenuLabel": "<color=#FF9999FF>【Game Menu】</color>",
   "Weathering.GameMenuExitGame": "<color=#FF9999FF>【ExitGame】</color>",

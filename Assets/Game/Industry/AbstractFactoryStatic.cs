@@ -18,6 +18,8 @@ namespace Weathering
 
     public class FactoryRunning { }
 
+    #region Concepts
+
     [Concept]
     public class FactoryInputOnInventory { }
     [Concept]
@@ -26,6 +28,21 @@ namespace Weathering
     public class FactoryOutputOnInventory { }
     [Concept]
     public class FactoryOutputOnRoad { }
+
+
+    [Concept] public class FactoryRecipe { }
+    [Concept] public class FactoryCost { }
+    [Concept] public class FactoryControl { }
+    [Concept] public class FactoryProductionStatistics { }
+    [Concept] public class FactoryRun { }
+    [Concept] public class FactoryStop { }
+
+
+
+
+    #endregion
+
+
 
 
     /// <summary>
@@ -467,12 +484,16 @@ namespace Weathering
             out0Value.Val -= quantity;
             Map.Inventory.Add(type, quantity);
             if (quantity > 0) {
-                GameMenu.Ins.PushNotification($"从{Localization.Ins.Get(GetType())}获得{Localization.Ins.Val(type, quantity)}");
+                GameMenu.Ins.PushNotification(
+                    string.Format(
+                        Localization.Ins.Get<FromWhereGatheredSth>(),
+                        Localization.Ins.Get(GetType()),
+                        Localization.Ins.Val(type, quantity
+                        )));
             }
 
             return quantity > 0;
         }
-
 
         public override void OnTap() {
             var items = new List<IUIItem>() { };
@@ -485,17 +506,17 @@ namespace Weathering
                         items.Add(UIItem.CreateValueProgress(out0Ref.Type, out0Value));
                     }
                     if (out0Value.Inc > 0 || out0Value.Val > 0) {
-                        items.Add(UIItem.CreateButton($"收集 {Localization.Ins.ValUnit(out0Ref.Type)}", () => { TryCollectOut0(); OnTap(); }));
+                        items.Add(UIItem.CreateButton($"{Localization.Ins.Get<Gather>()} {Localization.Ins.ValUnit(out0Ref.Type)}", () => { TryCollectOut0(); OnTap(); }));
                     }
                 }
                 items.Add(UIItem.CreateSeparator());
             }
 
             AddBuildingDescriptionPage(items);
-            items.Add(UIItem.CreateButton("建筑功能", BuildingRecipePage));
-            items.Add(UIItem.CreateButton("建筑费用", () => ConstructionCostBaseAttribute.ShowBuildingCostPage(OnTap, Map, GetType())));
-            items.Add(UIItem.CreateButton("建筑控制", BuildingControlPage));
-            items.Add(UIItem.CreateButton("综合产量统计", BuildingProductionStatisticsPage));
+            items.Add(UIItem.CreateButton(Localization.Ins.Get<FactoryRecipe>(), BuildingRecipePage));
+            items.Add(UIItem.CreateButton(Localization.Ins.Get<FactoryCost>(), () => ConstructionCostBaseAttribute.ShowBuildingCostPage(OnTap, Map, GetType())));
+            items.Add(UIItem.CreateButton(Localization.Ins.Get<FactoryControl>(), BuildingControlPage));
+            items.Add(UIItem.CreateButton(Localization.Ins.Get<FactoryProductionStatistics>(), BuildingProductionStatisticsPage));
 
             //items.Add(UIItem.CreateStaticButton($"开始运转", () => { Run(); OnTap(); }, CanRun()));
             //items.Add(UIItem.CreateStaticButton($"停止运转", () => { Stop(); OnTap(); }, CanStop()));
@@ -520,13 +541,13 @@ namespace Weathering
 
             items.Add(UIItem.CreateReturnButton(OnTap));
 
-            items.Add(UIItem.CreateStaticButton($"开始运转", () => { Run(); BuildingControlPage(); }, CanRun()));
-            items.Add(UIItem.CreateStaticButton($"停止运转", () => { Stop(); BuildingControlPage(); }, CanStop()));
+            items.Add(UIItem.CreateStaticButton(Localization.Ins.Get<FactoryRun>(), () => { Run(); BuildingControlPage(); }, CanRun()));
+            items.Add(UIItem.CreateStaticButton(Localization.Ins.Get<FactoryStop>(), () => { Stop(); BuildingControlPage(); }, CanStop()));
 
             items.Add(UIItem.CreateSeparator());
             LinkUtility.AddButtons(items, this);
 
-            UI.Ins.ShowItems($"{Localization.Ins.Get(GetType())}建筑详情", items);
+            UI.Ins.ShowItems($"{Localization.Ins.Get(GetType())}{Localization.Ins.Get<FactoryControl>()}", items);
         }
 
         private void BuildingRecipePage() {
@@ -534,23 +555,23 @@ namespace Weathering
 
             items.Add(UIItem.CreateReturnButton(OnTap));
 
-            if (HasIn_0_Inventory) AddDescriptionItem(items, In_0_Inventory, "自动输入", true);
-            if (HasIn_1_Inventory) AddDescriptionItem(items, In_1_Inventory, "自动输入", true);
+            if (HasIn_0_Inventory) AddDescriptionItem(items, In_0_Inventory, Localization.Ins.Get< FactoryInputOnInventory >() , true);
+            if (HasIn_1_Inventory) AddDescriptionItem(items, In_1_Inventory, Localization.Ins.Get<FactoryInputOnInventory>(), true);
 
-            if (HasOut0_Inventory) AddDescriptionItem(items, Out0_Inventory, "自动输出", true);
-            if (HasOut1_Inventory) AddDescriptionItem(items, Out1_Inventory, "自动输出", true);
+            if (HasOut0_Inventory) AddDescriptionItem(items, Out0_Inventory, Localization.Ins.Get<FactoryOutputOnInventory>(), true);
+            if (HasOut1_Inventory) AddDescriptionItem(items, Out1_Inventory, Localization.Ins.Get<FactoryOutputOnInventory>(), true);
 
-            if (HasIn_0) AddDescriptionItem(items, In_0, "物流输入");
-            if (HasIn_1) AddDescriptionItem(items, In_1, "物流输入");
-            if (HasIn_2) AddDescriptionItem(items, In_2, "物流输入");
-            if (HasIn_3) AddDescriptionItem(items, In_3, "物流输入");
+            if (HasIn_0) AddDescriptionItem(items, In_0, Localization.Ins.Get<FactoryInputOnRoad>());
+            if (HasIn_1) AddDescriptionItem(items, In_1,  Localization.Ins.Get<FactoryInputOnRoad>());
+            if (HasIn_2) AddDescriptionItem(items, In_2,  Localization.Ins.Get<FactoryInputOnRoad>());
+            if (HasIn_3) AddDescriptionItem(items, In_3, Localization.Ins.Get<FactoryInputOnRoad>());
 
-            if (HasOut0) AddDescriptionItem(items, Out0, "物流输出");
-            if (HasOut1) AddDescriptionItem(items, Out1, "物流输出");
-            if (HasOut2) AddDescriptionItem(items, Out2, "物流输出");
-            if (HasOut3) AddDescriptionItem(items, Out3, "物流输出");
+            if (HasOut0) AddDescriptionItem(items, Out0,  Localization.Ins.Get<FactoryOutputOnRoad>());
+            if (HasOut1) AddDescriptionItem(items, Out1,  Localization.Ins.Get<FactoryOutputOnRoad>());
+            if (HasOut2) AddDescriptionItem(items, Out2,  Localization.Ins.Get<FactoryOutputOnRoad>());
+            if (HasOut3) AddDescriptionItem(items, Out3,  Localization.Ins.Get<FactoryOutputOnRoad>());
 
-            UI.Ins.ShowItems($"{Localization.Ins.Get(GetType())}建筑控制", items);
+            UI.Ins.ShowItems($"{Localization.Ins.Get(GetType())}{Localization.Ins.Get<FactoryRecipe>()}", items);
         }
         private void BuildingProductionStatisticsPage() {
             var items = UI.Ins.GetItems();
@@ -560,31 +581,31 @@ namespace Weathering
             Type res;
             if (HasOut0_Inventory) {
                 res = Out0_Inventory.Item1;
-                items.Add(UIItem.CreateButton($"自动输出产量 {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out0_Inventory.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
+                items.Add(UIItem.CreateButton($"{Localization.Ins.Get<FactoryOutputOnInventory>()} {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out0_Inventory.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
             }
             if (HasOut1_Inventory) {
                 res = Out0_Inventory.Item1;
-                items.Add(UIItem.CreateButton($"自动输出产量 {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out1_Inventory.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
+                items.Add(UIItem.CreateButton($"{Localization.Ins.Get<FactoryOutputOnInventory>()} {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out1_Inventory.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
             }
 
             if (HasOut0) {
                 res = Out0.Item1;
-                items.Add(UIItem.CreateButton($"物流输出产量 {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out0.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
+                items.Add(UIItem.CreateButton($"{Localization.Ins.Get<FactoryOutputOnRoad>()} {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out0.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
             }
             if (HasOut1) {
                 res = Out1.Item1;
-                items.Add(UIItem.CreateButton($"物流输出产量 {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out1.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
+                items.Add(UIItem.CreateButton($"{Localization.Ins.Get<FactoryOutputOnRoad>()} {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out1.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
             }
             if (HasOut2) {
                 res = Out2.Item1;
-                items.Add(UIItem.CreateButton($"物流输出产量 {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out2.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
+                items.Add(UIItem.CreateButton($"{Localization.Ins.Get<FactoryOutputOnRoad>()} {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out2.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
             }
             if (HasOut3) {
                 res = Out3.Item1;
-                items.Add(UIItem.CreateButton($"物流输出产量 {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out3.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
+                items.Add(UIItem.CreateButton($"{Localization.Ins.Get<FactoryOutputOnRoad>()} {Localization.Ins.Val(res, Map.Refs.GetOrCreate(Out3.Item1).Value)}", () => UIPreset.OnTapItem(BuildingProductionStatisticsPage, res)));
             }
 
-            UI.Ins.ShowItems($"{Localization.Ins.Get(GetType())}产量", items);
+            UI.Ins.ShowItems($"{Localization.Ins.Get(GetType())}{Localization.Ins.Get<FactoryProductionStatistics>()}", items);
         }
 
         private void AddDescriptionItem(List<IUIItem> items, ValueTuple<Type, long> pair, string text, bool dontCreateImage = false) {

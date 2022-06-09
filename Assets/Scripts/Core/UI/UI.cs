@@ -591,7 +591,7 @@ namespace Weathering
         private float CalcUpdateValueProgress(IValue value) {
             return value.Max == 0 ? 0 : (float)value.Val / value.Max;
         }
-
+        //TODO 用户界面数据配置化
         private void UpdateValueProgress(ProgressBar key, IValue value, string title) {
             if (value.Maxed) {
                 if (value.Max == 0) {

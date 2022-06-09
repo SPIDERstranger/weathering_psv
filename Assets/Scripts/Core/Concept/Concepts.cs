@@ -28,6 +28,10 @@ namespace Weathering
     public class OperationUnavailable { }
 
     [Concept]
+    public class Research { }
+    [Concept]
+    public class Researched { }
+    [Concept]
     public class PlayerAction { }
     [Concept]
     public class Destruct { }
@@ -52,6 +56,8 @@ namespace Weathering
     [Concept]
     public class Gathered { }
 
+    [Concept]
+    public class FromWhereGatheredSth { }
 
 
 

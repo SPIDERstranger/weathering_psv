@@ -11,6 +11,9 @@ namespace Weathering
     public class Technology { }
 
 
+    [Concept]
+    public class ResearchedPageTitle { }
+
     public abstract class AbstractTechnologyCenter : StandardTile, ILinkEvent, ILinkConsumer
     {
 
@@ -125,8 +128,8 @@ namespace Weathering
 
                 bool hasTech = Globals.Ins.Bool(techType);
                 if (!hasTech) {
-                    items.Add(UIItem.CreateDynamicIconButton(techPointCount == 0 ? $"研究 {techName}" :
-                        $"研究 {techName} {(DontConsumeTechnologyPoint ? $"需要{Localization.Ins.Val(techPointType, techPointCount)}" : Localization.Ins.Val(techPointType, -techPointCount))}", () => {
+                    items.Add(UIItem.CreateDynamicIconButton(techPointCount == 0 ? $"{Localization.Ins.Get<Research>()} {techName}" :
+                        $"{Localization.Ins.Get<Research>()} {techName} {(DontConsumeTechnologyPoint ? $"需要{Localization.Ins.Val(techPointType, techPointCount)}" : Localization.Ins.Val(techPointType, -techPointCount))}", () => {
 
                             if (!DontConsumeTechnologyPoint && !GameConfig.CheatMode) {
                                 techValue.Val -= techPointCount;
@@ -142,7 +145,7 @@ namespace Weathering
                                 var items_ = UI.Ins.GetItems();
                                 items_.Add(UIItem.CreateReturnButton(OnTap));
                                 action(items_);
-                                UI.Ins.ShowItems($"成功研究 {Localization.Ins.Get(techType)}", items_);
+                                UI.Ins.ShowItems($"{Localization.Ins.Get<ResearchedPageTitle>()} {Localization.Ins.Get(techType)}", items_);
                             } else {
                                 OnTap();
                             }
@@ -154,18 +157,18 @@ namespace Weathering
                 } else {
                     Action<List<IUIItem>> action;
                     if (TechnologyResearched_Event.Event.TryGetValue(techType, out  action)) {
-                        itemsUnlockedBuffer.Add(UIItem.CreateButton($"已研究 {techName}", () => {
+                        itemsUnlockedBuffer.Add(UIItem.CreateButton($"{Localization.Ins.Get<Researched>()} {techName}", () => {
                             var items_ = UI.Ins.GetItems();
                             items_.Add(UIItem.CreateReturnButton(OnTap));
                             action(items_);
-                            UI.Ins.ShowItems($"成功研究 {Localization.Ins.Get(techType)}", items_);
+                            UI.Ins.ShowItems($"{Localization.Ins.Get<ResearchedPageTitle>()} {Localization.Ins.Get(techType)}", items_);
                         }));
                     } else {
-                        itemsUnlockedBuffer.Add(UIItem.CreateButton($"已研究 {techName}", () => {
+                        itemsUnlockedBuffer.Add(UIItem.CreateButton($"{Localization.Ins.Get<Researched>()} {techName}", () => {
                             var items_ = UI.Ins.GetItems();
                             items_.Add(UIItem.CreateReturnButton(OnTap));
                             items_.Add(UIItem.CreateMultilineText($"游戏开发者太懒了，还没有写{techName}的介绍"));
-                            UI.Ins.ShowItems($"成功研究 {Localization.Ins.Get(techType)}", items_);
+                            UI.Ins.ShowItems($"{Localization.Ins.Get<ResearchedPageTitle>()} {Localization.Ins.Get(techType)}", items_);
                         }));
                     }
                 }
