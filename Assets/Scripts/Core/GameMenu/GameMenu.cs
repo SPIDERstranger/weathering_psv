@@ -70,8 +70,8 @@ namespace Weathering
     [Concept] public class GameMenuCameraSenitityLabel { }
     [Concept] public class GameMenuUITransparencyLabel { }
     [Concept] public class GameMenuInversedMovementLabel { }
-    [Concept] public class GameMenuUtilityButtonsLabel { }
-    [Concept] public class GameMenuLogisticsAnimationIsLabel { }
+    [Concept] public class GameMenuLeftHandUtilityButtonsLabel { }
+    [Concept] public class GameMenuLinearLogisticsAnimationIsLabel { }
     [Concept] public class GameMenuAutoSaveSliderLabel { }
     [Concept] public class GameMenuSoundVolumeSliderLabel { }
     [Concept] public class GameMenuSoundVolumeLabel { }
@@ -229,7 +229,7 @@ namespace Weathering
         private void Start() {
             SynchronizeSettings();
             SyncButtonsOutlines();
-            TileDescriptionForStandalone.gameObject.SetActive(IsInStandalone);
+            TileDescriptionForStandalone.gameObject.SetActive(IsInStandalone||IsInPSV);
 
             SyncHammer();
             SyncMagnet();
@@ -730,7 +730,7 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = $"{Localization.Ins.Get<GameMenuUtilityButtonsLabel>()}{ (Globals.Ins.Bool<UtilityButtonsOnTheLeft>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()) }",
+                    Content = $"{Localization.Ins.Get<GameMenuLeftHandUtilityButtonsLabel>()}{ (Globals.Ins.Bool<UtilityButtonsOnTheLeft>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()) }",
                     OnTap = () => {
                         Globals.Ins.Bool<UtilityButtonsOnTheLeft>(!Globals.Ins.Bool<UtilityButtonsOnTheLeft>());
                         SyncUtilityButtonPosition();
@@ -740,7 +740,7 @@ namespace Weathering
 
                 new UIItem {
                     Type = IUIItemType.Button,
-                    Content = $"{Localization.Ins.Get<GameMenuLogisticsAnimationIsLabel>()}{(Globals.Ins.Bool<LogisticsAnimationIsLinear>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()) }",
+                    Content = $"{Localization.Ins.Get<GameMenuLinearLogisticsAnimationIsLabel>()}{(Globals.Ins.Bool<LogisticsAnimationIsLinear>() ? Localization.Ins.Get<GameMenuBoolOn>():Localization.Ins.Get<GameMenuBoolOff>()) }",
                     OnTap = () => {
                         Globals.Ins.Bool<LogisticsAnimationIsLinear>(!Globals.Ins.Bool<LogisticsAnimationIsLinear>());
                         SyncLogisticsAnimation();

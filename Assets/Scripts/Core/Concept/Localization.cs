@@ -35,27 +35,33 @@ namespace Weathering
     {
         public static ILocalization Ins { get; private set; }
         public const string ACTIVE_LANGUAGE = "active_language";
+        // 从streamingAsset 中获取对应的语言
         private void Awake() {
             if (Ins != null) {
                 throw new Exception();
             }
             Ins = this;
+            LoadSupportLanguageFromSA();
+            // 判断该语言是否存在，若不存在，则读取文件，若还没有，就不管了
             if (Globals.Ins.PlayerPreferences.ContainsKey(ACTIVE_LANGUAGE)) {
 
             } else {
-                Globals.Ins.PlayerPreferences.Add(ACTIVE_LANGUAGE, DefaultLanguage);
+                LoadDefaultLanguage();
+                Globals.Ins.PlayerPreferences.Add(ACTIVE_LANGUAGE, DefaultLangInSA);
             }
+            CorrectLanguage();
+
             SyncActiveLanguage();
         }
 
 
         private string DefaultLanguage = "zh_cn";
+        private string DefaultLangInSA;
 
+        //public string[] SupporttedLanguages;
 
-        public string[] SupporttedLanguages;
-
-        [SerializeField]
-        private TextAsset[] Jsons;
+        //[SerializeField]
+        //private TextAsset[] Jsons;
         private Dictionary<string, string> Dict;
         private Dictionary<string, string> DictOfDescription;
 
@@ -168,50 +174,52 @@ namespace Weathering
 
         public void SyncActiveLanguage() {
             string activeLanguage = Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE];
-            bool found = false;
+            bool found = LoadLangFromSA(activeLanguage);
+            #region 弃用
 
-            Dict = new Dictionary<string, string>();
-            DictOfDescription = new Dictionary<string, string>();
-            foreach (var jsonTextAsset in Jsons) {
-                if (jsonTextAsset.name.StartsWith(activeLanguage)) {
-                    Dictionary<string, string> subDict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonTextAsset.text);
-                    foreach (var pair in subDict) {
-                        if (Dict.ContainsKey(pair.Key)) {
-                            UIPreset.Throw($"出现了重复的key “{pair.Key}” in {jsonTextAsset.name}. 不知道另一个key在哪个文件");
-                        }
-                        else {
-                            int indexOfHashMark = pair.Key.IndexOf('#');
-                            if (indexOfHashMark < 0) {
-                                Dict.Add(pair.Key, pair.Value);
-                            } 
-                            else {
-                                string typeName = pair.Key.Substring(0, indexOfHashMark);
-                                //if (DictOfDescription.ContainsKey(typeName)) {
-                                //    Debug.LogError(typeName);
-                                //}
-                                DictOfDescription.Add(typeName, pair.Value);
-                            }
-                        }
-                    }
-                    found = true;
-                }
-            }
+            //Dict = new Dictionary<string, string>();
+            //DictOfDescription = new Dictionary<string, string>();
+            //foreach (var jsonTextAsset in Jsons) {
+            //    if (jsonTextAsset.name.StartsWith(activeLanguage)) {
+            //        Dictionary<string, string> subDict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonTextAsset.text);
+            //        foreach (var pair in subDict) {
+            //            if (Dict.ContainsKey(pair.Key)) {
+            //                UIPreset.Throw($"出现了重复的key “{pair.Key}” in {jsonTextAsset.name}. 不知道另一个key在哪个文件");
+            //            }
+            //            else {
+            //                int indexOfHashMark = pair.Key.IndexOf('#');
+            //                if (indexOfHashMark < 0) {
+            //                    Dict.Add(pair.Key, pair.Value);
+            //                } 
+            //                else {
+            //                    string typeName = pair.Key.Substring(0, indexOfHashMark);
+            //                    //if (DictOfDescription.ContainsKey(typeName)) {
+            //                    //    Debug.LogError(typeName);
+            //                    //}
+            //                    DictOfDescription.Add(typeName, pair.Value);
+            //                }
+            //            }
+            //        }
+            //        found = true;
+            //    }
+            //}
+            #endregion
             if (!found) {
                 throw new Exception(activeLanguage);
             }
         }
 
         public void SwitchNextLanguage() {
-            if (SupporttedLanguages.Length == 1) {
+            string activeLanguage = Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE];
+            if (supportLanguagesInSA.Length == 1&& activeLanguage.Equals(supportLanguagesInSA[0],StringComparison.CurrentCulture) ){//TODO 判断是否为当前语言
                 UIPreset.Notify(null, "只有一种语言配置");
                 return;
             }
-            string activeLanguage = Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE];
 
             // 找到下一个语言, 效率很低, 但可以用
             bool found = false;
             int index = 0;
-            foreach (var jsonTextAsset in SupporttedLanguages) {
+            foreach (var jsonTextAsset in supportLanguagesInSA) {
                 if (jsonTextAsset == activeLanguage) {
                     // Dict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonTextAsset.text);
                     found = true;
@@ -219,19 +227,118 @@ namespace Weathering
                 }
                 index++;
             }
-            if (!found) throw new Exception();
+            if (!found)
+            {
+                UIPreset.Notify(null, "无当前配置语言");
+                throw new Exception();
+            }
             index++;
-            if (index == SupporttedLanguages.Length) {
+            if (index == supportLanguagesInSA.Length) {
                 index = 0;
             }
 
             // Dict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(Jsons[index].text);
 
-            Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE] = SupporttedLanguages[index];
+            Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE] = supportLanguagesInSA[index];
             SyncActiveLanguage();
         }
 
+        public void CorrectLanguage()
+        {
+            var lang = Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE];
+            foreach (var support in supportLanguagesInSA)
+                if (lang.Equals(support,StringComparison.CurrentCulture))
+                    return;
 
+            if (supportLanguagesInSA.Length > 0)
+            {
+                LoadDefaultLanguage();
+                Globals.Ins.PlayerPreferences[ACTIVE_LANGUAGE] = DefaultLangInSA;
+            }
+        }
+
+        public const string localizationPath = "/Localization/";
+        private string[] supportLanguagesInSA;
+        public const string JSON_Extension = ".json";
+        public void LoadSupportLanguageFromSA()
+        {
+            var fullPath = Application.streamingAssetsPath + localizationPath;
+            string[] langDirs = System.IO.Directory.GetDirectories(fullPath);
+            supportLanguagesInSA = new string[langDirs.Length];
+            for (int i = 0; i < langDirs.Length; i++)
+            {
+                var langDir = langDirs[i];
+                System.IO.DirectoryInfo info = new System.IO.DirectoryInfo(langDir);
+                supportLanguagesInSA[i]=info.Name;
+            }
+        }
+        public bool LoadLangFromSA(string name)
+        {
+            Dict = new Dictionary<string, string>();
+            DictOfDescription = new Dictionary<string, string>();
+
+            var fullpath = Application.streamingAssetsPath + localizationPath + name;
+            if (!System.IO.Directory.Exists(fullpath))
+                return false;
+            var filePaths = System.IO.Directory.GetFiles(fullpath);
+            if (filePaths.Length == 0)
+                return false;
+
+            foreach (var file in filePaths)
+            {
+                var Extension = new System.IO.FileInfo(file).Extension;
+                if (!Extension.Equals(JSON_Extension, StringComparison.CurrentCultureIgnoreCase))
+                    continue;
+                var fileText = System.IO.File.ReadAllText(file);
+                Dictionary<string, string> subDict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(fileText);
+                foreach (var pair in subDict)
+                {
+                    if (Dict.ContainsKey(pair.Key))
+                    {
+                        UIPreset.Throw($"出现了重复的key “{pair.Key}” in {file}. 不知道另一个key在哪个文件");
+                    }
+                    else
+                    {
+                        int indexOfHashMark = pair.Key.IndexOf('#');
+                        if (indexOfHashMark < 0)
+                        {
+                            Dict.Add(pair.Key, pair.Value);
+                        }
+                        else
+                        {
+                            string typeName = pair.Key.Substring(0, indexOfHashMark);
+                            //if (DictOfDescription.ContainsKey(typeName)) {
+                            //    Debug.LogError(typeName);
+                            //}
+                            DictOfDescription.Add(typeName, pair.Value);
+                        }
+                    }
+                }
+            }
+
+            return true;
+
+        }
+        public void LoadDefaultLanguage()
+        {
+            var name = "defaultLang";
+            var fullpath = Application.streamingAssetsPath + localizationPath+name;
+            if (System.IO.File.Exists(fullpath))
+            {
+                var defaultLang = System.IO.File.ReadAllText(fullpath);
+                defaultLang =  defaultLang.Trim();
+                foreach (var support in supportLanguagesInSA)
+                    if (defaultLang.Equals(support, StringComparison.CurrentCulture))
+                    {
+                        DefaultLangInSA = defaultLang;
+                        return ;
+                    }
+            }
+            DefaultLangInSA = supportLanguagesInSA.Length > 0 ? supportLanguagesInSA[0] : DefaultLanguage;
+            //using (var writer = System.IO.File.CreateText(fullpath))
+            //    writer.Write(DefaultLangInSA);
+
+        }
     }
 }
 
